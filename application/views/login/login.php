@@ -33,9 +33,7 @@ License: You must have a valid license purchased only from themeforest(the above
 				}
 			});
 
-            function p_login(params) {
-                window.location.href = "<?php echo base_url(); ?>home";
-            }
+            
 		</script>
 
 		<!--end::Fonts -->
@@ -93,12 +91,12 @@ License: You must have a valid license purchased only from themeforest(the above
 								<div class="kt-login__head">
 									<h3 class="kt-login__title">Sign In To Admin</h3>
 								</div>
-								<form class="kt-form">
+								<form id="form" class="kt-form">
 									<div class="input-group">
-										<input class="form-control" type="text" placeholder="Email" name="email" autocomplete="off">
+										<input class="form-control" type="text" placeholder="Email" name="user_email" id="user_email" autocomplete="off">
 									</div>
 									<div class="input-group">
-										<input class="form-control" type="password" placeholder="Password" name="password">
+										<input class="form-control" type="password" placeholder="Password" name="password" id="password">
 									</div>
 									<div class="row kt-login__extra">
 										<div class="col">
@@ -112,7 +110,7 @@ License: You must have a valid license purchased only from themeforest(the above
 										</div>
 									</div>
 									<div class="kt-login__actions">
-										<button id="kt_login_signin_submit" onclick="p_login();" class="btn btn-brand btn-elevate kt-login__btn-primary">Sign In</button>
+										<button id="kt_login_signin_submit" onclick="p_login();" class="btn btn-brand kt-login__btn-primary">Sign In</button>
 									</div>
 								</form>
 							</div>
@@ -199,6 +197,29 @@ License: You must have a valid license purchased only from themeforest(the above
 					}
 				}
 			};
+
+			function p_login() {
+				// ajax adding data to database
+
+				$.ajax({
+					url: "<?php echo base_url(); ?>login/p_login",
+					type: "POST",
+					data: $('#form').serialize(),
+					dataType: "JSON",
+					success: function(data) {
+
+						alert(data.status);
+
+					if (data.status == "ok") {
+						window.location.href = "<?php echo base_url(); ?>home";
+					} 
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+					// alert("Username atau password anda salah " + errorThrown);
+
+					}
+				});
+            }
 		</script>
 
 		<!-- end::Global Config -->
