@@ -96,7 +96,7 @@ License: You must have a valid license purchased only from themeforest(the above
 										<input class="form-control" type="text" placeholder="Email" name="user_email" id="user_email" autocomplete="off">
 									</div>
 									<div class="input-group">
-										<input class="form-control" type="password" placeholder="Password" name="password" id="password">
+										<input class="form-control" type="password" placeholder="Password" name="user_password" id="user_password">
 									</div>
 									<div class="row kt-login__extra">
 										<div class="col">
@@ -207,8 +207,6 @@ License: You must have a valid license purchased only from themeforest(the above
 					data: $('#form').serialize(),
 					dataType: "JSON",
 					success: function(data) {
-
-						alert(data.status);
 
 					if (data.status == "ok") {
 						window.location.href = "<?php echo base_url(); ?>home";

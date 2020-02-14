@@ -25,15 +25,10 @@ class Login extends CI_Controller {
 
 	public function p_login()
 	{
-		// $postData = array(
-		// 	'application_id' => '1922',
-		// 	'user_name' => $this->input->post('user_email'),
-		// 	'user_password' => $this->input->post('password')
-		// );
 		$postData = array(
 			'application_id' => '1922',
-			'user_name' => "910205618",
-			'user_password' => "Pelido34d" 
+			'user_name' => $this->input->post('user_email'),
+			'user_password' => $this->input->post('user_password')
 		);
 		// Setup cURL
 		$ch = curl_init('http://eap-prsi.pelindo.co.id/portalsi-ws/portalsi/loginVal');
@@ -47,14 +42,13 @@ class Login extends CI_Controller {
 		));
 		// Send the request
 		$response = curl_exec($ch);
-
 		// Check for errors
 		if($response === FALSE){
 			die(curl_error($ch));
-
-		}else 
+		}
 		// Decode the response
 		$responseData = json_decode($response, TRUE);
+		// var_dump($responseData);
 		if ($responseData['pesan'] == "AKSES LOGIN DIIJINKAN") {
 			$status = 'ok';
 		}else{
