@@ -101,7 +101,7 @@ License: You must have a valid license purchased only from themeforest(the above
 									<div class="row kt-login__extra">
 										<div class="col">
 											<label class="kt-checkbox">
-												<input type="checkbox" name="remember"> Remember me
+												<input type="checkbox" name="remember" id="remember"> Remember me
 												<span></span>
 											</label>
 										</div>
@@ -201,8 +201,14 @@ License: You must have a valid license purchased only from themeforest(the above
 			function p_login() {
 				// ajax adding data to database
 
+				if (document.getElementById('remember').checked) {
+					$url = "<?php echo base_url(); ?>login/p_login2"; 
+				}else{
+					$url = "<?php echo base_url(); ?>login/p_login"; 
+				}
+
 				$.ajax({
-					url: "<?php echo base_url(); ?>login/p_login",
+					url: $url,
 					type: "POST",
 					data: $('#form').serialize(),
 					dataType: "JSON",

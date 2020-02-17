@@ -1,14 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Home extends CI_Controller {
+class I_pengekang extends CI_Controller {
 
-	public function __construct() {
-        parent::__construct();
-        // $this->load->library('Modul');
-		// $this->load->model('Mglobals');
-		$this->load->helper('cookie');
-    }
 	/**
 	 * Index Page for this controller.
 	 *
@@ -28,7 +22,7 @@ class Home extends CI_Controller {
 	{
 		$this->load->view('head');
 		$this->load->view('menu');
-		$this->load->view('content');
+		$this->load->view('izin_pengekang/index');
 		$this->load->view('fitur');
 		$this->load->view('footer');
 	}
