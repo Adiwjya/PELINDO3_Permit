@@ -89,7 +89,7 @@ License: You must have a valid license purchased only from themeforest(the above
 							</div>
 							<div class="kt-login__signin">
 								<div class="kt-login__head">
-									<h3 class="kt-login__title">Sign In To Admin</h3>
+									<h3 class="kt-login__title">Sign In To Admino</h3>
 								</div>
 								<form id="form" class="kt-form">
 									<div class="input-group">
