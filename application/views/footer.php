@@ -43,6 +43,9 @@
 
 		<!-- end::Global Config -->
 
+		<!-- <script src="<?php echo base_url(); ?>assets/dist/dropzone.js"></script> -->
+		<script src="<?php echo base_url(); ?>assets/dist/dropzone.js" type="text/javascript"></script>
+
 		<!--begin::Global Theme Bundle(used by all pages) -->
 		<script src="<?php echo base_url(); ?>assets/assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
 		<script src="<?php echo base_url(); ?>assets/assets/demo/default/base/scripts.bundle.js" type="text/javascript"></script>
@@ -51,7 +54,7 @@
 
 		<!--begin::Page Vendors(used by this page) -->
 		<script src="<?php echo base_url(); ?>assets/assets/vendors/custom/fullcalendar/fullcalendar.bundle.js" type="text/javascript"></script>
-		<script src="//maps.google.com/maps/api/js?key=AIzaSyBTGnKT7dt597vo9QgeQ7BFhvSRP4eiMSM" type="text/javascript"></script>
+		<script src="/maps.google.com/maps/api/js?key=AIzaSyBTGnKT7dt597vo9QgeQ7BFhvSRP4eiMSM" type="text/javascript"></script>
 		<script src="<?php echo base_url(); ?>assets/assets/vendors/custom/gmaps/gmaps.js" type="text/javascript"></script>
 
 		<!--end::Page Vendors -->

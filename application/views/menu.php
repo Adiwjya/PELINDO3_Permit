@@ -185,7 +185,7 @@
 				<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
 
 					<!-- begin:: Header -->
-					<div id="kt_header" class="kt-header kt-grid__item  kt-header--fixed ">
+					<div id="kt_header" style="background-color: white;" class="kt-header kt-grid__item  kt-header--fixed ">
 
 						<!-- begin:: Header Menu -->
 						<button class="kt-header-menu-wrapper-close" id="kt_header_menu_mobile_close_btn"><i class="la la-close"></i></button>
@@ -1122,9 +1122,9 @@
 							<!--begin: User Bar -->
 							<div class="kt-header__topbar-item kt-header__topbar-item--user">
 								<div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="0px,0px">
-									<div class="kt-header__topbar-user">
+									<div class="kt-header__topbar-user" >
 										<span class="kt-header__topbar-welcome kt-hidden-mobile">Hi,</span>
-										<span class="kt-header__topbar-username kt-hidden-mobile">Sean</span>
+										<span class="kt-header__topbar-username kt-hidden-mobile" style="color:#6c7293;">Sean</span>
 										<img class="kt-hidden" alt="Pic" src="<?php echo base_url(); ?>assets/assets/media/users/300_25.jpg" />
 
 										<!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->

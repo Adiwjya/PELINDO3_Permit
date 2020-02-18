@@ -20,11 +20,15 @@ class S_andadalin extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('head');
-		$this->load->view('menu');
-		$this->load->view('studi_andadalin/index');
-		$this->load->view('fitur');
-		$this->load->view('footer');
+		if (get_cookie('status') == "login") {
+			$this->load->view('head');
+			$this->load->view('menu');
+			$this->load->view('studi_andadalin/index');
+			$this->load->view('fitur');
+			$this->load->view('footer');
+		}else{
+			$this->modul->halaman('login');
+		}
 	}
 
 }

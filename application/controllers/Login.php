@@ -28,11 +28,7 @@ class Login extends CI_Controller {
 	public function index()
 	{
 		if (get_cookie('status') == "login") {
-			$this->load->view('head');
-			$this->load->view('menu');
-			$this->load->view('content');
-			$this->load->view('fitur');
-			$this->load->view('footer');
+			$this->modul->halaman('home');
 		}else{
 			$this->load->view('login/login');
 		}
@@ -67,44 +63,38 @@ class Login extends CI_Controller {
 		// // var_dump($responseData);
 		// if ($responseData['pesan'] == "AKSES LOGIN DIIJINKAN") {
 		// 	$status = 'ok';
+		// 	if ($this->input->post('chek') == "1") {
+		// 		set_cookie('status','login','1000');
+		// 		set_cookie('datanya','hey','1000');
+		// 	}else{
+		// 		set_cookie('status','login','0');
+		// 		set_cookie('datanya','hey','0');
+		// 	}
 		// }else{
 		// 	$status = 'no';
 		// }
 		// echo json_encode(array("status" => $status));
 
+
+
+		// Versi Kalu tidak bisa connect
 		$username = $this->input->post('user_email') ;
 		$password = $this->input->post('user_password') ;
 
 		if ($username == "admin" && $password == "123") {
 			$status = 'ok';
-			$sess_array = array(
-                'datanya' => "hAY"
-            );
-            $this->session->set_userdata('logged_in', $sess_array);
+				if ($this->input->post('chek') == "1") {
+					set_cookie('status','login','3600');
+					set_cookie('datanya','hey','3600');
+				}else{
+					set_cookie('status','login','0');
+					set_cookie('datanya','hey','0');
+				}
 		}else{
 			$status = 'no';
 		}
 		echo json_encode(array("status" => $status));
 
-	}
-	
-	public function p_login2()
-	{
-		$username = $this->input->post('user_email') ;
-		$password = $this->input->post('user_password') ;
-		// $username = "admin" ;
-		// $password = "123" ;
-
-		if ($username == "admin" && $password == "123") {
-			$status = 'ok';
-			set_cookie('status','login','3600');
-			set_cookie('datanya','hey','3600');
-		}else{
-			$status = 'no';
-		}
-		echo json_encode(array("status" => $status));
-		echo get_cookie('status');
-		echo get_cookie('datanya');
 	}
 
 	public function logout(){

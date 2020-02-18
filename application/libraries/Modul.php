@@ -275,7 +275,7 @@ class Modul {
     public function enkrip_pass($string_normal) {
         require_once 'Chiper.php';
         $cipher = new Chiper(MCRYPT_BLOWFISH, MCRYPT_MODE_ECB);
-        $kunci = "pramedia"; 
+        $kunci = "PELINDO"; 
         $en = $cipher->encrypt($string_normal, $kunci);
         return $en;
     }
@@ -283,7 +283,7 @@ class Modul {
     public function dekrip_pass($string_terenkrip) {
         require_once 'Chiper.php';
         $cipher = new Chiper(MCRYPT_BLOWFISH, MCRYPT_MODE_ECB);
-        $kunci = "pramedia";
+        $kunci = "PELINDO";
         $de = $cipher->decrypt($string_terenkrip, $kunci);
         return $de;
     }

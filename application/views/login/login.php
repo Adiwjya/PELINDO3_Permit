@@ -89,7 +89,7 @@ License: You must have a valid license purchased only from themeforest(the above
 							</div>
 							<div class="kt-login__signin">
 								<div class="kt-login__head">
-									<h3 class="kt-login__title">Sign In To Admino</h3>
+									<h3 class="kt-login__title">Sign In To Admin</h3>
 								</div>
 								<form id="form" class="kt-form">
 									<div class="input-group">
@@ -101,7 +101,8 @@ License: You must have a valid license purchased only from themeforest(the above
 									<div class="row kt-login__extra">
 										<div class="col">
 											<label class="kt-checkbox">
-												<input type="checkbox" name="remember" id="remember"> Remember me
+												<input type="checkbox" name="remember" id="remember" onchange="ingat();"> Remember me
+												<input type="hidden" name="chek" id="chek" value="0" >
 												<span></span>
 											</label>
 										</div>
@@ -198,17 +199,18 @@ License: You must have a valid license purchased only from themeforest(the above
 				}
 			};
 
+			function ingat(){
+				if (document.getElementById('remember').checked) {
+					document.getElementById('chek').value = "1";	
+				}else{
+					document.getElementById('chek').value = "0";
+				}
+			}
+
 			function p_login() {
 				// ajax adding data to database
-
-				if (document.getElementById('remember').checked) {
-					$url = "<?php echo base_url(); ?>login/p_login2"; 
-				}else{
-					$url = "<?php echo base_url(); ?>login/p_login"; 
-				}
-
 				$.ajax({
-					url: $url,
+					url: "<?php echo base_url(); ?>login/p_login",
 					type: "POST",
 					data: $('#form').serialize(),
 					dataType: "JSON",
