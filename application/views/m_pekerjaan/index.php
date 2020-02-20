@@ -1,5 +1,3 @@
-<!-- form Uploads -->
-<link href="<?php echo base_url(); ?>assets/upload/plugins/fileuploads/css/dropify.min.css" rel="stylesheet" type="text/css" />
 
 <!-- begin:: Content -->
 <div class="kt-content  kt-grid__item kt-grid__item--fluid" id="kt_content">
@@ -9,7 +7,7 @@
 	<div class="kt-portlet__head">
 		<div class="kt-portlet__head-label">
 			<h3 class="kt-portlet__head-title">
-				Pengajuan Izin Pengekang
+				Mengajukan Pekerjaan
 			</h3>
 		</div>
 	</div>
@@ -27,24 +25,31 @@
 				</div>
 				<div class="col-6">
 					<div class="form-group">
-						<label for="exampleSelect1">Jenis Perizinan</label>
+						<label for="exampleSelect1">Lokasi</label>
 						<select class="form-control" id="exampleSelect1">
-							<option>Izin 1</option>
-							<option>Izin 2</option>
-							<option>Izin 3</option>
-							<option>Izin 4</option>
-							<option>Izin 5</option>
+							<option>Lokasi 1</option>
+							<option>Lokasi 2</option>
+							<option>Lokasi 3</option>
+							<option>Lokasi 4</option>
+							<option>Lokasi 5</option>
 						</select>
 					</div>
 				</div>
 			</div>
 
-			<div class="col-12">
-				<div class="card-box">
-					<label class="col-form-label">Lampirakan File</label>
-					<input type="file" class="dropify" data-height="300" />
+			<!-- <div class="col-12">
+			<div class="form-group row">
+				<label class="col-form-label">Lampirakan File</label>
+				<div class="col-sm-12">
+					<div class="kt-dropzone dropzone" action="#" id="m-dropzone-one">
+						<div class="kt-dropzone__msg dz-message needsclick">
+							<h3 class="kt-dropzone__msg-title">Drop files here or click to upload.</h3>
+							<span class="kt-dropzone__msg-desc">This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.</span>
+						</div>
+					</div>
 				</div>
 			</div>
+			</div> -->
 			
 		</div>
 		<div class="kt-portlet__foot">
@@ -65,26 +70,3 @@
 <!--end::Portlet-->
 </div>
 <!-- end:: Content -->
-
- <!-- jQuery  -->
- <script src="<?php echo base_url(); ?>assets/upload/assets/js/jquery.min.js"></script>
-
-<!-- file uploads js -->
-<script src="<?php echo base_url(); ?>assets/upload/plugins/fileuploads/js/dropify.min.js"></script>
-<script>
-	$('.dropify').dropify({
-		messages: {
-			'default': 'Drag and drop a file here or click',
-			'replace': 'Drag and drop or click to replace',
-			'remove': 'Remove',
-			'error': 'Ooops, something wrong appended.'
-		},
-		error: {
-			'fileSize': 'The file size is too big (1M max).'
-		}
-	});
-</script>
-
-					
-
-		

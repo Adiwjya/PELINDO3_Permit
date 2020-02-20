@@ -67,6 +67,8 @@ License: You must have a valid license purchased only from themeforest(the above
 
 		<!--RTL version:<link href="<?php echo base_url(); ?>assets/assets/demo/default/skins/aside/dark.rtl.css" rel="stylesheet" type="text/css" />-->
 
+		<!-- form Uploads -->
+        <link href="<?php echo base_url(); ?>assets/upload/plugins/fileuploads/css/dropify.min.css" rel="stylesheet" type="text/css" />
 		<!--end::Layout Skins -->
 		<link rel="shortcut icon" href="<?php echo base_url(); ?>assets/assets/media/logos/favicon.ico" />
 	</head>

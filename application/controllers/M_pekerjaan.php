@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class I_operasi extends CI_Controller {
+class M_pekerjaan extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -30,7 +30,7 @@ class I_operasi extends CI_Controller {
 		if (get_cookie('status') == "login") {
 			$this->load->view('head');
 			$this->load->view('menu');
-			$this->load->view('izin_operasi/index');
+			$this->load->view('m_pekerjaan/index');
 			$this->load->view('fitur');
 			$this->load->view('footer');
 		}else{

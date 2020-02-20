@@ -46,6 +46,12 @@
 		<!-- <script src="<?php echo base_url(); ?>assets/dist/dropzone.js"></script> -->
 		<script src="<?php echo base_url(); ?>assets/dist/dropzone.js" type="text/javascript"></script>
 
+		 <!-- jQuery  -->
+		 <script src="<?php echo base_url(); ?>assets/upload/assets/js/jquery.min.js"></script>
+
+		<!-- file uploads js -->
+		<script src="<?php echo base_url(); ?>assets/upload/plugins/fileuploads/js/dropify.min.js"></script>
+
 		<!--begin::Global Theme Bundle(used by all pages) -->
 		<script src="<?php echo base_url(); ?>assets/assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
 		<script src="<?php echo base_url(); ?>assets/assets/demo/default/base/scripts.bundle.js" type="text/javascript"></script>
@@ -67,6 +73,8 @@
 		<!--begin::Global App Bundle(used by all pages) -->
 		<script src="<?php echo base_url(); ?>assets/assets/app/bundle/app.bundle.js" type="text/javascript"></script>
 
+
+		
 		<!--end::Global App Bundle -->
 	</body>
 

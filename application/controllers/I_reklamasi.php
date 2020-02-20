@@ -18,6 +18,13 @@ class I_reklamasi extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
+	public function __construct() {
+        parent::__construct();
+        $this->load->library('Modul');
+		// $this->load->model('Mglobals');
+		$this->load->helper('cookie');
+	}
+	
 	public function index()
 	{
 		if (get_cookie('status') == "login") {
