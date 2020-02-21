@@ -21,7 +21,7 @@ class Ipr extends CI_Controller {
 	public function __construct() {
         parent::__construct();
         $this->load->library('Modul');
-		// $this->load->model('Mglobals');
+		$this->load->model('Mglobals');
 		$this->load->helper('cookie');
 	}
 	

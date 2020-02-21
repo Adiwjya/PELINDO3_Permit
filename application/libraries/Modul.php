@@ -2,7 +2,8 @@
 class Modul {
     
     public function getkoneksi() {
-        return mysqli_connect("localhost", "root", "", "");
+        // return mysqli_connect("dbdev02.pelindo.co.id", "permit", "p3rm1T02", "permit_dev");
+        return oci_connect("permit","p3rm1T02","localhost/p3pdev01");
     }
     
     public function pesan_halaman($pesan, $halaman){

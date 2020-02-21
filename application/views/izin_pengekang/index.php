@@ -29,11 +29,13 @@
 					<div class="form-group">
 						<label for="exampleSelect1">Jenis Perizinan</label>
 						<select class="form-control" id="exampleSelect1">
-							<option>Izin 1</option>
-							<option>Izin 2</option>
-							<option>Izin 3</option>
-							<option>Izin 4</option>
-							<option>Izin 5</option>
+							<?php
+							foreach ($jenis_perizinan->result() as $row) {
+							?>
+							<option value="<?php echo $row->ID_PERIZINAN; ?>"><?php echo $row->PERIZINAN; ?></option>
+								<?php
+							}
+							?>
 						</select>
 					</div>
 				</div>

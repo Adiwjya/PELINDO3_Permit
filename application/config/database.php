@@ -73,13 +73,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
+$tsn = "(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=dbdev02.pelindo.co.id)(PORT=1522))(CONNECT_DATA=(SERVICE_NAME=p3pdev01)))";
+
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => '',
-	'password' => '',
-	'database' => '',
-	'dbdriver' => 'mysqli',
+	'hostname' => '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=dbdev02.pelindo.co.id)(PORT=1522))(CONNECT_DATA=(SERVICE_NAME=p3pdev01)))',
+	'username' => 'permit',
+	'password' => 'p3rm1T02',
+	'database' => 'permit_dev',
+	'dbdriver' => 'oci8',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),

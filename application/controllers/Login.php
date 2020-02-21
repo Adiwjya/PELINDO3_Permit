@@ -21,7 +21,7 @@ class Login extends CI_Controller {
 	public function __construct() {
         parent::__construct();
         $this->load->library('Modul');
-		// $this->load->model('Mglobals');
+		$this->load->model('Mglobals');
 		$this->load->helper('cookie');
     }
 
@@ -37,63 +37,74 @@ class Login extends CI_Controller {
 
 	public function p_login()
 	{
+		$postData = array(
+			'application_id' => '1922',
+			'user_name' => $this->input->post('user_email'),
+			'user_password' => $this->input->post('user_password')
+		);
+
 		// $postData = array(
 		// 	'application_id' => '1922',
-		// 	'user_name' => $this->input->post('user_email'),
-		// 	'user_password' => $this->input->post('user_password')
+		// 	'user_name' => '910205618',
+		// 	'user_password' => 'Pelindo34d'
 		// );
-		// // Setup cURL
-		// $ch = curl_init('http://eap-prsi.pelindo.co.id/portalsi-ws/portalsi/loginVal');
-		// curl_setopt_array($ch, array(
-		// 	CURLOPT_POST => TRUE,
-		// 	CURLOPT_RETURNTRANSFER => TRUE,
-		// 	CURLOPT_HTTPHEADER => array(
-		// 	'Content-Type: application/json'
-		// 	),
-		// 	CURLOPT_POSTFIELDS => json_encode($postData)
-		// ));
-		// // Send the request
-		// $response = curl_exec($ch);
-		// // Check for errors
-		// if($response === FALSE){
-		// 	die(curl_error($ch));
-		// }
-		// // Decode the response
-		// $responseData = json_decode($response, TRUE);
-		// // var_dump($responseData);
-		// if ($responseData['pesan'] == "AKSES LOGIN DIIJINKAN") {
-		// 	$status = 'ok';
-		// 	if ($this->input->post('chek') == "1") {
-		// 		set_cookie('status','login','1000');
-		// 		set_cookie('datanya','hey','1000');
-		// 	}else{
-		// 		set_cookie('status','login','0');
-		// 		set_cookie('datanya','hey','0');
-		// 	}
-		// }else{
-		// 	$status = 'no';
-		// }
-		// echo json_encode(array("status" => $status));
 
-
-
-		// Versi Kalu tidak bisa connect
-		$username = $this->input->post('user_email') ;
-		$password = $this->input->post('user_password') ;
-
-		if ($username == "admin" && $password == "123") {
+		// Setup cURL
+		$ch = curl_init('http://eap-prsi.pelindo.co.id/portalsi-ws/portalsi/loginVal');
+		curl_setopt_array($ch, array(
+			CURLOPT_POST => TRUE,
+			CURLOPT_RETURNTRANSFER => TRUE,
+			CURLOPT_HTTPHEADER => array(
+			'Content-Type: application/json'
+			),
+			CURLOPT_POSTFIELDS => json_encode($postData)
+		));
+		// Send the request
+		$response = curl_exec($ch);
+		// Check for errors
+		if($response === FALSE){
+			die(curl_error($ch));
+		}
+		// Decode the response
+		$responseData = json_decode($response, TRUE);
+		// var_dump($responseData);
+		if ($responseData['pesan'] == "AKSES LOGIN DIIJINKAN") {
 			$status = 'ok';
-				if ($this->input->post('chek') == "1") {
-					set_cookie('status','login','3600');
-					set_cookie('datanya','hey','3600');
-				}else{
-					set_cookie('status','login','0');
-					set_cookie('datanya','hey','0');
-				}
+			if ($this->input->post('chek') == "1") {
+				set_cookie('status','login','259200');
+				set_cookie('nama',$responseData['NAMA'],'259200');
+				set_cookie('jabatan',$responseData['NAMA_JABATAN'],'259200');
+				set_cookie('email',$responseData['EMAIL'],'259200');
+			}else{
+				set_cookie('status','login','0');
+				set_cookie('nama',$responseData['NAMA'],'0');
+				set_cookie('jabatan',$responseData['NAMA_JABATAN'],'0');
+				set_cookie('email',$responseData['EMAIL'],'0');
+			}
 		}else{
 			$status = 'no';
 		}
 		echo json_encode(array("status" => $status));
+
+
+
+		// Versi Kalu tidak bisa connect
+		// $username = $this->input->post('user_email') ;
+		// $password = $this->input->post('user_password') ;
+
+		// if ($username == "admin" && $password == "123") {
+		// 	$status = 'ok';
+		// 		if ($this->input->post('chek') == "1") {
+		// 			set_cookie('status','login','3600');
+		// 			set_cookie('datanya','hey','3600');
+		// 		}else{
+		// 			set_cookie('status','login','0');
+		// 			set_cookie('datanya','hey','0');
+		// 		}
+		// }else{
+		// 	$status = 'no';
+		// }
+		// echo json_encode(array("status" => $status));
 
 	}
 

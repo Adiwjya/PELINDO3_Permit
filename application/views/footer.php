@@ -45,6 +45,7 @@
 
 		<!-- <script src="<?php echo base_url(); ?>assets/dist/dropzone.js"></script> -->
 		<script src="<?php echo base_url(); ?>assets/dist/dropzone.js" type="text/javascript"></script>
+		
 
 		 <!-- jQuery  -->
 		 <script src="<?php echo base_url(); ?>assets/upload/assets/js/jquery.min.js"></script>
@@ -60,7 +61,7 @@
 
 		<!--begin::Page Vendors(used by this page) -->
 		<script src="<?php echo base_url(); ?>assets/assets/vendors/custom/fullcalendar/fullcalendar.bundle.js" type="text/javascript"></script>
-		<script src="/maps.google.com/maps/api/js?key=AIzaSyBTGnKT7dt597vo9QgeQ7BFhvSRP4eiMSM" type="text/javascript"></script>
+		<!-- <script src="/maps.google.com/maps/api/js?key=AIzaSyBTGnKT7dt597vo9QgeQ7BFhvSRP4eiMSM" type="text/javascript"></script> -->
 		<script src="<?php echo base_url(); ?>assets/assets/vendors/custom/gmaps/gmaps.js" type="text/javascript"></script>
 
 		<!--end::Page Vendors -->

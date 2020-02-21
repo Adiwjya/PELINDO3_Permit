@@ -21,14 +21,16 @@ class I_pengekang extends CI_Controller {
 	public function __construct() {
         parent::__construct();
         $this->load->library('Modul');
-		// $this->load->model('Mglobals');
+		$this->load->model('Mglobals');
 		$this->load->helper('cookie');
 	}
 	
 	public function index()
 	{
 		if (get_cookie('status') == "login") {
-			$this->load->view('head');
+			$data['jenis_perizinan'] = $this->Mglobals->getAll("JENIS_IZIN");
+			
+			$this->load->view('head',$data);
 			$this->load->view('menu');
 			$this->load->view('izin_pengekang/index');
 			$this->load->view('fitur');
