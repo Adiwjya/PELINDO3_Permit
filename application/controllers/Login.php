@@ -35,6 +35,32 @@ class Login extends CI_Controller {
 		
 	}
 
+	public function akses()
+	{
+		if (get_cookie('status') == "login") {
+			$this->load->view('akses/index');
+		}else{
+			$this->load->view('login/login');
+		}
+	}
+
+	public function set_akses()
+	{
+		if (get_cookie('status') == "login") {
+			$status_akses = $this->uri->segment(3);
+			if (get_cookie('remember') == '1') {
+				set_cookie('hak_akses',$status_akses,'259200');
+			}else{
+				set_cookie('hak_akses',$status_akses,'0');
+			}
+
+			$this->modul->halaman('home');
+		}else{
+			$this->load->view('login/login');
+		}
+	}
+
+
 	public function p_login()
 	{
 		$postData = array(
@@ -70,16 +96,21 @@ class Login extends CI_Controller {
 		// var_dump($responseData);
 		if ($responseData['pesan'] == "AKSES LOGIN DIIJINKAN") {
 			$status = 'ok';
+			set_cookie('remember',$this->input->post('chek'),'0');
 			if ($this->input->post('chek') == "1") {
 				set_cookie('status','login','259200');
 				set_cookie('nama',$responseData['NAMA'],'259200');
 				set_cookie('jabatan',$responseData['NAMA_JABATAN'],'259200');
 				set_cookie('email',$responseData['EMAIL'],'259200');
+				set_cookie('idakses',$responseData['HAKAKSES'],'259200');
+				set_cookie('akses',$responseData['HAKAKSES_DESC'],'259200');
 			}else{
 				set_cookie('status','login','0');
 				set_cookie('nama',$responseData['NAMA'],'0');
 				set_cookie('jabatan',$responseData['NAMA_JABATAN'],'0');
 				set_cookie('email',$responseData['EMAIL'],'0');
+				set_cookie('idakses',$responseData['HAKAKSES'],'0');
+				set_cookie('akses',$responseData['HAKAKSES_DESC'],'0');
 			}
 		}else{
 			$status = 'no';
@@ -110,7 +141,13 @@ class Login extends CI_Controller {
 
 	public function logout(){
 		delete_cookie('status');
-		delete_cookie('datanya');
+		delete_cookie('nama');
+		delete_cookie('jabatan');
+		delete_cookie('email');
+		delete_cookie('idakses');
+		delete_cookie('akses');
+		delete_cookie('hak_akses');
+		
 		$this->modul->halaman('login');
 	}
 

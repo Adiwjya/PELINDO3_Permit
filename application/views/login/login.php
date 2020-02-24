@@ -17,7 +17,7 @@ License: You must have a valid license purchased only from themeforest(the above
 	<!-- begin::Head -->
 	<head>
 		<meta charset="utf-8" />
-		<title>Metronic | Login Page v3</title>
+		<title>Permit App | Login Page</title>
 		<meta name="description" content="Login page example">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -217,7 +217,7 @@ License: You must have a valid license purchased only from themeforest(the above
 					success: function(data) {
 
 					if (data.status == "ok") {
-						window.location.href = "<?php echo base_url(); ?>home";
+						window.location.href = "<?php echo base_url(); ?>login/akses";
 					} 
 					},
 					error: function(jqXHR, textStatus, errorThrown) {

@@ -1221,7 +1221,7 @@
 											</div>
 										</a>
 										<div class="kt-notification__custom">
-											<a href="<?php echo base_url(); ?>login/logout" target="_blank" class="btn btn-label-brand btn-sm btn-bold">Sign Out</a>
+											<a href="<?php echo base_url(); ?>login/logout" class="btn btn-label-brand btn-sm btn-bold">Sign Out</a>
 										</div>
 									</div>
 
