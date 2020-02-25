@@ -52,6 +52,8 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!--RTL version:<link href="<?php echo base_url(); ?>assets/assets/demo/default/base/style.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
 
 		<!--end::Global Theme Styles -->
+		<!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script> -->
+		<!-- <link href="<?php echo base_url(); ?>assets/alert/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" /> -->
 
 		<!--begin::Layout Skins(used by all pages) -->
 		<link href="<?php echo base_url(); ?>assets/assets/demo/default/skins/header/base/light.css" rel="stylesheet" type="text/css" />

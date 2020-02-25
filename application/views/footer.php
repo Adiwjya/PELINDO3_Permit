@@ -42,7 +42,12 @@
 		</script>
 
 		<!-- end::Global Config -->
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
+		<!-- Sweet Alert js -->
+        <!-- <script src="<?php echo base_url(); ?>assets/alert/sweetalert2/sweetalert2.all.min.js"></script>
+        <script src="<?php echo base_url(); ?>assets/alert/pages/jquery.sweet-alert.init.js"></script> -->
+		
 		<!-- <script src="<?php echo base_url(); ?>assets/dist/dropzone.js"></script> -->
 		<script src="<?php echo base_url(); ?>assets/dist/dropzone.js" type="text/javascript"></script>
 		

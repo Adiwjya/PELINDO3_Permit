@@ -1,10 +1,10 @@
 <?php
 class Modul {
     
-    public function getkoneksi() {
-        // return mysqli_connect("dbdev02.pelindo.co.id", "permit", "p3rm1T02", "permit_dev");
-        return oci_connect("permit","p3rm1T02","localhost/p3pdev01");
-    }
+    // public function getkoneksi() {
+    //     // return mysqli_connect("dbdev02.pelindo.co.id", "permit", "p3rm1T02", "permit_dev");
+    //     // return oci_connect("permit","p3rm1T02","(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=dbdev02.pelindo.co.id)(PORT=1522))(CONNECT_DATA=(SERVICE_NAME=p3pdev01)))");
+    // }
     
     public function pesan_halaman($pesan, $halaman){
         $string_pesan = "<script type='text/javascript'> alert('".$pesan."');";
@@ -79,6 +79,18 @@ class Modul {
             $nol .= "0";
         }
         $hasil = $depan.$nol.$data_query['jml'];
+        return $hasil;
+    }
+
+    public function autokode_oci($depan, $awal, $akhir, $pjg) {
+        $hasil = "";
+        $panjang = strlen($pjg);
+        $pnjng_nol = ($akhir-$panjang) - $awal;
+        $nol = "";
+        for($i=1; $i<=$pnjng_nol; $i++){
+            $nol .= "0";
+        }
+        $hasil = $depan.$nol.$pjg;
         return $hasil;
     }
 
