@@ -1280,7 +1280,7 @@
 												</g>
 											</svg>
 
-											<!--<i class="flaticon2-plus"></i>-->
+											<!-- <i class="flaticon2-plus"></i> -->
 										</a>
 										<div class="dropdown-menu dropdown-menu-right">
 											<ul class="kt-nav">

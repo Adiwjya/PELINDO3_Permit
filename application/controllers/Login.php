@@ -99,6 +99,7 @@ class Login extends CI_Controller {
 			set_cookie('remember',$this->input->post('chek'),'0');
 			if ($this->input->post('chek') == "1") {
 				set_cookie('status','login','259200');
+				set_cookie('username',$responseData['USERNAME'],'259200');
 				set_cookie('nama',$responseData['NAMA'],'259200');
 				set_cookie('jabatan',$responseData['NAMA_JABATAN'],'259200');
 				set_cookie('email',$responseData['EMAIL'],'259200');
@@ -106,6 +107,7 @@ class Login extends CI_Controller {
 				set_cookie('akses',$responseData['HAKAKSES_DESC'],'259200');
 			}else{
 				set_cookie('status','login','0');
+				set_cookie('username',$responseData['USERNAME'],'0');
 				set_cookie('nama',$responseData['NAMA'],'0');
 				set_cookie('jabatan',$responseData['NAMA_JABATAN'],'0');
 				set_cookie('email',$responseData['EMAIL'],'0');

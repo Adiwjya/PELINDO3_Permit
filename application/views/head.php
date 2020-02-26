@@ -68,7 +68,17 @@ License: You must have a valid license purchased only from themeforest(the above
 		<link href="<?php echo base_url(); ?>assets/assets/demo/default/skins/aside/dark.css" rel="stylesheet" type="text/css" />
 
 		<!--RTL version:<link href="<?php echo base_url(); ?>assets/assets/demo/default/skins/aside/dark.rtl.css" rel="stylesheet" type="text/css" />-->
-
+		<!-- DataTables -->
+        <link href="<?php echo base_url(); ?>assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo base_url(); ?>assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <!-- Responsive datatable examples -->
+        <link href="<?php echo base_url(); ?>assets/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <!-- Multi Item Selection examples -->
+        <link href="<?php echo base_url(); ?>assets/plugins/datatables/select.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+		
+		<!-- Jquery -->
+		<script src="<?php echo base_url(); ?>assets/plugins/js/jquery.min.js"></script>
+        <link href="<?php echo base_url(); ?>assets/plugins/jquery/jquery-ui.css" rel="stylesheet">
 		<!-- form Uploads -->
         <link href="<?php echo base_url(); ?>assets/upload/plugins/fileuploads/css/dropify.min.css" rel="stylesheet" type="text/css" />
 		<!--end::Layout Skins -->

@@ -54,6 +54,8 @@
 
 		 <!-- jQuery  -->
 		 <script src="<?php echo base_url(); ?>assets/upload/assets/js/jquery.min.js"></script>
+		 <script src="<?php echo base_url(); ?>assets/plugins/jquery/jquery.js"></script>
+        <script src="<?php echo base_url(); ?>assets/plugins/js/jquery-ui.js"></script>
 
 		<!-- file uploads js -->
 		<script src="<?php echo base_url(); ?>assets/upload/plugins/fileuploads/js/dropify.min.js"></script>
@@ -79,6 +81,27 @@
 		<!--begin::Global App Bundle(used by all pages) -->
 		<script src="<?php echo base_url(); ?>assets/assets/app/bundle/app.bundle.js" type="text/javascript"></script>
 
+		<!-- Required datatable js -->
+		<script src="<?php echo base_url(); ?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
+		<script src="<?php echo base_url(); ?>assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+		<!-- Buttons examples -->
+		<script src="<?php echo base_url(); ?>assets/plugins/datatables/dataTables.buttons.min.js"></script>
+		<script src="<?php echo base_url(); ?>assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
+		<script src="<?php echo base_url(); ?>assets/plugins/datatables/jszip.min.js"></script>
+		<script src="<?php echo base_url(); ?>assets/plugins/datatables/pdfmake.min.js"></script>
+		<script src="<?php echo base_url(); ?>assets/plugins/datatables/vfs_fonts.js"></script>
+		<script src="<?php echo base_url(); ?>assets/plugins/datatables/buttons.html5.min.js"></script>
+		<script src="<?php echo base_url(); ?>assets/plugins/datatables/buttons.print.min.js"></script>
+
+		<!-- Key Tables -->
+		<script src="<?php echo base_url(); ?>assets/plugins/datatables/dataTables.keyTable.min.js"></script>
+
+		<!-- Responsive examples -->
+		<script src="<?php echo base_url(); ?>assets/plugins/datatables/dataTables.responsive.min.js"></script>
+		<script src="<?php echo base_url(); ?>assets/plugins/datatables/responsive.bootstrap4.min.js"></script>
+
+		<!-- Selection table -->
+		<script src="<?php echo base_url(); ?>assets/plugins/datatables/dataTables.select.min.js"></script>
 
 		
 		<!--end::Global App Bundle -->
