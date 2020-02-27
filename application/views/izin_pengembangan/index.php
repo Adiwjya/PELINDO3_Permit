@@ -15,6 +15,28 @@
         window.location.href = "<?php echo base_url(); ?>i_pengembangan/new_add";
     }
 	
+	function ganti(id){
+        window.location.href = "<?php echo base_url(); ?>i_pengembangan/new_add/"+id;
+    }
+
+	function hapus(id, nama){
+        if(confirm("Apakah anda yakin menghapus customer " + nama + " ?")){
+            // ajax delete data to database
+            $.ajax({
+                url : "<?php echo base_url(); ?>i_pengembangan/hapus/" + id,
+                type: "POST",
+                dataType: "JSON",
+                success: function(data){
+                   
+                    reload();
+                },
+                error: function (jqXHR, textStatus, errorThrown){
+                    alert('Error hapus data');
+                }
+            });
+        }
+    }
+	
 </script>
 
 <!-- begin:: Content -->

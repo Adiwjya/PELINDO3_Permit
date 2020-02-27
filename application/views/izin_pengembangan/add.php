@@ -2,6 +2,13 @@
 <link href="<?php echo base_url(); ?>assets/upload/plugins/fileuploads/css/dropify.min.css" rel="stylesheet" type="text/css" />
 
 <script type="text/javascript">
+var idiz = "<?php echo $id_izin;?>";
+	$(document).ready(function() {
+		var izz = "<?php echo $izin;?>";
+		if (izz != "") {
+			$('[name="izin"]').val("<?php echo $izin;?>");
+		}else{}
+	});
 
 	function alert_form_validation() {
 		Swal.fire(
@@ -14,15 +21,19 @@
 
 	function save(params) {
         var file_data = $('#data_izin').prop('files')[0];
+		var id_izin = document.getElementById('id_izin').value;
 		var judul = document.getElementById('judul').value;
         var izin = document.getElementById('izin').value;
 		
 		if (judul == "") {
 			alert_form_validation();
-		}else if(document.getElementById("data_izin").files.length == 0){
-			alert_form_validation();
+		}else if (id_izin == ""){
+			if(document.getElementById("data_izin").files.length == 0){
+				alert_form_validation();
+			}
 		}else{
 			var form_data = new FormData();
+			form_data.append('id_izin', id_izin);
 			form_data.append('file', file_data);
 			form_data.append('judul', judul);
 			form_data.append('izin', izin);
@@ -49,6 +60,7 @@
 						timer: 2500
 						})
 						// Reset Form
+						document.getElementById('id_izin').value = "";
 						document.getElementById('judul').value = "";
         				$('#izin').prop('selected', function() {
 							return this.defaultSelected;
@@ -101,7 +113,8 @@
 				<div class="col-6">
 					<div class="form-group">
 						<label>Judul</label>
-						<input type="text" class="form-control" name="judul" id="judul" placeholder="Massukan Judul">
+						<input type="hidden" class="form-control" name="id_izin" id="id_izin" value="<?php echo $id_izin; ?>" placeholder="Massukan id_izin">
+						<input type="text" class="form-control" name="judul" id="judul" value="<?php echo $judul; ?>" placeholder="Massukan Judul">
 						<span class="form-text text-muted">Judul izin yang akan dibuat.</span>
 					</div>
 				</div>
@@ -113,7 +126,7 @@
 							foreach ($jenis_perizinan->result() as $row) {
 							?>
 							<option value="<?php echo $row->ID_PERIZINAN; ?>"><?php echo $row->PERIZINAN; ?></option>
-								<?php
+							<?php
 							}
 							?>
 						</select>
@@ -154,7 +167,14 @@
 <!-- file uploads js -->
 <script src="<?php echo base_url(); ?>assets/upload/plugins/fileuploads/js/dropify.min.js"></script>
 <script>
-	$('.dropify').dropify({
+	var izz = "<?php echo $izin;?>";
+	if (izz != "") {
+		var nameImage =  '<?php echo base_url(); ?>Data_izin/<?php echo $data_izin;?>';
+		$('.dropify').dropify({
+			defaultFile: nameImage ,
+		});
+	}else{
+		$('.dropify').dropify({
 		messages: {
 			'default': 'Drag and drop a file here or click',
 			'replace': 'Drag and drop or click to replace',
@@ -165,6 +185,8 @@
 			'fileSize': 'The file size is too big (1M max).'
 		}
 	});
+	}
+	
 </script>
 
 

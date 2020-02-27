@@ -43,7 +43,7 @@ class I_pengembangan extends CI_Controller {
 	public function ajax_list() {
         if (get_cookie('status') == "login") {
 			$data = array();
-            $list = $this->Mglobals->getAll("PENGAJUAN_IZIN");
+            $list = $this->Mglobals->getAllQ("select * from PENGAJUAN_IZIN where DELETE_STATUS = '0'");
             foreach ($list->result() as $row) {
                 $val = array();
                 $val[] = $row->ID_PENGAJUAN;
@@ -53,8 +53,8 @@ class I_pengembangan extends CI_Controller {
                 $val[] = $row->CREATED_AT;
                 $val[] = $row->CREATED_NAME;
 				$val[] = '<div style="text-align: center;">'
-						. '<a  title="Download File" class="btn btn-outline-success waves-effect waves-light" href="javascript:void(0)"  onclick="ganti('."'".$row->ID_PENGAJUAN."'".')"><i class="flaticon2-download" style="padding-right: unset;"></i></a>&nbsp;'
-                        . '<a  title="Edit" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="ganti('."'".$row->ID_PENGAJUAN."'".')"><i class="flaticon2-edit" style="padding-right: unset;"></i></a>&nbsp;'
+						. '<a  title="Download File" class="btn btn-outline-success waves-effect waves-light" href="javascript:void(0)" ><i class="flaticon2-download" style="padding-right: unset;"></i></a>&nbsp;'
+                        . '<a  title="Edit" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="ganti('."'".$this->modul->enkrip_url($row->ID_PENGAJUAN)."'".')"><i class="flaticon2-edit" style="padding-right: unset;"></i></a>&nbsp;'
                         . '<a  title="Delete" class="btn btn-outline-danger waves-effect waves-light" href="javascript:void(0)" onclick="hapus('."'".$row->ID_PENGAJUAN."'".','."'".$row->JUDUL_PERIZINAN."'".')"><i class="flaticon2-delete" style="padding-right: unset;"></i></a>'
                         . '</div>';
                 $data[] = $val;
@@ -69,13 +69,31 @@ class I_pengembangan extends CI_Controller {
 	public function new_add()
 	{
 		if (get_cookie('status') == "login") {
-			$data['jenis_perizinan'] = $this->Mglobals->getAll("JENIS_IZIN");
-			
-			$this->load->view('head',$data);
-			$this->load->view('menu');
-			$this->load->view('izin_pengembangan/add');
-			$this->load->view('fitur');
-			$this->load->view('footer');
+			$kond = $this->modul->dekrip_url($this->uri->segment(3));
+			if ($kond == null) {
+				$data['jenis_perizinan'] = $this->Mglobals->getAll("JENIS_IZIN");
+				$data['id_izin'] = "";
+				$data['judul'] = "";
+				$data['izin'] = "";
+				$data['data_izin'] = "";
+				$this->load->view('head',$data);
+				$this->load->view('menu');
+				$this->load->view('izin_pengembangan/add');
+				$this->load->view('fitur');
+				$this->load->view('footer');
+			}else {
+				$data_edit = $this->Mglobals->getAllQR("select * from PENGAJUAN_IZIN where ID_PENGAJUAN ='".$kond."' ");
+				$data['jenis_perizinan'] = $this->Mglobals->getAll("JENIS_IZIN");
+				$data['id_izin'] = $data_edit->ID_PENGAJUAN;
+				$data['judul'] = $data_edit->JUDUL_PERIZINAN;
+				$data['izin'] = $data_edit->ID_PERIZINAN;
+				$data['data_izin'] = $data_edit->DATA_PERIZINAN;
+				$this->load->view('head',$data);
+				$this->load->view('menu');
+				$this->load->view('izin_pengembangan/add');
+				$this->load->view('fitur');
+				$this->load->view('footer');
+			}
 		}else{
 			$this->modul->halaman('login');
 		}
@@ -86,7 +104,7 @@ class I_pengembangan extends CI_Controller {
 			$config['upload_path'] = './Data_izin/';
 			$config['allowed_types'] = 'pdf';
 			$config['max_filename'] = '255';
-			$config['encrypt_name'] = TRUE;
+			$config['encrypt_name'] = false;
 			$config['max_size'] = '2048'; //2 MB
 	
 			if (isset($_FILES['file']['name'])) {
@@ -96,21 +114,36 @@ class I_pengembangan extends CI_Controller {
 					$this->load->library('upload', $config);
 					if ($this->upload->do_upload('file')) {
 						$datafile = $this->upload->data();
-						
-						// Syarat Autokode OCI_8
-						$q_data = $this->Mglobals->getAllQR("select NVL(MAX(substr(ID_PENGAJUAN,'3','7')),0) + 1 as jml from PENGAJUAN_IZIN ");
-						// var_dump($nilai);
-						 $data_input = array(
-							'ID_PENGAJUAN' => $this->modul->autokode_oci('PI','3','7',$q_data->JML), //Auto kode OCI
-							'JUDUL_PERIZINAN' => $this->input->post('judul'),
-							'ID_PERIZINAN' => $this->input->post('izin'),
-							'DATA_PERIZINAN' => $datafile['file_name'],
-							'CREATED_AT' => $this->modul->TanggalWaktu(),
-							'CREATED_BY' => get_cookie('username'),
-							'CREATED_NAME' => get_cookie('nama'),
-							
-						);
-						$simpan  = $this->Mglobals->add('PENGAJUAN_IZIN', $data_input);
+
+						if ($this->input->post('id_izin') == "") {
+							// Syarat Autokode OCI_8
+							$q_data = $this->Mglobals->getAllQR("select NVL(MAX(substr(ID_PENGAJUAN,'3','7')),0) + 1 as jml from PENGAJUAN_IZIN ");
+							// var_dump($nilai);
+							$data_input = array(
+								'ID_PENGAJUAN' => $this->modul->autokode_oci('PI','3','7',$q_data->JML), //Auto kode OCI
+								'JUDUL_PERIZINAN' => $this->input->post('judul'),
+								'ID_PERIZINAN' => $this->input->post('izin'),
+								'DATA_PERIZINAN' => $datafile['file_name'],
+								'CREATED_AT' => $this->modul->TanggalWaktu(),
+								'CREATED_BY' => get_cookie('username'),
+								'CREATED_NAME' => get_cookie('nama'),
+								'DELETE_STATUS' => 0
+							);
+							$simpan  = $this->Mglobals->add('PENGAJUAN_IZIN', $data_input);
+						}else{
+							// Update data
+							$data_input = array(
+								'JUDUL_PERIZINAN' => $this->input->post('judul'),
+								'ID_PERIZINAN' => $this->input->post('izin'),
+								'DATA_PERIZINAN' => $datafile['file_name'],
+								'UPDATED_AT' => $this->modul->TanggalWaktu(),
+								'UPDATED_BY' => get_cookie('username'),
+								'UPDATED_NAME' => get_cookie('nama')
+							);
+							$condition['ID_PENGAJUAN'] = $this->input->post('id_izin');
+							$simpan  = $this->Mglobals->update("PENGAJUAN_IZIN", $data_input, $condition);
+						}
+			
 						if ($simpan > 0) {
 							$status = "Data Tersimpan";
 						}else{
@@ -125,7 +158,40 @@ class I_pengembangan extends CI_Controller {
 				$status = "File not exits";
 			}
 			echo json_encode(array("status" => $status));
-        }
+		}
+		
+		public function hapus() {
+			if (get_cookie('status') == "login") {
+
+				// Kode untuk hapus yang asli
+				$kond['ID_PENGAJUAN'] = $this->uri->segment(3);
+				// $hapus = $this->Mglobals->delete("PENGAJUAN_IZIN", $kond);
+				// if($hapus == 1){
+				// 	$status = "Data terhapus";
+				// }else{
+				// 	$status = "Data gagal terhapus";
+				// }
+				// echo json_encode(array("status" => $status));
+
+				// Delete Versi Update
+				$data = array(
+					'UPDATED_AT' => $this->modul->TanggalWaktu(),
+					'UPDATED_BY' => get_cookie('username'),
+					'UPDATED_NAME' => get_cookie('nama'),
+					'DELETE_STATUS' => 1
+					
+				);
+				$hapus = $this->Mglobals->update("PENGAJUAN_IZIN",$data,$kond);
+				if($hapus == 1){
+					$status = "Data terhapus";
+				}else{
+					$status = "Data gagal terhapus";
+				}
+				echo json_encode(array("status" => $status));
+			}else{
+				$this->modul->halaman('login');
+			}
+		}
 
 }
 
