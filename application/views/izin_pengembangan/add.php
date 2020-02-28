@@ -18,7 +18,6 @@ var idiz = "<?php echo $id_izin;?>";
 		)
 	}
 
-
 	function save(params) {
         var file_data = $('#data_izin').prop('files')[0];
 		var id_izin = document.getElementById('id_izin').value;
@@ -30,8 +29,14 @@ var idiz = "<?php echo $id_izin;?>";
 		}else if (id_izin == ""){
 			if(document.getElementById("data_izin").files.length == 0){
 				alert_form_validation();
+			}else{
+				add();
 			}
 		}else{
+			add();
+		}
+
+		function add(){
 			var form_data = new FormData();
 			form_data.append('id_izin', id_izin);
 			form_data.append('file', file_data);
@@ -62,10 +67,11 @@ var idiz = "<?php echo $id_izin;?>";
 						// Reset Form
 						document.getElementById('id_izin').value = "";
 						document.getElementById('judul').value = "";
-        				$('#izin').prop('selected', function() {
+						$('#izin').prop('selected', function() {
 							return this.defaultSelected;
 						});
-						$('.dropify-clear').click();	
+						$('.dropify-clear').click();
+						window.location.href = "<?php echo base_url(); ?>i_pengembangan";
 					}else{
 						Swal.fire({
 						position: 'top-end',
@@ -87,9 +93,8 @@ var idiz = "<?php echo $id_izin;?>";
 				}
 			});
 		}
-
-        
 	}
+	
 </script>
 
 <!-- begin:: Content -->

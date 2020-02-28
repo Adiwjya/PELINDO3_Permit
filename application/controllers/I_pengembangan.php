@@ -104,12 +104,13 @@ class I_pengembangan extends CI_Controller {
 			$config['upload_path'] = './Data_izin/';
 			$config['allowed_types'] = 'pdf';
 			$config['max_filename'] = '255';
-			$config['encrypt_name'] = false;
-			$config['max_size'] = '2048'; //2 MB
+			$config['encrypt_name'] = true;
+			$config['max_size'] = '10000'; //2 MB
 	
 			if (isset($_FILES['file']['name'])) {
 				if (0 < $_FILES['file']['error']) {
 					$status = "Error during file upload " . $_FILES['file']['error'];
+					$status = "Gagal! Ukuran file maksimal 2 MB";
 				} else {
 					$this->load->library('upload', $config);
 					if ($this->upload->do_upload('file')) {
@@ -155,7 +156,25 @@ class I_pengembangan extends CI_Controller {
 					}
 				}
 			} else {
-				$status = "File not exits";
+				if ($this->input->post('id_izin') != "") {
+					$data_input = array(
+						'JUDUL_PERIZINAN' => $this->input->post('judul'),
+						'ID_PERIZINAN' => $this->input->post('izin'),
+						'UPDATED_AT' => $this->modul->TanggalWaktu(),
+						'UPDATED_BY' => get_cookie('username'),
+						'UPDATED_NAME' => get_cookie('nama')
+					);
+					$condition['ID_PENGAJUAN'] = $this->input->post('id_izin');
+					$simpan  = $this->Mglobals->update("PENGAJUAN_IZIN", $data_input, $condition);
+					if ($simpan > 0) {
+							$status = "Data Tersimpan";
+						}else{
+							$status = "Data Gagal Tersimpan";
+						}
+				}else{
+					$status = "File not exits";
+				}
+				
 			}
 			echo json_encode(array("status" => $status));
 		}

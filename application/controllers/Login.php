@@ -54,7 +54,12 @@ class Login extends CI_Controller {
 				set_cookie('hak_akses',$status_akses,'0');
 			}
 
-			$this->modul->halaman('home');
+			if ($status_akses == "Administrator") {
+				$this->modul->halaman('home');
+			}else{
+				$this->load->view('erorr');
+			}
+			
 		}else{
 			$this->load->view('login/login');
 		}

@@ -31,8 +31,9 @@
 					<div class="kt-aside__brand kt-grid__item " id="kt_aside_brand">
 						<div class="kt-aside__brand-logo">
 							<a href="<?php echo base_url(); ?>assets/index.html">
-								<img alt="Logo" src="<?php echo base_url(); ?>assets/assets/media/logos/logo-light.png" />
-							</a>
+								<img alt="Logo" src="<?php echo base_url(); ?>assets/assets/media/logos/logo.png" style="width: 160px;"/>
+								<!-- <label>PELINDO III | PERMIT</label> -->
+							</a>	
 						</div>
 						<div class="kt-aside__brand-tools">
 							<button class="kt-aside__brand-aside-toggler" id="kt_aside_toggler">

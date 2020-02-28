@@ -17,7 +17,7 @@ License: You must have a valid license purchased only from themeforest(the above
 	<!-- begin::Head -->
 	<head>
 		<meta charset="utf-8" />
-		<title id="tittle_app">Permit App | Empty Page</title>
+		<title id="tittle_app">Permit App | PELINDO 3 </title>
 		<meta name="description" content="Page with empty content">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -82,7 +82,7 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!-- form Uploads -->
         <link href="<?php echo base_url(); ?>assets/upload/plugins/fileuploads/css/dropify.min.css" rel="stylesheet" type="text/css" />
 		<!--end::Layout Skins -->
-		<link rel="shortcut icon" href="<?php echo base_url(); ?>assets/assets/media/logos/favicon.ico" />
+		<link rel="shortcut icon" href="<?php echo base_url(); ?>assets/assets/media/logos/pelindo-favicon.ico" />
 	</head>
 
 	<!-- end::Head -->
