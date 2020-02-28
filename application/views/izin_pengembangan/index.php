@@ -19,6 +19,10 @@
         window.location.href = "<?php echo base_url(); ?>i_pengembangan/new_add/"+id;
     }
 
+	function unduh(id){
+        window.location.href = "<?php echo base_url(); ?>Data_izin/"+id;
+    }
+
 	function hapus(id, nama){
         if(confirm("Apakah anda yakin menghapus customer " + nama + " ?")){
             // ajax delete data to database

@@ -53,7 +53,7 @@ class I_pengembangan extends CI_Controller {
                 $val[] = $row->CREATED_AT;
                 $val[] = $row->CREATED_NAME;
 				$val[] = '<div style="text-align: center;">'
-						. '<a  title="Download File" class="btn btn-outline-success waves-effect waves-light" href="javascript:void(0)" ><i class="flaticon2-download" style="padding-right: unset;"></i></a>&nbsp;'
+						. '<a  title="Download File" class="btn btn-outline-success waves-effect waves-light" href="javascript:void(0)" onclick="unduh('."'".$row->DATA_PERIZINAN."'".')" ><i class="flaticon2-download" style="padding-right: unset;"></i></a>&nbsp;'
                         . '<a  title="Edit" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="ganti('."'".$this->modul->enkrip_url($row->ID_PENGAJUAN)."'".')"><i class="flaticon2-edit" style="padding-right: unset;"></i></a>&nbsp;'
                         . '<a  title="Delete" class="btn btn-outline-danger waves-effect waves-light" href="javascript:void(0)" onclick="hapus('."'".$row->ID_PENGAJUAN."'".','."'".$row->JUDUL_PERIZINAN."'".')"><i class="flaticon2-delete" style="padding-right: unset;"></i></a>'
                         . '</div>';
