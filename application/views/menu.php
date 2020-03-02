@@ -208,7 +208,7 @@
 						<div class="kt-header-menu-wrapper" id="kt_header_menu_wrapper">
 							<div id="kt_header_menu" class="kt-header-menu kt-header-menu-mobile  kt-header-menu--layout-default ">
 								<ul class="kt-menu__nav ">
-								<li class="kt-menu__item  kt-menu__item--submenu kt-menu__item--rel kt-menu__item--active" data-ktmenu-submenu-toggle="click" aria-haspopup="true"><a href="javascript:;" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-text">Pages</span></a>
+								<!-- <li class="kt-menu__item  kt-menu__item--submenu kt-menu__item--rel kt-menu__item--active" data-ktmenu-submenu-toggle="click" aria-haspopup="true"><a href="javascript:;" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-text">Pages</span></a>
 										<div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--left">
 											<ul class="kt-menu__subnav">
 												<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url(); ?>assets/index.html" class="kt-menu__link "><span class="kt-menu__link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
@@ -409,7 +409,7 @@
 												</li>
 											</ul>
 										</div>
-									</li>
+									</li> -->
 
 								</ul>
 							</div>
@@ -546,7 +546,7 @@
 						<div class="kt-subheader   kt-grid__item" id="kt_subheader">
 							<div class="kt-subheader__main" style="padding-left: 15px;">
 								<h3 class="kt-subheader__title" id="select_page">
-									Empty Page </h3>
+									Dashboard </h3>
 								<span class="kt-subheader__separator kt-hidden"></span>
 								<div class="kt-subheader__breadcrumbs">
 									<a href="#" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
@@ -555,7 +555,7 @@
 										General </a>
 									<span class="kt-subheader__breadcrumbs-separator"></span>
 									<a href="" class="kt-subheader__breadcrumbs-link" id="menu_location_detail">
-										Empty Page </a>
+										Dashboard </a>
 
 									<!-- <span class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Active link</span> -->
 								</div>

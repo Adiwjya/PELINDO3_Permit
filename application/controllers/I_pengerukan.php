@@ -43,7 +43,7 @@ class I_pengerukan extends CI_Controller {
 	public function ajax_list() {
         if (get_cookie('status') == "login") {
 			$data = array();
-            $list = $this->Mglobals->getAllQ("select * from PENGAJUAN_IZIN where DELETE_STATUS = '0' and ID_PERIZINAN = 'IZN007'");
+            $list = $this->Mglobals->getAllQ("select * from PENGAJUAN_IZIN_PENGERUKAN where DELETE_STATUS = '0'");
             foreach ($list->result() as $row) {
                 $val = array();
                 // $val[] = $row->ID_PENGAJUAN;
@@ -82,7 +82,7 @@ class I_pengerukan extends CI_Controller {
 				$this->load->view('fitur');
 				$this->load->view('footer');
 			}else {
-				$data_edit = $this->Mglobals->getAllQR("select * from PENGAJUAN_IZIN where ID_PENGAJUAN ='".$kond."' ");
+				$data_edit = $this->Mglobals->getAllQR("select * from PENGAJUAN_IZIN_PENGERUKAN where ID_PENGAJUAN ='".$kond."' ");
 				$data['jenis_perizinan'] = $this->Mglobals->getAll("JENIS_IZIN");
 				$data['id_izin'] = $data_edit->ID_PENGAJUAN;
 				$data['judul'] = $data_edit->JUDUL_PERIZINAN;
@@ -104,7 +104,7 @@ class I_pengerukan extends CI_Controller {
 			$config['upload_path'] = './Data_izin/';
 			$config['allowed_types'] = 'pdf';
 			$config['max_filename'] = '255';
-			$config['encrypt_name'] = true;
+			$config['encrypt_name'] = FALSE;
 			$config['max_size'] = '10000'; //2 MB
 	
 			if (isset($_FILES['file']['name'])) {
@@ -118,7 +118,7 @@ class I_pengerukan extends CI_Controller {
 
 						if ($this->input->post('id_izin') == "") {
 							// Syarat Autokode OCI_8
-							$q_data = $this->Mglobals->getAllQR("select NVL(MAX(substr(ID_PENGAJUAN,'3','7')),0) + 1 as jml from PENGAJUAN_IZIN ");
+							$q_data = $this->Mglobals->getAllQR("select NVL(MAX(substr(ID_PENGAJUAN,'3','7')),0) + 1 as jml from PENGAJUAN_IZIN_PENGERUKAN ");
 							// var_dump($nilai);
 							$data_input = array(
 								'ID_PENGAJUAN' => $this->modul->autokode_oci('PI','3','7',$q_data->JML), //Auto kode OCI
@@ -130,7 +130,7 @@ class I_pengerukan extends CI_Controller {
 								'CREATED_NAME' => get_cookie('nama'),
 								'DELETE_STATUS' => 0
 							);
-							$simpan  = $this->Mglobals->add('PENGAJUAN_IZIN', $data_input);
+							$simpan  = $this->Mglobals->add('PENGAJUAN_IZIN_PENGERUKAN', $data_input);
 						}else{
 							// Update data
 							$data_input = array(
@@ -142,7 +142,7 @@ class I_pengerukan extends CI_Controller {
 								'UPDATED_NAME' => get_cookie('nama')
 							);
 							$condition['ID_PENGAJUAN'] = $this->input->post('id_izin');
-							$simpan  = $this->Mglobals->update("PENGAJUAN_IZIN", $data_input, $condition);
+							$simpan  = $this->Mglobals->update("PENGAJUAN_IZIN_PENGERUKAN", $data_input, $condition);
 						}
 			
 						if ($simpan > 0) {
@@ -165,7 +165,7 @@ class I_pengerukan extends CI_Controller {
 						'UPDATED_NAME' => get_cookie('nama')
 					);
 					$condition['ID_PENGAJUAN'] = $this->input->post('id_izin');
-					$simpan  = $this->Mglobals->update("PENGAJUAN_IZIN", $data_input, $condition);
+					$simpan  = $this->Mglobals->update("PENGAJUAN_IZIN_PENGERUKAN", $data_input, $condition);
 					if ($simpan > 0) {
 							$status = "Data Tersimpan";
 						}else{
@@ -184,7 +184,7 @@ class I_pengerukan extends CI_Controller {
 
 				// Kode untuk hapus yang asli
 				$kond['ID_PENGAJUAN'] = $this->uri->segment(3);
-				// $hapus = $this->Mglobals->delete("PENGAJUAN_IZIN", $kond);
+				// $hapus = $this->Mglobals->delete("PENGAJUAN_IZIN_PENGERUKAN", $kond);
 				// if($hapus == 1){
 				// 	$status = "Data terhapus";
 				// }else{
@@ -200,7 +200,7 @@ class I_pengerukan extends CI_Controller {
 					'DELETE_STATUS' => 1
 					
 				);
-				$hapus = $this->Mglobals->update("PENGAJUAN_IZIN",$data,$kond);
+				$hapus = $this->Mglobals->update("PENGAJUAN_IZIN_PENGERUKAN",$data,$kond);
 				if($hapus == 1){
 					$status = "Data terhapus";
 				}else{

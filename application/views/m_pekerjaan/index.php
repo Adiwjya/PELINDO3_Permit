@@ -1,74 +1,105 @@
+<script type="text/javascript">
+	// DataTable
+	var table;
+	$(document).ready(function() {
+		table = $('#tb').DataTable( {
+			ajax: "<?php echo base_url(); ?>m_pekerjaan/ajax_list"
+		});
+		$("#select_page").html("Mengajukan Pekerjaan");
+		$("#menu_location").html("General");
+		$("#menu_location_detail").html("Mengajukan Pekerjaan");
+	});
+
+	function reload(){
+        table.ajax.reload(null,false); //reload datatable ajax
+    }
+
+	function tambah(){
+        window.location.href = "<?php echo base_url(); ?>m_pekerjaan/new_add";
+    }
+	
+	function ganti(id){
+        window.location.href = "<?php echo base_url(); ?>m_pekerjaan/new_add/"+id;
+    }
+
+	function unduh(id){
+        window.location.href = "<?php echo base_url(); ?>Data_izin/"+id;
+    }
+
+	function hapus(id, nama){
+        if(confirm("Apakah anda yakin menghapus " + nama + " ?")){
+            // ajax delete data to database
+            $.ajax({
+                url : "<?php echo base_url(); ?>m_pekerjaan/hapus/" + id,
+                type: "POST",
+                dataType: "JSON",
+                success: function(data){
+                   
+                    reload();
+                },
+                error: function (jqXHR, textStatus, errorThrown){
+                    alert('Error hapus data');
+                }
+            });
+        }
+    }
+	
+</script>
 
 <!-- begin:: Content -->
+
 <div class="kt-content  kt-grid__item kt-grid__item--fluid" id="kt_content">
-
-<!--begin::Portlet-->
-<div class="kt-portlet">
-	<div class="kt-portlet__head">
-		<div class="kt-portlet__head-label">
-			<h3 class="kt-portlet__head-title">
-				Mengajukan Pekerjaan
-			</h3>
-		</div>
-	</div>
-
-	<!--begin::Form-->
-	<form class="kt-form kt-form--label-right">
-		<div class="kt-portlet__body">
-			<div class="row">
-				<div class="col-6">
-					<div class="form-group">
-						<label>Judul</label>
-						<input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Massukan Judul">
-						<span class="form-text text-muted">Judul izin yang akan dibuat.</span>
-					</div>
-				</div>
-				<div class="col-6">
-					<div class="form-group">
-						<label for="exampleSelect1">Lokasi</label>
-						<select class="form-control" id="exampleSelect1">
-							<?php
-							foreach ($jenis_perizinan->result() as $row) {
-							?>
-							<option value="<?php echo $row->ID_PERIZINAN; ?>"><?php echo $row->PERIZINAN; ?></option>
-								<?php
-							}
-							?>
-						</select>
+	
+	<div class="kt-portlet">
+		<div class="row">
+			<div class="col-7">
+				<div class="kt-portlet__head">
+					<div class="kt-portlet__head-label">
+						<h3 class="kt-portlet__head-title">
+							Data Mengajukan Pekerjaan
+						</h3>
 					</div>
 				</div>
 			</div>
-
-			<!-- <div class="col-12">
-			<div class="form-group row">
-				<label class="col-form-label">Lampirakan File</label>
-				<div class="col-sm-12">
-					<div class="kt-dropzone dropzone" action="#" id="m-dropzone-one">
-						<div class="kt-dropzone__msg dz-message needsclick">
-							<h3 class="kt-dropzone__msg-title">Drop files here or click to upload.</h3>
-							<span class="kt-dropzone__msg-desc">This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.</span>
+			<div class="col-5">
+				<div class="kt-portlet__head" style="margin-left: 70px;">
+					<div class="kt-portlet__head-label">
+						<div  data-toggle="kt-tooltip" title="Reload Datatable" data-placement="bottom">
+							<a style="margin-right: 5px;" onclick="reload();" class="btn btn-outline-secondary waves-effect waves-light" href="javascript:void(0)"><i class="flaticon2-reload" style="padding-right: unset;"></i> &nbsp; Reload</a>
+						</div>
+						<div  data-toggle="kt-tooltip" onclick="tambah();" title="Ajukan Pekerjaan Baru" data-placement="bottom">
+							<a   class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"><i class="flaticon2-plus" style="padding-right: unset;"></i>&nbsp; Mengajukan Pekerjaan</a>
 						</div>
 					</div>
 				</div>
 			</div>
-			</div> -->
-			
 		</div>
-		<div class="kt-portlet__foot">
-			<div class="kt-form__actions">
-				<div class="row">
-					<div class="col-lg-12 ml-lg-auto">
-						<button type="reset" class="btn btn-success">Submit</button>
-						<button type="reset" class="btn btn-secondary">Cancel</button>
-					</div>
-				</div>
-			</div>
+
+		<a href="#" class="btn btn-outline-light btn-pill btn-sm btn-icon btn-icon-md">
+			<i class="flaticon2-lock"></i>
+		</a>
+		
+		<div class="container-fluid" >
+			<table id="tb" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+				<thead>
+					<tr>
+						<!-- <th>Id Pengajuan</th> -->
+						<th>Judul Perizinan</th>
+						<th>Lokasi</th>
+						<th>Created At</th>
+						<th>Created By</th>
+						<th>Aksi</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
 		</div>
-	</form>
 
-	<!--end::Form-->
-</div>
-
-<!--end::Portlet-->
+	</div>
 </div>
 <!-- end:: Content -->
+
+
+					
+
+		
