@@ -3,7 +3,7 @@
 	var table;
 	$(document).ready(function() {
 		table = $('#tb').DataTable( {
-			ajax: "<?php echo base_url(); ?>i_lingkungan/ajax_list"
+			ajax: "<?php echo base_url(); ?>s_andalalin/ajax_list"
 		});
 	});
 
@@ -12,11 +12,11 @@
     }
 
 	function tambah(){
-        window.location.href = "<?php echo base_url(); ?>i_lingkungan/new_add";
+        window.location.href = "<?php echo base_url(); ?>s_andalalin/new_add";
     }
 	
 	function ganti(id){
-        window.location.href = "<?php echo base_url(); ?>i_lingkungan/new_add/"+id;
+        window.location.href = "<?php echo base_url(); ?>s_andalalin/new_add/"+id;
     }
 
 	function unduh(id){
@@ -27,7 +27,7 @@
         if(confirm("Apakah anda yakin menghapus customer " + nama + " ?")){
             // ajax delete data to database
             $.ajax({
-                url : "<?php echo base_url(); ?>i_lingkungan/hapus/" + id,
+                url : "<?php echo base_url(); ?>s_andalalin/hapus/" + id,
                 type: "POST",
                 dataType: "JSON",
                 success: function(data){
@@ -53,7 +53,7 @@
 				<div class="kt-portlet__head">
 					<div class="kt-portlet__head-label">
 						<h3 class="kt-portlet__head-title">
-							Data Izin Lingkungan
+							Data Studi Andalalin
 						</h3>
 					</div>
 				</div>

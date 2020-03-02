@@ -28,8 +28,6 @@ class Home extends CI_Controller {
 	{
 		if (get_cookie('status') == "login") {
 
-			
-
 			$this->load->view('head');
 			$this->load->view('menu');
 			$this->load->view('content');

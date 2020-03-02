@@ -91,7 +91,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								<div class="kt-login__head">
 									<h3 class="kt-login__title">Sign In To Admin</h3>
 								</div>
-								<form id="form" class="kt-form">
+								<form id="form" class="kt-form" >
 									<div class="input-group">
 										<input class="form-control" type="text" placeholder="Email" name="user_email" id="user_email" autocomplete="off">
 									</div>

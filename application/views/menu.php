@@ -115,7 +115,7 @@
 														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url(); ?>rip" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">RIP</span></a></li>
 														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url(); ?>i_pengembangan" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Izin Pengembangan</span></a></li>
 														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url(); ?>i_lingkungan" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Izin Lingkungan</span></a></li>
-														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url(); ?>s_andadalin" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Studi Andalalin</span></a></li>
+														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url(); ?>s_andalalin" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Studi Andalalin</span></a></li>
 														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url(); ?>ipr" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">IPR</span></a></li>
 													</ul>
 												</div>	
@@ -162,7 +162,7 @@
 													<ul class="kt-menu__subnav">
 														<li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true"><span class="kt-menu__link"><span class="kt-menu__link-text">Teknik</span></span></li>
 														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url(); ?>i_reklamasi" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Izin Reklamasi</span></a></li>
-														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url(); ?>i_pengekang" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Izin Pengekang</span></a></li>
+														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url(); ?>i_pengerukan" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Izin Pengerukan</span></a></li>
 													</ul>
 												</div>	
 											</li>

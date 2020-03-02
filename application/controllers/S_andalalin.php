@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class I_pengembangan extends CI_Controller {
+class S_andalalin extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -32,7 +32,7 @@ class I_pengembangan extends CI_Controller {
 			
 			$this->load->view('head');
 			$this->load->view('menu');
-			$this->load->view('izin_pengembangan/index');
+			$this->load->view('studi_andalalin/index');
 			$this->load->view('fitur');
 			$this->load->view('footer');
 		}else{
@@ -43,7 +43,7 @@ class I_pengembangan extends CI_Controller {
 	public function ajax_list() {
         if (get_cookie('status') == "login") {
 			$data = array();
-            $list = $this->Mglobals->getAllQ("select * from PENGAJUAN_IZIN where DELETE_STATUS = '0' and ID_PERIZINAN = 'IZN002'");
+            $list = $this->Mglobals->getAllQ("select * from PENGAJUAN_IZIN where DELETE_STATUS = '0' and ID_PERIZINAN = 'IZN003'");
             foreach ($list->result() as $row) {
                 $val = array();
                 // $val[] = $row->ID_PENGAJUAN;
@@ -78,7 +78,7 @@ class I_pengembangan extends CI_Controller {
 				$data['data_izin'] = "";
 				$this->load->view('head',$data);
 				$this->load->view('menu');
-				$this->load->view('izin_pengembangan/add');
+				$this->load->view('studi_andalalin/add');
 				$this->load->view('fitur');
 				$this->load->view('footer');
 			}else {
@@ -90,7 +90,7 @@ class I_pengembangan extends CI_Controller {
 				$data['data_izin'] = $data_edit->DATA_PERIZINAN;
 				$this->load->view('head',$data);
 				$this->load->view('menu');
-				$this->load->view('izin_pengembangan/add');
+				$this->load->view('studi_andalalin/add');
 				$this->load->view('fitur');
 				$this->load->view('footer');
 			}

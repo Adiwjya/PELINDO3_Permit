@@ -53,7 +53,7 @@
 				<div class="kt-portlet__head">
 					<div class="kt-portlet__head-label">
 						<h3 class="kt-portlet__head-title">
-							Pengajuan Izin Pengembangan
+							Data Izin Pengembangan
 						</h3>
 					</div>
 				</div>
@@ -80,7 +80,7 @@
 			<table id="tb" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
 				<thead>
 					<tr>
-						<th>Id Pengajuan</th>
+						<!-- <th>Id Pengajuan</th> -->
 						<th>Judul Perizinan</th>
 						<th>Jenis Izin</th>
 						<th>Created At</th>
