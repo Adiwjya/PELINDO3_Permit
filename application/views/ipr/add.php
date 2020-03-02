@@ -8,6 +8,9 @@ var idiz = "<?php echo $id_izin;?>";
 		if (izz != "") {
 			$('[name="izin"]').val("<?php echo $izin;?>");
 		}else{}
+		$("#select_page").html("IPR");
+		$("#menu_location").html("Perencanaan");
+		$("#menu_location_detail").html("IPR");
 	});
 
 	function alert_form_validation() {

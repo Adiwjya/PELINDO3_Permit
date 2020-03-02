@@ -5,6 +5,10 @@
 		table = $('#tb').DataTable( {
 			ajax: "<?php echo base_url(); ?>i_lingkungan/ajax_list"
 		});
+
+		$("#select_page").html("Izin Lingkungan");
+		$("#menu_location").html("Perencanaan");
+		$("#menu_location_detail").html("Izin Lingkungan");
 	});
 
 	function reload(){

@@ -8,6 +8,9 @@ var idiz = "<?php echo $id_izin;?>";
 		if (izz != "") {
 			$('[name="izin"]').val("<?php echo $izin;?>");
 		}else{}
+		$("#select_page").html("Izin Operasi");
+		$("#menu_location").html("Oprasional");
+		$("#menu_location_detail").html("Izin Operasi");
 	});
 
 	function alert_form_validation() {

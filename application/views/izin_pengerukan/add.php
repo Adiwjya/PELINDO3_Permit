@@ -8,6 +8,9 @@ var idiz = "<?php echo $id_izin;?>";
 		if (izz != "") {
 			$('[name="izin"]').val("<?php echo $izin;?>");
 		}else{}
+		$("#select_page").html("Izin Pengerukan");
+		$("#menu_location").html("Teknik");
+		$("#menu_location_detail").html("Izin Pengerukan");
 	});
 
 	function alert_form_validation() {

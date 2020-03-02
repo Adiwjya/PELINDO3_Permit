@@ -5,6 +5,9 @@
 		table = $('#tb').DataTable( {
 			ajax: "<?php echo base_url(); ?>i_pengembangan/ajax_list"
 		});
+		$("#select_page").html("Izin Pengembangan");
+		$("#menu_location").html("Perencanaan");
+		$("#menu_location_detail").html("Izin Pengembangan");
 	});
 
 	function reload(){

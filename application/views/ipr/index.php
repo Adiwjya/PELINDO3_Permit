@@ -5,6 +5,9 @@
 		table = $('#tb').DataTable( {
 			ajax: "<?php echo base_url(); ?>ipr/ajax_list"
 		});
+		$("#select_page").html("IPR");
+		$("#menu_location").html("Perencanaan");
+		$("#menu_location_detail").html("IPR");
 	});
 
 	function reload(){
