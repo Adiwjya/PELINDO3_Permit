@@ -92,6 +92,7 @@ License: You must have a valid license purchased only from themeforest(the above
 									<h3 class="kt-login__title">Sign In To Admin</h3>
 								</div>
 								<form id="form" class="kt-form" >
+								<input type="hidden" class="txt_csrfname" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
 									<div class="input-group">
 										<input class="form-control" type="text" placeholder="Email" name="user_email" id="user_email" autocomplete="off">
 									</div>
@@ -216,7 +217,7 @@ License: You must have a valid license purchased only from themeforest(the above
 					dataType: "JSON",
 					success: function(data) {
 
-					if (data.status == "ok") {
+					if (data.status.message == "ok") {
 						window.location.href = "<?php echo base_url(); ?>login/akses";
 					} 
 					},

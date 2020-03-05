@@ -19,6 +19,8 @@ var idiz = "<?php echo $id_pengajuan;?>";
 	}
 
 	function save(params) {
+		var csrfName = $('.txt_csrfname').attr('name'); // Value specified in $config['csrf_token_name']
+        var csrfHash = $('.txt_csrfname').val(); // CSRF hash
 		var id_pengajuan = document.getElementById('id_pengajuan').value;
 		var judul = document.getElementById('judul').value;
         var lokasi = document.getElementById('lokasi').value;
@@ -33,6 +35,7 @@ var idiz = "<?php echo $id_pengajuan;?>";
 
 		function add(){
 			var form_data = new FormData();
+			form_data.append(csrfName, csrfHash);
 			form_data.append('id_pengajuan', id_pengajuan);
 			form_data.append('judul', judul);
 			form_data.append('lokasi', lokasi);
@@ -46,14 +49,16 @@ var idiz = "<?php echo $id_pengajuan;?>";
 				data: form_data,
 				dataType: "JSON",
 				success: function(data) {
-					if (data.status == "Data Tersimpan") {
+					if (data.status.message == "Data Tersimpan") {
+						// Update CSRF hash
+						$('.txt_csrfname').val(data.status.token);
 						// Alert
 						Swal.fire({
 						position: 'top-end',
 						width: 200,
 						padding_top: 300,
 						icon: 'success',
-						title: data.status,
+						title: data.status.message,
 						backdrop: false,
 						showConfirmButton: false,
 						timer: 2500
@@ -69,7 +74,7 @@ var idiz = "<?php echo $id_pengajuan;?>";
 						Swal.fire({
 						position: 'top-end',
 						icon: 'error',
-						title: data.status,
+						title: data.status.message,
 						backdrop: false,
 						showConfirmButton: false,
 						timer: 5000
@@ -110,6 +115,7 @@ var idiz = "<?php echo $id_pengajuan;?>";
 				<form id="form">
 				<div class="col-6">
 					<div class="form-group">
+					<input type="hidden" class="txt_csrfname" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
 						<label>Judul</label>
 						<input type="hidden" class="form-control" name="id_pengajuan" id="id_pengajuan" value="<?php echo $id_pengajuan; ?>" placeholder="Massukan id_pengajuan">
 						<input type="text" class="form-control" name="judul" id="judul" value="<?php echo $judul; ?>" placeholder="Massukan Judul">

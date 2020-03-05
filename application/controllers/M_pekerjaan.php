@@ -58,7 +58,8 @@ class M_pekerjaan extends CI_Controller {
                 $data[] = $val;
             }
             $output = array("data" => $data);
-            echo json_encode($output);
+			echo json_encode($output);
+			unset($data, $list, $val, $jenis_izin,$output);
 		}else{
 			$this->modul->halaman('login');
 		}
@@ -88,6 +89,7 @@ class M_pekerjaan extends CI_Controller {
 				$this->load->view('fitur');
 				$this->load->view('footer');
 			}
+			unset($kond, $data, $data_edit);
 		}else{
 			$this->modul->halaman('login');
 		}
@@ -124,11 +126,13 @@ class M_pekerjaan extends CI_Controller {
 			}
 			
 				if ($simpan > 0) {
-					$status = "Data Tersimpan";
+					$status['message'] = "Data Tersimpan";
 				}else{
-					$status = "Data Gagal Tersimpan";
+					$status['message'] = "Data Gagal Tersimpan";
 				}	
+			$status['token'] = $this->security->get_csrf_hash();
 			echo json_encode(array("status" => $status));
+			unset($status, $simpan, $condition, $data_input, $q_data);
 		}
 		
 		public function hapus() {
@@ -138,9 +142,9 @@ class M_pekerjaan extends CI_Controller {
 				$kond['ID_PENGAJUAN'] = $this->uri->segment(3);
 				// $hapus = $this->Mglobals->delete("PENGAJUAN_PEKERJAAN", $kond);
 				// if($hapus == 1){
-				// 	$status = "Data terhapus";
+				// 	$status['message'] = "Data terhapus";
 				// }else{
-				// 	$status = "Data gagal terhapus";
+				// 	$status['message'] = "Data gagal terhapus";
 				// }
 				// echo json_encode(array("status" => $status));
 
@@ -154,11 +158,13 @@ class M_pekerjaan extends CI_Controller {
 				);
 				$hapus = $this->Mglobals->update("PENGAJUAN_PEKERJAAN",$data,$kond);
 				if($hapus == 1){
-					$status = "Data terhapus";
+					$status['message'] = "Data terhapus";
 				}else{
-					$status = "Data gagal terhapus";
+					$status['message'] = "Data gagal terhapus";
 				}
+				$status['token'] = $this->security->get_csrf_hash();
 				echo json_encode(array("status" => $status));
+				unset($kond, $status, $simpan, $hapus, $data);
 			}else{
 				$this->modul->halaman('login');
 			}

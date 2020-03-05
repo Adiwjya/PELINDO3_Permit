@@ -5,6 +5,9 @@
 		table = $('#tb').DataTable( {
 			ajax: "<?php echo base_url(); ?>s_andalalin/ajax_list"
 		});
+		$("#select_page").html("Studi Andalalin");
+		$("#menu_location").html("Perencanaan");
+		$("#menu_location_detail").html("Studi Andalalin");
 	});
 
 	function reload(){
@@ -30,6 +33,7 @@
                 url : "<?php echo base_url(); ?>s_andalalin/hapus/" + id,
                 type: "POST",
                 dataType: "JSON",
+				data: {'<?php echo $this->security->get_csrf_token_name(); ?>':'<?php echo $this->security->get_csrf_hash(); ?>'},
                 success: function(data){
                    
                     reload();

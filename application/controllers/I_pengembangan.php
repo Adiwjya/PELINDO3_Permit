@@ -60,7 +60,8 @@ class I_pengembangan extends CI_Controller {
                 $data[] = $val;
             }
             $output = array("data" => $data);
-            echo json_encode($output);
+			echo json_encode($output);
+			unset($data, $list, $val, $jenis_izin,$output);
 		}else{
 			$this->modul->halaman('login');
 		}
@@ -94,6 +95,7 @@ class I_pengembangan extends CI_Controller {
 				$this->load->view('fitur');
 				$this->load->view('footer');
 			}
+			unset($kond, $data, $data_edit);
 		}else{
 			$this->modul->halaman('login');
 		}
@@ -109,8 +111,8 @@ class I_pengembangan extends CI_Controller {
 	
 			if (isset($_FILES['file']['name'])) {
 				if (0 < $_FILES['file']['error']) {
-					$status = "Error during file upload " . $_FILES['file']['error'];
-					$status = "Gagal! Ukuran file maksimal 2 MB";
+					$status['message'] = "Error during file upload " . $_FILES['file']['error'];
+					// $status['message'] = "Gagal! Ukuran file maksimal 2 MB";
 				} else {
 					$this->load->library('upload', $config);
 					if ($this->upload->do_upload('file')) {
@@ -146,13 +148,13 @@ class I_pengembangan extends CI_Controller {
 						}
 			
 						if ($simpan > 0) {
-							$status = "Data Tersimpan";
+							$status['message'] = "Data Tersimpan";
 						}else{
-							$status = "Data Gagal Tersimpan";
+							$status['message'] = "Data Gagal Tersimpan";
 						}
 	//                    
 					} else {
-						$status = $this->upload->display_errors();
+						$status['message'] = $this->upload->display_errors();
 					}
 				}
 			} else {
@@ -167,16 +169,19 @@ class I_pengembangan extends CI_Controller {
 					$condition['ID_PENGAJUAN'] = $this->input->post('id_izin');
 					$simpan  = $this->Mglobals->update("PENGAJUAN_IZIN_PENGEMBANGAN", $data_input, $condition);
 					if ($simpan > 0) {
-							$status = "Data Tersimpan";
+							$status['message'] = "Data Tersimpan";
 						}else{
-							$status = "Data Gagal Tersimpan";
+							$status['message'] = "Data Gagal Tersimpan";
 						}
 				}else{
-					$status = "File not exits";
+					$status['message'] = "File not exits";
 				}
 				
-			}
+			}	
+
+			$status['token'] = $this->security->get_csrf_hash();
 			echo json_encode(array("status" => $status));
+			unset($config, $status, $simpan, $condition, $data_input, $q_data, $datafile);
 		}
 		
 		public function hapus() {
@@ -202,11 +207,13 @@ class I_pengembangan extends CI_Controller {
 				);
 				$hapus = $this->Mglobals->update("PENGAJUAN_IZIN_PENGEMBANGAN",$data,$kond);
 				if($hapus == 1){
-					$status = "Data terhapus";
+					$status['message'] = "Data terhapus";
 				}else{
-					$status = "Data gagal terhapus";
+					$status['message'] = "Data gagal terhapus";
 				}
+				$status['token'] = $this->security->get_csrf_hash();
 				echo json_encode(array("status" => $status));
+				unset($kond, $status, $simpan, $hapus, $data);
 			}else{
 				$this->modul->halaman('login');
 			}

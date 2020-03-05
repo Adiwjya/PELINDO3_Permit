@@ -99,7 +99,7 @@ class Login extends CI_Controller {
 		$responseData = json_decode($response, TRUE);
 		// var_dump($responseData);
 		if ($responseData['pesan'] == "AKSES LOGIN DIIJINKAN") {
-			$status = 'ok';
+			$status['message'] = 'ok';
 			set_cookie('remember',$this->input->post('chek'),'0');
 			if ($this->input->post('chek') == "1") {
 				set_cookie('status','login','259200');
@@ -119,18 +119,20 @@ class Login extends CI_Controller {
 				set_cookie('akses',$responseData['HAKAKSES_DESC'],'0');
 			}
 		}else{
-			$status = 'no';
+			$status['message'] = 'no';
 		}
+		$status['token'] = $this->security->get_csrf_hash();
+
 		echo json_encode(array("status" => $status));
 
 
 
-		// Versi Kalu tidak bisa connect
+		// // Versi Kalu tidak bisa connect
 		// $username = $this->input->post('user_email') ;
 		// $password = $this->input->post('user_password') ;
 
 		// if ($username == "admin" && $password == "123") {
-		// 	$status = 'ok';
+		// 	$status['message'] = 'ok';
 		// 		if ($this->input->post('chek') == "1") {
 		// 			set_cookie('status','login','3600');
 		// 			set_cookie('datanya','hey','3600');
@@ -139,8 +141,9 @@ class Login extends CI_Controller {
 		// 			set_cookie('datanya','hey','0');
 		// 		}
 		// }else{
-		// 	$status = 'no';
+		// 	$status['message'] = 'no';
 		// }
+		// $status['token'] = $this->security->get_csrf_hash();
 		// echo json_encode(array("status" => $status));
 
 	}
@@ -149,6 +152,7 @@ class Login extends CI_Controller {
 		delete_cookie('status');
 		delete_cookie('nama');
 		delete_cookie('jabatan');
+		delete_cookie('username');
 		delete_cookie('email');
 		delete_cookie('idakses');
 		delete_cookie('akses');

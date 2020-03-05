@@ -27,18 +27,26 @@
     }
 
 	function hapus(id, nama){
-        if(confirm("Apakah anda yakin menghapus customer " + nama + " ?")){
+        if(confirm("Apakah anda yakin menghapus " + nama + " ?")){
+			// var csrfName = $('.txt_csrfname').attr('name'); // Value specified in $config['csrf_token_name']
+        	// var csrfHash = $('.txt_csrfname').val(); // CSRF hash
+			// var form_data = new FormData();
+			// form_data.append(csrfName, csrfHash);
             // ajax delete data to database
             $.ajax({
                 url : "<?php echo base_url(); ?>i_pengembangan/hapus/" + id,
                 type: "POST",
                 dataType: "JSON",
+				data: {'<?php echo $this->security->get_csrf_token_name(); ?>':'<?php echo $this->security->get_csrf_hash(); ?>'},
                 success: function(data){
-                   
                     reload();
                 },
                 error: function (jqXHR, textStatus, errorThrown){
-                    alert('Error hapus data');
+                    Swal.fire(
+					'Error json',
+					''+errorThrown,
+					'question'
+					)
                 }
             });
         }
@@ -80,6 +88,7 @@
 		</a>
 		
 		<div class="container-fluid" >
+		<!-- <input type="text" class="txt_csrfname" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>"> -->
 			<table id="tb" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
 				<thead>
 					<tr>

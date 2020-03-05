@@ -22,6 +22,8 @@ var idiz = "<?php echo $id_izin;?>";
 	}
 
 	function save(params) {
+		var csrfName = $('.txt_csrfname').attr('name'); // Value specified in $config['csrf_token_name']
+        var csrfHash = $('.txt_csrfname').val(); // CSRF hash
         var file_data = $('#data_izin').prop('files')[0];
 		var id_izin = document.getElementById('id_izin').value;
 		var judul = document.getElementById('judul').value;
@@ -41,13 +43,14 @@ var idiz = "<?php echo $id_izin;?>";
 
 		function add(){
 			var form_data = new FormData();
+			form_data.append(csrfName, csrfHash);
 			form_data.append('id_izin', id_izin);
 			form_data.append('file', file_data);
 			form_data.append('judul', judul);
 			form_data.append('izin', izin);
 
 			$.ajax({
-				url: "<?php echo base_url(); ?>i_pengekang/do_upload/",
+				url: "<?php echo base_url(); ?>i_pengerukan/do_upload/",
 				cache: false,
 				contentType: false,
 				processData: false,
@@ -55,14 +58,14 @@ var idiz = "<?php echo $id_izin;?>";
 				data: form_data,
 				dataType: "JSON",
 				success: function(data) {
-					if (data.status == "Data Tersimpan") {
+					if (data.status.message == "Data Tersimpan") {
 						// Alert
 						Swal.fire({
 						position: 'top-end',
 						width: 200,
 						padding_top: 300,
 						icon: 'success',
-						title: data.status,
+						title: data.status.message,
 						backdrop: false,
 						showConfirmButton: false,
 						timer: 2500
@@ -74,12 +77,12 @@ var idiz = "<?php echo $id_izin;?>";
 							return this.defaultSelected;
 						});
 						$('.dropify-clear').click();
-						window.location.href = "<?php echo base_url(); ?>i_pengekang";
+						window.location.href = "<?php echo base_url(); ?>i_pengerukan";
 					}else{
 						Swal.fire({
 						position: 'top-end',
 						icon: 'error',
-						title: data.status,
+						title: data.status.message,
 						backdrop: false,
 						showConfirmButton: false,
 						timer: 5000
@@ -108,7 +111,7 @@ var idiz = "<?php echo $id_izin;?>";
 	<div class="kt-portlet__head">
 		<div class="kt-portlet__head-label">
 			<h3 class="kt-portlet__head-title">
-				Pengajuan Izin Pengekang
+				Pengajuan Izin Pengerukan
 			</h3>
 		</div>
 	</div>
@@ -120,6 +123,7 @@ var idiz = "<?php echo $id_izin;?>";
 				<form id="form">
 				<div class="col-6">
 					<div class="form-group">
+						<input type="hidden" class="txt_csrfname" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
 						<label>Judul</label>
 						<input type="hidden" class="form-control" name="id_izin" id="id_izin" value="<?php echo $id_izin; ?>" placeholder="Massukan id_izin">
 						<input type="text" class="form-control" name="judul" id="judul" value="<?php echo $judul; ?>" placeholder="Massukan Judul">

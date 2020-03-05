@@ -27,12 +27,13 @@
     }
 
 	function hapus(id, nama){
-        if(confirm("Apakah anda yakin menghapus customer " + nama + " ?")){
+        if(confirm("Apakah anda yakin menghapus " + nama + " ?")){
             // ajax delete data to database
             $.ajax({
                 url : "<?php echo base_url(); ?>i_pengerukan/hapus/" + id,
                 type: "POST",
                 dataType: "JSON",
+				data: {'<?php echo $this->security->get_csrf_token_name(); ?>':'<?php echo $this->security->get_csrf_hash(); ?>'},
                 success: function(data){
                    
                     reload();
@@ -56,7 +57,7 @@
 				<div class="kt-portlet__head">
 					<div class="kt-portlet__head-label">
 						<h3 class="kt-portlet__head-title">
-							Data Izin Pengekang
+							Data Izin Pengerukan
 						</h3>
 					</div>
 				</div>

@@ -34,6 +34,7 @@
                 url : "<?php echo base_url(); ?>ipr/hapus/" + id,
                 type: "POST",
                 dataType: "JSON",
+				data: {'<?php echo $this->security->get_csrf_token_name(); ?>':'<?php echo $this->security->get_csrf_hash(); ?>'},
                 success: function(data){
                    
                     reload();
