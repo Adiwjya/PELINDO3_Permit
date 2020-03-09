@@ -40,6 +40,10 @@ class I_pengembangan extends CI_Controller {
 		}
 	}
 
+
+	// Bagian Pengajuan 
+
+
 	public function ajax_list() {
         if (get_cookie('status') == "login") {
 			$data = array();
@@ -55,7 +59,7 @@ class I_pengembangan extends CI_Controller {
 				$val[] = '<div style="text-align: center;">'
 						. '<a  title="Download File" class="btn btn-outline-success waves-effect waves-light" href="javascript:void(0)" onclick="unduh('."'".$row->DATA_PERIZINAN."'".')" ><i class="flaticon2-download" style="padding-right: unset;"></i></a>&nbsp;'
                         . '<a  title="Edit" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="ganti('."'".$this->modul->enkrip_url($row->ID_PENGAJUAN)."'".')"><i class="flaticon2-edit" style="padding-right: unset;"></i></a>&nbsp;'
-                        . '<a  title="Delete" class="btn btn-outline-danger waves-effect waves-light" href="javascript:void(0)" onclick="hapus('."'".$row->ID_PENGAJUAN."'".','."'".$row->JUDUL_PERIZINAN."'".')"><i class="flaticon2-delete" style="padding-right: unset;"></i></a>'
+                        . '<a  title="Delete" class="btn btn-outline-danger waves-effect waves-light" href="javascript:void(0)" onclick="hapus('."'".$row->ID_PENGAJUAN."'".','."'".$row->JUDUL_PERIZINAN."'".')"><i class="flaticon2-trash" style="padding-right: unset;"></i></a>'
                         . '</div>';
                 $data[] = $val;
             }
@@ -214,6 +218,82 @@ class I_pengembangan extends CI_Controller {
 				$status['token'] = $this->security->get_csrf_hash();
 				echo json_encode(array("status" => $status));
 				unset($kond, $status, $simpan, $hapus, $data);
+			}else{
+				$this->modul->halaman('login');
+			}
+		}
+
+
+
+		// Bagian Pengizinan (PIC)
+
+		public function ajax_list_pic() {
+			if (get_cookie('status') == "login") {
+				$data = array();
+				$list = $this->Mglobals->getAllQ("select * from PENGAJUAN_IZIN_PENGEMBANGAN where DELETE_STATUS = '0'");
+				foreach ($list->result() as $row) {
+					$val = array();
+					// $val[] = $row->ID_PENGAJUAN;
+					$val[] = $row->JUDUL_PERIZINAN;
+					$jenis_izin = $this->Mglobals->getAllQR("select PERIZINAN from JENIS_IZIN WHERE id_perizinan = '".$row->ID_PERIZINAN."'");
+					$val[] = $jenis_izin->PERIZINAN;
+					$val[] = $row->CREATED_AT;
+					$val[] = $row->CREATED_NAME;
+
+					if ($row->VERTIFIKASI_ID == "") {
+						$val[] = '<div style="text-align: center;">'
+						. '<a  title="View File" class="btn btn-outline-success waves-effect waves-light" href="javascript:void(0)" onclick="unduh('."'".$row->DATA_PERIZINAN."'".')" ><i class="flaticon2-file" style="padding-right: unset;"></i></a>&nbsp;'
+						. '<a  title="Perlu Izin" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="v_ya('."'".$this->modul->enkrip_url($row->ID_PENGAJUAN)."'".')"><i class="fa fa-check" style="padding-right: unset;"></i></a>&nbsp;'
+						. '<a  title="Tidak perlu Izin" class="btn btn-outline-danger waves-effect waves-light" href="javascript:void(0)" onclick="v_tidak('."'".$row->ID_PENGAJUAN."'".','."'".$row->JUDUL_PERIZINAN."'".')"><i class="flaticon2-delete" style="padding-right: unset;"></i></a>'
+						. '</div>';
+					}else{
+						$val[] = '<div style="text-align: center;">'
+						. '<span class="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--rounded">completed</span>'
+						. '</div>';
+					}
+					
+					
+					$data[] = $val;
+				}
+				$output = array("data" => $data);
+				echo json_encode($output);
+				unset($data, $list, $val, $jenis_izin,$output);
+			}else{
+				$this->modul->halaman('login');
+			}
+		}
+
+		public function save_vertification(){
+			if (get_cookie('status') == "login") {
+				// Syarat Autokode OCI_8
+				$q_data = $this->Mglobals->getAllQR("select NVL(MAX(substr(VERTIFIKASI_ID,'4','7')),0) + 1 as jml from VERTIFIKASI_PENGEMBANGAN ");
+				// var_dump($nilai);
+				$id_ver = $this->modul->autokode_oci('VRT','4','7',$q_data->JML);
+				$data_input = array(
+					'VERTIFIKASI_ID' => $id_ver, //Auto kode OCI
+					'CREATED_AT' => $this->modul->TanggalWaktu(),
+					'CREATED_BY' => get_cookie('username'),
+					'CREATED_NAME' => get_cookie('nama')
+				);
+				$simpan  = $this->Mglobals->add('VERTIFIKASI_PENGEMBANGAN', $data_input);
+				if ($simpan > 0) {
+					// Update data izin pengembangan
+					$data_input = array(
+						'VERTIFIKASI_ID' => $id_ver
+					);
+					$condition['ID_PENGAJUAN'] = $this->input->post('v_id_pengembangan');
+					$update  = $this->Mglobals->update("PENGAJUAN_IZIN_PENGEMBANGAN", $data_input, $condition);
+					if ($update > 0) {
+						$status['message'] = "Data Tersimpan";
+					}else{
+						$status['message'] = "Data Gagal Tersimpan";
+					}
+				}else{
+					$status['message'] = "Data Gagal Tersimpan";
+				}
+
+				$status['token'] = $this->security->get_csrf_hash();
+				echo json_encode(array("status" => $status));
 			}else{
 				$this->modul->halaman('login');
 			}

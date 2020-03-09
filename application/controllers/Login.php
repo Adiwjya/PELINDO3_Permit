@@ -43,17 +43,18 @@ class Login extends CI_Controller {
 			$this->load->view('login/login');
 		}
 	}
+
 	public function set_akses()
 	{
 		if (get_cookie('status') == "login") {
-			$status_akses = $this->uri->segment(3);
+			$status_akses = $this->modul->dekrip_url($this->uri->segment(3));
 			if (get_cookie('remember') == '1') {
 				set_cookie('hak_akses',$status_akses,'259200');
 			}else{
 				set_cookie('hak_akses',$status_akses,'0');
 			}
 
-			if ($status_akses == "Administrator") {
+			if ($status_akses == "Administrator" or $status_akses == "PIC") {
 				$this->modul->halaman('home');
 			}else{
 				$this->load->view('erorr');

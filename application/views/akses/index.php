@@ -89,16 +89,21 @@
                                 <div class="kt-grid-nav__row">
                                 
                                 <?php 
-                                    $dataid = get_cookie('idakses');
+									$dataid = get_cookie('idakses');
+									$dataid = $dataid.",0001"; //data Dummy
                                     $idakses = explode (",", $dataid);
-                                    $datadesc = get_cookie('akses');
-                                    $descakses = explode (",", $datadesc);
-                                    
-            
+									$datadesc = get_cookie('akses');
+									$datadesc = $datadesc.",PIC"; //data Dummy
+									$descakses = explode (",", $datadesc);
+									
+									
+									
+									
+
                                     for ($i=0; $i < count($idakses) ; $i++) {          
                                 ?>
                                 
-                                    <a href="<?php echo base_url(); ?>login/set_akses/<?php echo $descakses[$i] ?>" class="kt-grid-nav__item">
+                                    <a href="<?php echo base_url(); ?>login/set_akses/<?php echo $this->modul->enkrip_url($descakses[$i]) ?>" class="kt-grid-nav__item">
                                         <span class="kt-grid-nav__icon">
                                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--success kt-svg-icon--lg">
                                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -109,6 +114,7 @@
                                             </svg> </span>
                                             <span class="kt-grid-nav__title" style="font-size: large;"><?php echo $descakses[$i]; ?></span>
                                             <span class="kt-grid-nav__desc"><?php echo $idakses[$i]; ?></span>
+											<!-- <span class="kt-grid-nav__desc"><?php echo $datadesc; ?></span> -->
                                     </a>
                                 
                                 <?php 

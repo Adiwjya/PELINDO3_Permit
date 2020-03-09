@@ -77,21 +77,21 @@
 									<i class="kt-menu__section-icon flaticon-more-v2"></i>
 								</li>
 
-								<script>
+								<!-- <script>
 									function m_pekerjaan() {
 										window.location.href = "<?php echo base_url(); ?>m_pekerjaan";
 									}
-								</script>
-								<li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:;" onclick="m_pekerjaan();" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+								</script> -->
+								<!-- <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:;" onclick="m_pekerjaan();" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
 												<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 													<rect id="bound" x="0" y="0" width="24" height="24"></rect>
 													<path d="M5.5,4 L9.5,4 C10.3284271,4 11,4.67157288 11,5.5 L11,6.5 C11,7.32842712 10.3284271,8 9.5,8 L5.5,8 C4.67157288,8 4,7.32842712 4,6.5 L4,5.5 C4,4.67157288 4.67157288,4 5.5,4 Z M14.5,16 L18.5,16 C19.3284271,16 20,16.6715729 20,17.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,17.5 C13,16.6715729 13.6715729,16 14.5,16 Z" id="Combined-Shape" fill="#000000"></path>
 													<path d="M5.5,10 L9.5,10 C10.3284271,10 11,10.6715729 11,11.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,11.5 C4,10.6715729 4.67157288,10 5.5,10 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,12.5 C20,13.3284271 19.3284271,14 18.5,14 L14.5,14 C13.6715729,14 13,13.3284271 13,12.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z" id="Combined-Shape" fill="#000000" opacity="0.3"></path>
 												</g>
 											</svg></span><span class="kt-menu__link-text">Mengajukan Pekerjaan</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
-								</li>
+								</li> -->
 
-								<li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:;" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+								<!-- <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:;" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
 												<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 													<rect id="bound" x="0" y="0" width="24" height="24" />
 													<path d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z" id="Combined-Shape" fill="#000000" opacity="0.3" />
@@ -99,10 +99,87 @@
 												</g>
 											</svg></span><span class="kt-menu__link-text">Mengajukan Perijinan</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
 									<div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
-										<ul class="kt-menu__subnav">
+										<ul class="kt-menu__subnav"> -->
 
+										<!-- Setting Akses -->
+											<!-- Akses -->
+											<?php
+												// Perencanaan
+												$m_rip = ""; $m_pengembang = ""; $m_lingkungan = ""; $m_andalalin = ""; $m_ipr = "";
+												// Pemasaran
+												$m_perjanjian_konsesi = "";
+												// Oprasional
+												$m_operasi = "";
+												// Teknik
+												$m_reklamasi = ""; $m_pengerukan = "";
+												if (get_cookie('hak_akses') == "Administrator") {
+													// Perencanaan
+													$m_rip = "rip"; 
+													$m_pengembang = "i_pengembangan"; 
+													$m_lingkungan = "i_lingkungan";
+													$m_andalalin = "s_andalalin"; 
+													$m_ipr = "ipr";
+													// Pemasaran
+													$m_perjanjian_konsesi = "p_konsesi";
+													// Oprasional
+													$m_operasi = "i_operasi";
+													// Teknik
+													$m_reklamasi = "i_reklamasi";
+													$m_pengerukan = "i_pengerukan";
+												} else if (get_cookie('hak_akses') == "PIC") {
+													// Perencanaan
+													$m_rip = "rip"; 
+													$m_pengembang = "i_pengembangan"; 
+													$m_lingkungan = "i_lingkungan";
+													$m_andalalin = "s_andalalin"; 
+													$m_ipr = "ipr";
+													// Pemasaran
+													$m_perjanjian_konsesi = "p_konsesi";
+													// Oprasional
+													$m_operasi = "i_operasi";
+													// Teknik
+													$m_reklamasi = "i_reklamasi";
+													$m_pengerukan = "i_pengerukan";
+												}
+											?>
 
-										<li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:;" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+											<!-- Fungsi Hidden akses menu -->
+											<script>
+												$(document).ready(function() {
+													if ("<?php echo get_cookie('hak_akses');?>" == "Administrator") {
+														// Perencanaan
+														// document.getElementById("perencanaan").children[1].style.display = "none";
+														// document.getElementById("perencanaan").children[2].style.display = "none";
+														// document.getElementById("perencanaan").children[3].style.display = "none";
+														// document.getElementById("perencanaan").children[4].style.display = "none";
+														// document.getElementById("perencanaan").children[5].style.display = "none";
+														// Pemasaran
+														// document.getElementById("pemasaran").children[1].style.display = "none";
+														// Oprasional
+														// document.getElementById("oprasional").children[1].style.display = "none";
+														// Teknik
+														// document.getElementById("teknik").children[1].style.display = "none";
+														// document.getElementById("teknik").children[2].style.display = "none";
+													}else if ("<?php echo get_cookie('hak_akses');?>" == "PIC"){
+														// Perencanaan
+														// document.getElementById("perencanaan").children[1].style.display = "none";
+														// document.getElementById("perencanaan").children[2].style.display = "none";
+														// document.getElementById("perencanaan").children[3].style.display = "none";
+														// document.getElementById("perencanaan").children[4].style.display = "none";
+														// document.getElementById("perencanaan").children[5].style.display = "none";
+														// Pemasaran
+														// document.getElementById("pemasaran").children[1].style.display = "none";
+														// Oprasional
+														// document.getElementById("oprasional").children[1].style.display = "none";
+														// Teknik
+														// document.getElementById("teknik").children[1].style.display = "none";
+														// document.getElementById("teknik").children[2].style.display = "none";				
+													}
+												});
+											</script>
+										<!-- End Setting Akses -->
+
+											<li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:;" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
 												<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 													<rect id="bound" x="0" y="0" width="24" height="24" />
 													<path d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z" id="Combined-Shape" fill="#000000" opacity="0.3" />
@@ -110,13 +187,13 @@
 												</g>
 											</svg></span><span class="kt-menu__link-text">Perencanaan</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
 												<div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
-													<ul class="kt-menu__subnav">
+													<ul class="kt-menu__subnav" id="perencanaan">
 														<li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true"><span class="kt-menu__link"><span class="kt-menu__link-text">Perencanaan</span></span></li>
-														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url(); ?>rip" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">RIP</span></a></li>
-														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url(); ?>i_pengembangan" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Izin Pengembangan</span></a></li>
-														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url(); ?>i_lingkungan" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Izin Lingkungan</span></a></li>
-														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url(); ?>s_andalalin" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Studi Andalalin</span></a></li>
-														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url(); ?>ipr" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">IPR</span></a></li>
+														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url().$m_rip; ?>" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">RIP</span></a></li>
+														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url().$m_pengembang; ?>" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Izin Pengembangan</span></a></li>
+														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url().$m_lingkungan; ?>" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Izin Lingkungan</span></a></li>
+														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url().$m_andalalin; ?>" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Studi Andalalin</span></a></li>
+														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url().$m_ipr; ?>" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">IPR</span></a></li>
 													</ul>
 												</div>	
 											</li>
@@ -129,9 +206,9 @@
 												</g>
 											</svg></span><span class="kt-menu__link-text">Pemasaran</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
 												<div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
-													<ul class="kt-menu__subnav">
+													<ul class="kt-menu__subnav" id="pemasaran">
 														<li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true"><span class="kt-menu__link"><span class="kt-menu__link-text">Pemasaran</span></span></li>
-														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url(); ?>p_konsesi" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Perjanjian Konsesi</span></a></li>
+														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url().$m_perjanjian_konsesi; ?>" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Perjanjian Konsesi</span></a></li>
 													</ul>
 												</div>	
 											</li>
@@ -144,9 +221,9 @@
 												</g>
 											</svg></span><span class="kt-menu__link-text">Oprasional</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
 												<div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
-													<ul class="kt-menu__subnav">
+													<ul class="kt-menu__subnav" id="oprasional">
 														<li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true"><span class="kt-menu__link"><span class="kt-menu__link-text">Oprasional</span></span></li>
-														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url(); ?>i_operasi" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Izin Operasi</span></a></li>
+														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url().$m_operasi; ?>" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Izin Operasi</span></a></li>
 													</ul>
 												</div>	
 											</li>
@@ -159,18 +236,18 @@
 												</g>
 											</svg></span><span class="kt-menu__link-text">Teknik</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
 												<div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
-													<ul class="kt-menu__subnav">
+													<ul class="kt-menu__subnav" id="teknik">
 														<li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true"><span class="kt-menu__link"><span class="kt-menu__link-text">Teknik</span></span></li>
-														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url(); ?>i_reklamasi" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Izin Reklamasi</span></a></li>
-														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url(); ?>i_pengerukan" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Izin Pengerukan</span></a></li>
+														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url().$m_reklamasi; ?>" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Izin Reklamasi</span></a></li>
+														<li class="kt-menu__item " aria-haspopup="true"><a href="<?php echo base_url().$m_pengerukan; ?>" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Izin Pengerukan</span></a></li>
 													</ul>
 												</div>	
 											</li>
 
 
-										</ul>
+										<!-- </ul>
 									</div>	
-								</li>
+								</li> -->
 
 								
 
@@ -627,5 +704,10 @@
 								</div>
 							</div>
 						</div>
-
+						
 						<!-- end:: Subheader -->
+
+
+						<?php
+						unset($m_rip, $m_pengembang, $m_lingkungan, $m_andalalin,$m_ipr,$m_perjanjian_konsesi,$m_operasi,$m_pengerukan);
+						?>

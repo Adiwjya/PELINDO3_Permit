@@ -93,6 +93,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								</div>
 								<form id="form" class="kt-form" >
 								<input type="hidden" class="txt_csrfname" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
+								
 									<div class="input-group">
 										<input class="form-control" type="text" placeholder="Email" name="user_email" id="user_email" autocomplete="off">
 									</div>

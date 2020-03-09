@@ -86,3 +86,6 @@ License: You must have a valid license purchased only from themeforest(the above
 	</head>
 
 	<!-- end::Head -->
+
+	<!-- Pengaturan Akses PIC -->
+	
