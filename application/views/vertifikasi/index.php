@@ -9,8 +9,8 @@
 		$("#select_page").html("Izin Pengembangan");
 		$("#menu_location").html("Perencanaan");
 		$("#menu_location_detail").html("Izin Pengembangan");
-		$('#deskripsi').val($('#v_menu1').text());
-		$('#status').val("1");
+		// $('#deskripsi').val($('#v_menu1').text());
+		// $('#status').val("1");
 	});
 
 	function reload(){
@@ -63,63 +63,73 @@
         var csrfHash = $('.txt_csrfname').val(); // CSRF hash
 		var v_id_pengembangan = $('#v_id_pengembangan').val(); // CSRF hash
 		var deskripsi = $('#deskripsi').val(); 
-		var status = $('#status').val(); 
+		var status = $('#status').val();
 
-		var form_data = new FormData();
-		form_data.append(csrfName, csrfHash);
-		form_data.append('file', file_data);
-		form_data.append('v_id_pengembangan', v_id_pengembangan);
-		form_data.append('deskripsi', deskripsi);
-		form_data.append('status', status);
+		if (status == "") {
+			Swal.fire(
+                'Vartivikasi tidak valid!',
+                'Alasan pembatalan izin belum dipilih.',
+                'question'
+                )
+		}else{
+			var form_data = new FormData();
+			form_data.append(csrfName, csrfHash);
+			form_data.append('file', file_data);
+			form_data.append('v_id_pengembangan', v_id_pengembangan);
+			form_data.append('deskripsi', deskripsi);
+			form_data.append('status', status);
 
-		// alert("asd");
-		$.ajax({
-			url: "<?php echo base_url(); ?>i_pengembangan/save_vertification",
-			cache: false,
-			contentType: false,
-			processData: false,
-			type: "POST",
-			data: form_data,
-			dataType: "JSON",
-			success: function(data) {
-				if (data.status.message == "Data Tersimpan") {
-					$('#form')[0].reset(); // reset form on modals
-					// Update CSRF hash
-					$('.txt_csrfname').val(data.status.token);
+			$.ajax({
+				url: "<?php echo base_url(); ?>i_pengembangan/save_vertification",
+				cache: false,
+				contentType: false,
+				processData: false,
+				type: "POST",
+				data: form_data,
+				dataType: "JSON",
+				success: function(data) {
+					if (data.status.message == "Data Tersimpan") {
+						$('#form')[0].reset(); // reset form on modals
+						// Update CSRF hash
+						$('.txt_csrfname').val(data.status.token);
+						Swal.fire(
+						'Success',
+						'Vertifikasi Izin Berhasil',
+						'success'
+						)
+						$('#v_no').modal('hide');
+						reload();
+					}else{
+						$('#form')[0].reset(); // reset form on modals
+						// Update CSRF hash
+						$('.txt_csrfname').val(data.status.token);
+						Swal.fire({
+							position: 'top-end',
+							icon: 'error',
+							title: data.status.message,
+							backdrop: false,
+							showConfirmButton: false,
+							timer: 5000
+							})
+					}
+					
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+				// alert("Username atau password anda salah " + errorThrown);
+						$('#form')[0].reset(); // reset form on modals
+						// Update CSRF hash
+						$('.txt_csrfname').val(data.status.token);
 					Swal.fire(
 					'Error json',
-					'asdasdsad',
-					'success'
+					''+errorThrown,
+					'question'
 					)
-					$('#v_no').modal('hide');
-					reload();
-				}else{
-					$('#form')[0].reset(); // reset form on modals
-					// Update CSRF hash
-					$('.txt_csrfname').val(data.status.token);
-					Swal.fire({
-						position: 'top-end',
-						icon: 'error',
-						title: data.status.message,
-						backdrop: false,
-						showConfirmButton: false,
-						timer: 5000
-						})
 				}
-				
-			},
-			error: function(jqXHR, textStatus, errorThrown) {
-			// alert("Username atau password anda salah " + errorThrown);
-					$('#form')[0].reset(); // reset form on modals
-					// Update CSRF hash
-					$('.txt_csrfname').val(data.status.token);
-				Swal.fire(
-				'Error json',
-				''+errorThrown,
-				'question'
-				)
-			}
-		});
+			});
+		}
+	
+
+		
 	}
 	
 </script>
@@ -191,7 +201,7 @@
 								<!-- begin::Nav pills -->
 								<ul class="nav nav-pills nav-fill kt-portlet__space-x" role="tablist">
 									<li class="nav-item">
-										<a class="nav-link active" onclick="v_change('1');" data-toggle="pill" href="#menu11"><span><i class="flaticon2-shield"></i></span><span>Tidak Memerlukan Izin</span></a>
+										<a class="nav-link" onclick="v_change('1');" data-toggle="pill" href="#menu11"><span><i class="flaticon2-shield"></i></span><span>Tidak Memerlukan Izin</span></a>
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" onclick="v_change('2');" data-toggle="pill" href="#menu21"><span><i class="flaticon2-copy"></i></span><span>Izin Sudah Ada</span></a>
@@ -202,7 +212,15 @@
 
 								<!-- begin::Tab Content -->
 								<div class="tab-content">
-									<div id="menu11" class="tab-pane active">
+									<div id="menu00" class="tab-pane active">
+										<div class="kt-widget28__tab-items">
+											<div class="kt-widget28__tab-item">
+												<span>Description</span>
+												<span id="v_menu0">Pilih Alasan Pembatalan.</span>
+											</div>
+										</div>
+									</div>
+									<div id="menu11" class="tab-pane fade">
 										<div class="kt-widget28__tab-items">
 											<div class="kt-widget28__tab-item">
 												<span>Description</span>

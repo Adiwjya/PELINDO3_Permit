@@ -50,6 +50,8 @@
 				var stat = data.status.dataa.STATUS;
 				if (stat == 1) {
 					$('#response_file').hide();
+				}else{
+					$('#response_file').show();
 				}
 				
             },error: function (jqXHR, textStatus, errorThrown){

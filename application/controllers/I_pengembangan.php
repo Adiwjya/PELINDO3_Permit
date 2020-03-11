@@ -204,7 +204,7 @@ class I_pengembangan extends CI_Controller {
 		public function load_response(){
 			if (get_cookie('status') == "login") {
 				$kond['VERTIFIKASI_ID'] = $this->uri->segment(3);
-				$status['dataa'] = $this->Mglobals->get_by_id("VERTIFIKASI_PENGEMBANGAN", $kond);
+				$status['dataa'] = $this->Mglobals->get_by_id("VERTIFIKASI_IZIN", $kond);
 
 				$status['token'] = $this->security->get_csrf_hash();
 				echo json_encode(array("status" => $status));
@@ -309,7 +309,7 @@ class I_pengembangan extends CI_Controller {
 						if ($this->upload->do_upload('file')) {
 							$datafile = $this->upload->data();
 							// Syarat Autokode OCI_8
-							$q_data = $this->Mglobals->getAllQR("select NVL(MAX(substr(VERTIFIKASI_ID,'4','7')),0) + 1 as jml from VERTIFIKASI_PENGEMBANGAN ");
+							$q_data = $this->Mglobals->getAllQR("select NVL(MAX(substr(VERTIFIKASI_ID,'4','7')),0) + 1 as jml from VERTIFIKASI_IZIN ");
 							// var_dump($nilai);
 							$id_ver = $this->modul->autokode_oci('VRT','4','7',$q_data->JML);
 							$data_input = array(
@@ -321,7 +321,7 @@ class I_pengembangan extends CI_Controller {
 								'STATUS' => $this->input->post('status'),
 								'RESPON_DATA' => $datafile['file_name']
 							);
-							$simpan  = $this->Mglobals->add('VERTIFIKASI_PENGEMBANGAN', $data_input);
+							$simpan  = $this->Mglobals->add('VERTIFIKASI_IZIN', $data_input);
 							if ($simpan > 0) {
 								// Update data izin pengembangan
 								$data_input = array(
@@ -344,17 +344,19 @@ class I_pengembangan extends CI_Controller {
 					}
 				} else {
 					// Syarat Autokode OCI_8
-					$q_data = $this->Mglobals->getAllQR("select NVL(MAX(substr(VERTIFIKASI_ID,'4','7')),0) + 1 as jml from VERTIFIKASI_PENGEMBANGAN ");
+					$q_data = $this->Mglobals->getAllQR("select NVL(MAX(substr(VERTIFIKASI_ID,'4','7')),0) + 1 as jml from VERTIFIKASI_IZIN ");
 					// var_dump($nilai);
 					$id_ver = $this->modul->autokode_oci('VRT','4','7',$q_data->JML);
 					$data_input = array(
 						'VERTIFIKASI_ID' => $id_ver, //Auto kode OCI
 						'CREATED_AT' => $this->modul->TanggalWaktu(),
 						'CREATED_BY' => get_cookie('username'),
-						'CREATED_NAME' => get_cookie('nama')
+						'CREATED_NAME' => get_cookie('nama'),
+						'DESKRIPSI' => $this->input->post('deskripsi'),
+						'STATUS' => $this->input->post('status')
 						// 'RESPON_DATA' => $datafile['file_name']
 					);
-					$simpan  = $this->Mglobals->add('VERTIFIKASI_PENGEMBANGAN', $data_input);
+					$simpan  = $this->Mglobals->add('VERTIFIKASI_IZIN', $data_input);
 					if ($simpan > 0) {
 						// Update data izin pengembangan
 						$data_input = array(
