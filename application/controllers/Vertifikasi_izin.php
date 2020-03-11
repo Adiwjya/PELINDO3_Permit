@@ -103,6 +103,8 @@ class Vertifikasi_izin extends CI_Controller {
                 $destination_table = "PENGAJUAN_IZIN_PENGERUKAN";
             }else if (substr($this->uri->segment(3),0,3) == "IRL") {
                 $destination_table = "PENGAJUAN_IZIN_REKLAMASI";
+            }else if (substr($this->uri->segment(3),0,3) == "RAL") {
+                $destination_table = "REKOM_ANDALALIN";
             }
             
             $config['upload_path'] = './Data_izin/';
@@ -209,7 +211,9 @@ class Vertifikasi_izin extends CI_Controller {
                  $destination_table = "PENGAJUAN_IZIN_PENGERUKAN";
              }else if (substr($this->uri->segment(3),0,3) == "IRL") {
                  $destination_table = "PENGAJUAN_IZIN_REKLAMASI";
-             }
+             }else if (substr($this->uri->segment(3),0,3) == "RAL") {
+                $destination_table = "REKOM_ANDALALIN";
+            }
                 // Update data Status
                 $data_input = array(
                     'PROGRES_STATUS' => 1

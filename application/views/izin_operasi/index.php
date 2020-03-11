@@ -100,7 +100,7 @@
 				<div class="kt-portlet__head">
 					<div class="kt-portlet__head-label">
 						<h3 class="kt-portlet__head-title mr">
-							Data Pengajuan Izin Pengembangan
+							Data Pengajuan Izin Operasi
 						</h3>
 					</div>
 					<div class="kt-portlet__head-label">

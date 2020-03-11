@@ -31,7 +31,7 @@ class I_pengerukan extends CI_Controller {
 			
 			$this->load->view('head');
 			$this->load->view('menu');
-			$this->load->view('izin_operasi/index');
+			$this->load->view('izin_pengerukan/index');
 			$this->load->view('fitur');
 			$this->load->view('footer');
 		}else{
@@ -45,7 +45,7 @@ class I_pengerukan extends CI_Controller {
 	public function ajax_list() {
         if (get_cookie('status') == "login") {
 			$data = array();
-            $list = $this->Mglobals->getAllQ("select * from PENGAJUAN_IZIN_OPERASI where DELETE_STATUS = '0'");
+            $list = $this->Mglobals->getAllQ("select * from PENGAJUAN_IZIN_PENGERUKAN where DELETE_STATUS = '0'");
             foreach ($list->result() as $row) {
                 $val = array();
                 // $val[] = $row->ID_PENGAJUAN;
@@ -94,11 +94,11 @@ class I_pengerukan extends CI_Controller {
 				$data['data_izin'] = "";
 				$this->load->view('head',$data);
 				$this->load->view('menu');
-				$this->load->view('izin_operasi/add');
+				$this->load->view('izin_pengerukan/add');
 				$this->load->view('fitur');
 				$this->load->view('footer');
 			}else {
-				$data_edit = $this->Mglobals->getAllQR("select * from PENGAJUAN_IZIN_OPERASI where ID_PENGAJUAN ='".$kond."' ");
+				$data_edit = $this->Mglobals->getAllQR("select * from PENGAJUAN_IZIN_PENGERUKAN where ID_PENGAJUAN ='".$kond."' ");
 				$data['jenis_perizinan'] = $this->Mglobals->getAll("JENIS_IZIN");
 				$data['id_izin'] = $data_edit->ID_PENGAJUAN;
 				$data['judul'] = $data_edit->JUDUL_PERIZINAN;
@@ -106,7 +106,7 @@ class I_pengerukan extends CI_Controller {
 				$data['data_izin'] = $data_edit->DATA_PERIZINAN;
 				$this->load->view('head',$data);
 				$this->load->view('menu');
-				$this->load->view('izin_operasi/add');
+				$this->load->view('izin_pengerukan/add');
 				$this->load->view('fitur');
 				$this->load->view('footer');
 			}
@@ -135,10 +135,10 @@ class I_pengerukan extends CI_Controller {
 
 						if ($this->input->post('id_izin') == "") {
 							// Syarat Autokode OCI_8
-							$q_data = $this->Mglobals->getAllQR("select NVL(MAX(substr(ID_PENGAJUAN,'4','7')),0) + 1 as jml from PENGAJUAN_IZIN_OPERASI ");
+							$q_data = $this->Mglobals->getAllQR("select NVL(MAX(substr(ID_PENGAJUAN,'4','7')),0) + 1 as jml from PENGAJUAN_IZIN_PENGERUKAN ");
 							// var_dump($nilai);
 							$data_input = array(
-								'ID_PENGAJUAN' => $this->modul->autokode_oci('IOR','4','7',$q_data->JML), //Auto kode OCI
+								'ID_PENGAJUAN' => $this->modul->autokode_oci('IPR','4','7',$q_data->JML), //Auto kode OCI
 								'JUDUL_PERIZINAN' => $this->input->post('judul'),
 								'ID_PERIZINAN' => $this->input->post('izin'),
 								'DATA_PERIZINAN' => $datafile['file_name'],
@@ -148,7 +148,7 @@ class I_pengerukan extends CI_Controller {
 								'DELETE_STATUS' => 0,
 								'PROGRES_STATUS' => 0
 							);
-							$simpan  = $this->Mglobals->add('PENGAJUAN_IZIN_OPERASI', $data_input);
+							$simpan  = $this->Mglobals->add('PENGAJUAN_IZIN_PENGERUKAN', $data_input);
 						}else{
 							// Update data
 							$data_input = array(
@@ -160,7 +160,7 @@ class I_pengerukan extends CI_Controller {
 								'UPDATED_NAME' => get_cookie('nama')
 							);
 							$condition['ID_PENGAJUAN'] = $this->input->post('id_izin');
-							$simpan  = $this->Mglobals->update("PENGAJUAN_IZIN_OPERASI", $data_input, $condition);
+							$simpan  = $this->Mglobals->update("PENGAJUAN_IZIN_PENGERUKAN", $data_input, $condition);
 						}
 			
 						if ($simpan > 0) {
@@ -183,7 +183,7 @@ class I_pengerukan extends CI_Controller {
 						'UPDATED_NAME' => get_cookie('nama')
 					);
 					$condition['ID_PENGAJUAN'] = $this->input->post('id_izin');
-					$simpan  = $this->Mglobals->update("PENGAJUAN_IZIN_OPERASI", $data_input, $condition);
+					$simpan  = $this->Mglobals->update("PENGAJUAN_IZIN_PENGERUKAN", $data_input, $condition);
 					if ($simpan > 0) {
 							$status['message'] = "Data Tersimpan";
 						}else{
@@ -225,7 +225,7 @@ class I_pengerukan extends CI_Controller {
 					'DELETE_STATUS' => 1
 					
 				);
-				$hapus = $this->Mglobals->update("PENGAJUAN_IZIN_OPERASI",$data,$kond);
+				$hapus = $this->Mglobals->update("PENGAJUAN_IZIN_PENGERUKAN",$data,$kond);
 				if($hapus == 1){
 					$status['message'] = "Data terhapus";
 				}else{

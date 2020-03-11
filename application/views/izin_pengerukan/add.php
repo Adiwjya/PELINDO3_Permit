@@ -59,6 +59,8 @@ var idiz = "<?php echo $id_izin;?>";
 				dataType: "JSON",
 				success: function(data) {
 					if (data.status.message == "Data Tersimpan") {
+						 // Update CSRF hash
+						 $('.txt_csrfname').val(data.status.token);
 						// Alert
 						Swal.fire({
 						position: 'top-end',
@@ -123,7 +125,7 @@ var idiz = "<?php echo $id_izin;?>";
 				<form id="form">
 				<div class="col-6">
 					<div class="form-group">
-						<input type="hidden" class="txt_csrfname" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
+					<input type="hidden" class="txt_csrfname" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
 						<label>Judul</label>
 						<input type="hidden" class="form-control" name="id_izin" id="id_izin" value="<?php echo $id_izin; ?>" placeholder="Massukan id_izin">
 						<input type="text" class="form-control" name="judul" id="judul" value="<?php echo $judul; ?>" placeholder="Massukan Judul">

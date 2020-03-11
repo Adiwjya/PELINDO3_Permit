@@ -5,7 +5,7 @@
 var idiz = "<?php echo $id_izin;?>";
 	$(document).ready(function() {
 		var izz = "<?php echo $izin;?>";
-		if (izz != "") {
+		if (izz != "") {	
 			$('[name="izin"]').val("<?php echo $izin;?>");
 		}else{}
 		$("#select_page").html("Studi Andalalin");
@@ -59,8 +59,8 @@ var idiz = "<?php echo $id_izin;?>";
 				dataType: "JSON",
 				success: function(data) {
 					if (data.status.message == "Data Tersimpan") {
-						// Update CSRF hash
-						$('.txt_csrfname').val(data.status.token);
+						 // Update CSRF hash
+						 $('.txt_csrfname').val(data.status.token);
 						// Alert
 						Swal.fire({
 						position: 'top-end',
@@ -129,7 +129,7 @@ var idiz = "<?php echo $id_izin;?>";
 						<label>Judul</label>
 						<input type="hidden" class="form-control" name="id_izin" id="id_izin" value="<?php echo $id_izin; ?>" placeholder="Massukan id_izin">
 						<input type="text" class="form-control" name="judul" id="judul" value="<?php echo $judul; ?>" placeholder="Massukan Judul">
-						<span class="form-text text-muted">Judul izin yang akan dibuat.</span>
+						<span class="form-text text-muted">Judul studi yang akan dibuat.</span>
 					</div>
 				</div>
 				<div class="col-6">
