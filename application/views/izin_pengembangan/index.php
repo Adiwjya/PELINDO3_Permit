@@ -3,7 +3,8 @@
 	var table;
 	$(document).ready(function() {
 		table = $('#tb').DataTable( {
-			ajax: "<?php echo base_url(); ?>i_pengembangan/ajax_list"
+			ajax: "<?php echo base_url(); ?>i_pengembangan/ajax_list",
+			aaSorting: [[2, 'desc']]
 		});
 		$("#select_page").html("Izin Pengembangan");
 		$("#menu_location").html("Perencanaan");

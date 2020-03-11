@@ -41,7 +41,23 @@ class Vertifikasi_izin extends CI_Controller {
     public function ajax_list() {
         if (get_cookie('status') == "login") {
             $data = array();
-            $list = $this->Mglobals->getAllQ("select * from PENGAJUAN_IZIN_PENGEMBANGAN where DELETE_STATUS = '0'");
+            $list = $this->Mglobals->getAllQ("
+            SELECT * FROM PENGAJUAN_IZIN_IPR where DELETE_STATUS = '0'
+                UNION
+            SELECT * FROM PENGAJUAN_IZIN_LINGKUNGAN where DELETE_STATUS = '0'
+                UNION
+            SELECT * FROM PENGAJUAN_IZIN_OPERASI where DELETE_STATUS = '0'
+                UNION
+            SELECT * FROM PENGAJUAN_IZIN_PENGEMBANGAN where DELETE_STATUS = '0'
+                UNION
+            SELECT * FROM PENGAJUAN_IZIN_PENGERUKAN where DELETE_STATUS = '0'
+                UNION
+            SELECT * FROM PENGAJUAN_IZIN_REKLAMASI where DELETE_STATUS = '0'
+                UNION
+            SELECT * FROM PENGAJUAN_IZIN_RIP where DELETE_STATUS = '0'
+                UNION
+            SELECT * FROM REKOM_ANDALALIN where DELETE_STATUS = '0'
+            ");
             foreach ($list->result() as $row) {
                 $val = array();
                 // $val[] = $row->ID_PENGAJUAN;
@@ -75,6 +91,19 @@ class Vertifikasi_izin extends CI_Controller {
 
     public function save_vertification(){
         if (get_cookie('status') == "login") {
+            // proses penentuan table
+            $destination_table = "";
+            if (substr($this->input->post('v_id'),0,3) == "IPG") {
+                $destination_table = "PENGAJUAN_IZIN_PENGEMBANGAN";
+            }else if (substr($this->input->post('v_id'),0,3) == "ILK") {
+                $destination_table = "PENGAJUAN_IZIN_LINGKUNGAN";
+            }else if (substr($this->uri->segment(3),0,3) == "IOR") {
+                $destination_table = "PENGAJUAN_IZIN_OPERASI";
+            }else if (substr($this->uri->segment(3),0,3) == "IPR") {
+                $destination_table = "PENGAJUAN_IZIN_PENGERUKAN";
+            }else if (substr($this->uri->segment(3),0,3) == "IRL") {
+                $destination_table = "PENGAJUAN_IZIN_REKLAMASI";
+            }
             
             $config['upload_path'] = './Data_izin/';
             $config['allowed_types'] = 'pdf';
@@ -110,8 +139,8 @@ class Vertifikasi_izin extends CI_Controller {
                                 'VERTIFIKASI_ID' => $id_ver,
                                 'PROGRES_STATUS' => 2
                             );
-                            $condition['ID_PENGAJUAN'] = $this->input->post('v_id_pengembangan');
-                            $update  = $this->Mglobals->update("PENGAJUAN_IZIN_PENGEMBANGAN", $data_input, $condition);
+                            $condition['ID_PENGAJUAN'] = $this->input->post('v_id');
+                            $update  = $this->Mglobals->update($destination_table, $data_input, $condition);
                             if ($update > 0) {
                                 $status['message'] = "Data Tersimpan";
                             }else{
@@ -145,8 +174,8 @@ class Vertifikasi_izin extends CI_Controller {
                         'VERTIFIKASI_ID' => $id_ver,
                         'PROGRES_STATUS' => 2
                     );
-                    $condition['ID_PENGAJUAN'] = $this->input->post('v_id_pengembangan');
-                    $update  = $this->Mglobals->update("PENGAJUAN_IZIN_PENGEMBANGAN", $data_input, $condition);
+                    $condition['ID_PENGAJUAN'] = $this->input->post('v_id');
+                    $update  = $this->Mglobals->update($destination_table, $data_input, $condition);
                     if ($update > 0) {
                         $status['message'] = "Data Tersimpan";
                     }else{
@@ -168,12 +197,25 @@ class Vertifikasi_izin extends CI_Controller {
 
     public function status_ch(){
         if (get_cookie('status') == "login") {
+             // proses penentuan table
+             $destination_table = "";
+             if (substr($this->input->post('v_id'),0,3) == "IPG") {
+                 $destination_table = "PENGAJUAN_IZIN_PENGEMBANGAN";
+             }else if (substr($this->input->post('v_id'),0,3) == "ILK") {
+                 $destination_table = "PENGAJUAN_IZIN_LINGKUNGAN";
+             }else if (substr($this->uri->segment(3),0,3) == "IOR") {
+                 $destination_table = "PENGAJUAN_IZIN_OPERASI";
+             }else if (substr($this->uri->segment(3),0,3) == "IPR") {
+                 $destination_table = "PENGAJUAN_IZIN_PENGERUKAN";
+             }else if (substr($this->uri->segment(3),0,3) == "IRL") {
+                 $destination_table = "PENGAJUAN_IZIN_REKLAMASI";
+             }
                 // Update data Status
                 $data_input = array(
                     'PROGRES_STATUS' => 1
                 );
                 $condition['ID_PENGAJUAN'] = $this->uri->segment(3);
-                $update  = $this->Mglobals->update("PENGAJUAN_IZIN_PENGEMBANGAN", $data_input, $condition);
+                $update  = $this->Mglobals->update( $destination_table, $data_input, $condition);
                 if ($update > 0) {
                     $status['message'] = "Data Tersimpan";
                 }else{

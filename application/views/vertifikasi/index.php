@@ -4,11 +4,12 @@
 	var table;
 	$(document).ready(function() {
 		table = $('#tb').DataTable( {
-			ajax: "<?php echo base_url(); ?>i_pengembangan/ajax_list_pic"
+			ajax: "<?php echo base_url(); ?>vertifikasi_izin/ajax_list",
+			aaSorting: [[2, 'desc']]
 		});
-		$("#select_page").html("Izin Pengembangan");
+		$("#select_page").html("Vertivikasi Izin");
 		$("#menu_location").html("Perencanaan");
-		$("#menu_location_detail").html("Izin Pengembangan");
+		$("#menu_location_detail").html("Vertifikasi Izin");
 		// $('#deskripsi').val($('#v_menu1').text());
 		// $('#status').val("1");
 	});
@@ -21,7 +22,7 @@
         $('#v_no').modal('show'); // show bootstrap modal
 		$('#v_no_name').text(nama); 
 		$('#v_no_name2').text(nama); 
-		$('#v_id_pengembangan').val(id); 
+		$('#v_id').val(id); 
     }
 
 	function v_change(id){ 
@@ -37,7 +38,7 @@
 
 	function view(dataz,id){
 		$.ajax({
-            url : "<?php echo base_url(); ?>i_pengembangan/status_ch/" + id,
+            url : "<?php echo base_url(); ?>vertifikasi_izin/status_ch/" + id,
             type: "POST",
             dataType: "JSON",
             data: $('#f_csrf').serialize(),
@@ -61,7 +62,7 @@
 		var file_data = $('#data_izin').prop('files')[0];
 		var csrfName = $('.txt_csrfname').attr('name'); // Value specified in $config['csrf_token_name']
         var csrfHash = $('.txt_csrfname').val(); // CSRF hash
-		var v_id_pengembangan = $('#v_id_pengembangan').val(); // CSRF hash
+		var v_id = $('#v_id').val(); // CSRF hash
 		var deskripsi = $('#deskripsi').val(); 
 		var status = $('#status').val();
 
@@ -75,12 +76,12 @@
 			var form_data = new FormData();
 			form_data.append(csrfName, csrfHash);
 			form_data.append('file', file_data);
-			form_data.append('v_id_pengembangan', v_id_pengembangan);
+			form_data.append('v_id', v_id);
 			form_data.append('deskripsi', deskripsi);
 			form_data.append('status', status);
 
 			$.ajax({
-				url: "<?php echo base_url(); ?>i_pengembangan/save_vertification",
+				url: "<?php echo base_url(); ?>vertifikasi_izin/save_vertification",
 				cache: false,
 				contentType: false,
 				processData: false,
@@ -191,7 +192,7 @@
 				<form id="form" >
 				<input type="hidden" class="txt_csrfname" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
 				<!--begin:: Widgets/Finance Stats-->
-				<input type="hidden" name="v_id_pengembangan" id="v_id_pengembangan">
+				<input type="hidden" name="v_id" id="v_id">
 				<div class="kt-portlet kt-portlet--fit kt-portlet--head-lg kt-portlet--head-overlay kt-portlet--height-fluid">
 					<div class="kt-portlet__body" style="margin-top: unset;">
 						<div class="kt-widget28">
