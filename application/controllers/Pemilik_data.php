@@ -31,7 +31,7 @@ class Pemilik_data extends CI_Controller {
 			
 			$this->load->view('head');
 			$this->load->view('menu');
-			$this->load->view('izin_pengembangan/index');
+			$this->load->view('pemilik_data/index');
 			$this->load->view('fitur');
 			$this->load->view('footer');
 		}else{
@@ -44,18 +44,17 @@ class Pemilik_data extends CI_Controller {
 	public function ajax_list() {
         if (get_cookie('status') == "login") {
 			$data = array();
-            $list = $this->Mglobals->getAllQ("select * from PENGAJUAN_IZIN_PENGEMBANGAN where DELETE_STATUS = '0'");
+            $list = $this->Mglobals->getAllQ("select * from VERTIFIKASI_DETAIL");
             foreach ($list->result() as $row) {
                 $val = array();
                 // $val[] = $row->ID_PENGAJUAN;
-                $val[] = $row->JUDUL_PERIZINAN;
-				$jenis_izin = $this->Mglobals->getAllQR("select PERIZINAN from JENIS_IZIN WHERE id_perizinan = '".$row->ID_PERIZINAN."'");
-                $val[] = $jenis_izin->PERIZINAN;
-                $val[] = $row->CREATED_AT;
-				$val[] = $row->CREATED_NAME;
+                $val[] = $row->DATA;
+				$tgl_buat = $this->Mglobals->getAllQR("select CREATED_AT, CREATED_NAME from VERTIFIKASI_IZIN WHERE VERTIFIKASI_ID = '".$row->VERTIFIKASI_ID."'");
+                $val[] = $tgl_buat->CREATED_AT;
+				$val[] = $tgl_buat->CREATED_NAME;
 				if ($row->PROGRES_STATUS == 0) {
 					$val[] = '<div style="text-align: center;">'
-						. '<span class="kt-badge kt-badge--dark kt-badge--inline kt-badge--pill kt-badge--rounded">pending</span>'
+						. '<span class="kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--rounded">new</span>'
 						. '</div>';
 				}else if ($row->PROGRES_STATUS == 1){
 					$val[] = '<div style="text-align: center;">'
@@ -67,9 +66,7 @@ class Pemilik_data extends CI_Controller {
 						. '</div>';
 				}
 				$val[] = '<div style="text-align: center;">'
-						. '<a  title="Download File" class="btn btn-outline-success waves-effect waves-light" href="javascript:void(0)" onclick="unduh('."'".$row->DATA_PERIZINAN."'".')" ><i class="flaticon2-download" style="padding-right: unset;"></i></a>&nbsp;'
-                        . '<a  title="Edit" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="ganti('."'".$this->modul->enkrip_url($row->ID_PENGAJUAN)."'".')"><i class="flaticon2-edit" style="padding-right: unset;"></i></a>&nbsp;'
-                        . '<a  title="Delete" class="btn btn-outline-danger waves-effect waves-light" href="javascript:void(0)" onclick="hapus('."'".$row->ID_PENGAJUAN."'".','."'".$row->JUDUL_PERIZINAN."'".')"><i class="flaticon2-trash" style="padding-right: unset;"></i></a>'
+                        . '<a  title="Kirim Data" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="i_data('."'".$row->VERTIFIKASI_ID_DETAIL."'".','."'".$row->DATA."'".')"><i class="flaticon2-paper-plane" style="padding-right: unset;"></i></a>&nbsp;'
                         . '</div>';
                 $data[] = $val;
             }
