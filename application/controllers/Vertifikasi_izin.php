@@ -66,7 +66,8 @@ class Vertifikasi_izin extends CI_Controller {
                 $val[] = $jenis_izin->PERIZINAN;
                 $val[] = $row->CREATED_AT;
                 $val[] = $row->CREATED_NAME;
-
+                
+                // $status_izin = $this->Mglobals->getAllQR("select STATUS from VERTIFIKASI_IZIN WHERE VERTIFIKASI_ID = '".$row->VERTIFIKASI_ID."'");  
                 if ($row->PROGRES_STATUS == 0) {
 					$val[] = '<div style="text-align: center;">'
 						. '<span class="kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--rounded">new</span>'
@@ -147,23 +148,14 @@ class Vertifikasi_izin extends CI_Controller {
                             'DESKRIPSI' => $this->input->post('deskripsi'),
                             'STATUS' => $this->input->post('status'),
                             'RESPON_DATA' => $datafile['file_name'],
-                            'KEBUTUHAN_DATA' => $this->input->post('data_mi'),
-                            'TUJUAN_DIVISI' => $this->input->post('destination_mi')
                         );
                         $simpan  = $this->Mglobals->add('VERTIFIKASI_IZIN', $data_input);
                         if ($simpan > 0) {
                             // Update data izin pengembangan
-                            if ($this->input->post('status') == 1 or $this->input->post('status') == 2) {
-                                $data_input = array(
-                                    'VERTIFIKASI_ID' => $id_ver,
-                                    'PROGRES_STATUS' => 1
-                                );
-                            }else{
                                 $data_input = array(
                                     'VERTIFIKASI_ID' => $id_ver,
                                     'PROGRES_STATUS' => 2
                                 );
-                            }
                             $condition['ID_PENGAJUAN'] = $this->input->post('v_id');
                             $update  = $this->Mglobals->update($destination_table, $data_input, $condition);
                             if ($update > 0) {
@@ -189,25 +181,16 @@ class Vertifikasi_izin extends CI_Controller {
                     'CREATED_BY' => get_cookie('username'),
                     'CREATED_NAME' => get_cookie('nama'),
                     'DESKRIPSI' => $this->input->post('deskripsi'),
-                    'STATUS' => $this->input->post('status'),
-                    'KEBUTUHAN_DATA' => $this->input->post('data_mi'),
-                    'TUJUAN_DIVISI' => $this->input->post('destination_mi')
+                    'STATUS' => $this->input->post('status')
                     // 'RESPON_DATA' => $datafile['file_name']
                 );
                 $simpan  = $this->Mglobals->add('VERTIFIKASI_IZIN', $data_input);
                 if ($simpan > 0) {
                     // Update data izin pengembangan
-                    if ($this->input->post('status') == 1 or $this->input->post('status') == 2) {
-                        $data_input = array(
-                            'VERTIFIKASI_ID' => $id_ver,
-                            'PROGRES_STATUS' => 1
-                        );
-                    }else{
                         $data_input = array(
                             'VERTIFIKASI_ID' => $id_ver,
                             'PROGRES_STATUS' => 2
                         );
-                    }
                     
                     $condition['ID_PENGAJUAN'] = $this->input->post('v_id');
                     $update  = $this->Mglobals->update($destination_table, $data_input, $condition);
@@ -225,6 +208,87 @@ class Vertifikasi_izin extends CI_Controller {
             $status['token'] = $this->security->get_csrf_hash();
             echo json_encode(array("status" => $status));
             unset($update, $status, $simpan, $condition, $data_input, $q_data, $datafile);
+        }else{
+            $this->modul->halaman('login');
+        }
+    }
+
+    public function save_memerlukan_izin(){
+        if (get_cookie('status') == "login") {
+            // proses penentuan table
+            $destination_table = "";
+            if (substr($this->input->post('v_id'),0,3) == "IPG") {
+                $destination_table = "PENGAJUAN_IZIN_PENGEMBANGAN";
+            }else if (substr($this->input->post('v_id'),0,3) == "ILK") {
+                $destination_table = "PENGAJUAN_IZIN_LINGKUNGAN";
+            }else if (substr($this->uri->segment(3),0,3) == "IOR") {
+                $destination_table = "PENGAJUAN_IZIN_OPERASI";
+            }else if (substr($this->uri->segment(3),0,3) == "IPR") {
+                $destination_table = "PENGAJUAN_IZIN_PENGERUKAN";
+            }else if (substr($this->uri->segment(3),0,3) == "IRL") {
+                $destination_table = "PENGAJUAN_IZIN_REKLAMASI";
+            }else if (substr($this->uri->segment(3),0,3) == "RAL") {
+                $destination_table = "REKOM_ANDALALIN";
+            }
+
+             // Syarat Autokode OCI_8
+             $q_data = $this->Mglobals->getAllQR("select NVL(MAX(substr(VERTIFIKASI_ID,'4','7')),0) + 1 as jml from VERTIFIKASI_IZIN ");
+             // var_dump($nilai);
+             $id_ver = $this->modul->autokode_oci('VRD','4','7',$q_data->JML);
+             $data_input = array(
+                 'VERTIFIKASI_ID' => $id_ver, //Auto kode OCI
+                 'CREATED_AT' => $this->modul->TanggalWaktu(),
+                 'CREATED_BY' => get_cookie('username'),
+                 'CREATED_NAME' => get_cookie('nama'),
+                 'DESKRIPSI' => $this->input->post('deskripsi'),
+                 'STATUS' => $this->input->post('status'),
+                 'PROGRES_STATUS' => 0
+                 // 'RESPON_DATA' => $datafile['file_name']
+             );
+             $simpan  = $this->Mglobals->add('VERTIFIKASI_IZIN', $data_input);
+             if ($simpan > 0) {
+                // Update data izin pengembangan
+                    $data_input = array(
+                        'VERTIFIKASI_ID' => $id_ver,
+                        'PROGRES_STATUS' => 1
+                    );
+                
+                $condition['ID_PENGAJUAN'] = $this->input->post('v_id');
+                $update  = $this->Mglobals->update($destination_table, $data_input, $condition);
+                if ($update > 0) {
+                    $data_awal = $this->input->post('data_mi');
+                    $data_akhir =  explode (", ", $data_awal);
+                    $destination_awal = $this->input->post('destination_mi');
+                    $destination_akhir =  explode (", ", $destination_awal);
+
+                    for ($i=0; $i < count($data_akhir) ; $i++) { 
+                        $q_data2 = $this->Mglobals->getAllQR("select NVL(MAX(substr(VERTIFIKASI_ID_DETAIL,'4','7')),0) + 1 as jml from VERTIFIKASI_DETAIL");
+                        $id_ver2 = $this->modul->autokode_oci('VRD','4','7',$q_data2->JML);
+                        $data_input = array(
+                            'VERTIFIKASI_ID_DETAIL' => $id_ver2 , //Auto kode OCI
+                            'DATA' => $data_akhir[$i],
+                            'TUJUAN' => $destination_akhir[$i],
+                            'PROGRES_STATUS' => 0,
+                            'VERTIFIKASI_ID' => $id_ver
+                        );
+                        $simpan  = $this->Mglobals->add('VERTIFIKASI_DETAIL', $data_input);
+                    }
+                    if ($simpan > 0) {
+                        $status['message'] = "Data Tersimpan";
+                    }else{
+                        $status['message'] = "Data Gagal Tersimpan";
+                    }
+                }else{
+                    $status['message'] = "Data Gagal Tersimpan";
+                }
+            }else{
+                $status['message'] = "Data Gagal Tersimpan";
+            }
+
+            $status['token'] = $this->security->get_csrf_hash();
+            echo json_encode(array("status" => $status));
+            unset($update, $status, $simpan, $condition, $data_input, $q_data, $datafile);
+
         }else{
             $this->modul->halaman('login');
         }
@@ -265,5 +329,17 @@ class Vertifikasi_izin extends CI_Controller {
             $this->modul->halaman('login');
         }
     }
+
+//     public function test(){
+//         $var = "1, 2, 3, 4, 5, 6";
+//         $idakses = explode (", ", $var);
+//         $var2 = "1, 2, 3, 4, 5, asdasdsad";
+//         $idakses2 = explode (", ", $var2);
+
+//     //     foreach($idakses as $key => $name) {
+//     //         echo $idakses2[$name];
+//     // }
+
+// }
 
 }
