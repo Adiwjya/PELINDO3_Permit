@@ -74,8 +74,8 @@ class Vertifikasi_izin extends CI_Controller {
 						. '</div>';
 				}else if ($row->PROGRES_STATUS == 1 || $row->PROGRES_STATUS == 2){
 					$val[] = '<div style="text-align: center;">'
-						. '<span class="kt-badge kt-badge--info kt-badge--inline kt-badge--pill kt-badge--rounded">in process</span>'
-						. '</div>';
+                            . '<button onclick="on_process('."'".$row->VERTIFIKASI_ID."'".');" class="btn kt-badge kt-badge--info kt-badge--inline kt-badge--pill kt-badge--rounded">in process</button>'
+                            . '</div>';
 				}else{
 					$val[] = '<div style="text-align: center;">'
 						. '<button onclick="response('."'".$row->VERTIFIKASI_ID."'".');" class="btn kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--rounded">completed</button>'
@@ -234,7 +234,7 @@ class Vertifikasi_izin extends CI_Controller {
              // Syarat Autokode OCI_8
              $q_data = $this->Mglobals->getAllQR("select NVL(MAX(substr(VERTIFIKASI_ID,'4','7')),0) + 1 as jml from VERTIFIKASI_IZIN ");
              // var_dump($nilai);
-             $id_ver = $this->modul->autokode_oci('VRD','4','7',$q_data->JML);
+             $id_ver = $this->modul->autokode_oci('VRT','4','7',$q_data->JML);
              $data_input = array(
                  'VERTIFIKASI_ID' => $id_ver, //Auto kode OCI
                  'CREATED_AT' => $this->modul->TanggalWaktu(),
@@ -330,16 +330,35 @@ class Vertifikasi_izin extends CI_Controller {
         }
     }
 
-//     public function test(){
-//         $var = "1, 2, 3, 4, 5, 6";
-//         $idakses = explode (", ", $var);
-//         $var2 = "1, 2, 3, 4, 5, asdasdsad";
-//         $idakses2 = explode (", ", $var2);
-
-//     //     foreach($idakses as $key => $name) {
-//     //         echo $idakses2[$name];
-//     // }
-
-// }
+    public function on_proses() {
+        if (get_cookie('status') == "login") {
+			$data = array();
+            $list = $this->Mglobals->getAllQ("select * from VERTIFIKASI_DETAIL where VERTIFIKASI_ID = '".$this->uri->segment(3)."'");
+            foreach ($list->result() as $row) {
+                $val = array();
+                $val[] = $row->DATA;
+				if ($row->PROGRES_STATUS == 0) {
+					$val[] = '<div style="text-align: center;">'
+						. '<span class="kt-badge kt-badge--dark kt-badge--inline kt-badge--pill kt-badge--rounded">pending</span>'
+						. '</div>';
+				}else if ($row->PROGRES_STATUS == 2) {
+					$val[] = '<div style="text-align: center;">'
+						. '<span class="kt-badge kt-badge--info kt-badge--inline kt-badge--pill kt-badge--rounded">proses studi</span>'
+						. '</div>';
+				}else{
+					$val[] = '<div style="text-align: center;">'
+						. '<button onclick="response('."'".$row->VERTIFIKASI_ID."'".');" class="btn kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--rounded">completed</button>'
+						. '</div>';
+				}
+						
+                $data[] = $val;
+            }
+            $output = array("data" => $data);
+			echo json_encode($output);
+			unset($data, $list, $val, $jenis_izin,$output);
+		}else{
+			$this->modul->halaman('login');
+		}
+	}
 
 }

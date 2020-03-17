@@ -2,6 +2,7 @@
 <script type="text/javascript">
 	// DataTable
 	var table;
+	var on_proses_status;
 	$(document).ready(function() {
 		table = $('#tb').DataTable( {
 			ajax: "<?php echo base_url(); ?>vertifikasi_izin/ajax_list",
@@ -26,6 +27,23 @@
 		$('#v_no_name4').text(nama); 
 		$('#v_id').val(id); 
     }
+
+	function on_process(id) {
+		$('#v_progres_status').modal('show'); // show bootstrap modal
+		on_proses_status = $('#on_p').DataTable( {
+			ajax: "<?php echo base_url(); ?>vertifikasi_izin/on_proses/"+id,
+			paging: false,
+			retrieve:true,
+			searching: false
+		});
+		on_proses_status.destroy();
+		on_proses_status = $('#on_p').DataTable( {
+			ajax: "<?php echo base_url(); ?>vertifikasi_izin/on_proses/"+id,
+			paging: false,
+			retrieve:true,
+			searching: false
+		});
+	}
 
 	function v_change(id){ 
 		$('#status').val(id); 
@@ -388,6 +406,38 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 				<button type="button" onclick="send_response();" class="btn btn-primary">Send Response</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--end::Modal-->
+
+
+<!-- begin::Modal Modal Tidak Memerlukan Studi -->
+<div class="modal fade" id="v_progres_status" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-md" role="document">
+	
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" ></h5>Status</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="container-fluid" >
+					<table id="on_p" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+						<thead>
+							<tr>
+								<th>Data</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 			</div>
 		</div>
 	</div>

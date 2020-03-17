@@ -47,7 +47,7 @@ class Pemilik_data extends CI_Controller {
             $list = $this->Mglobals->getAllQ("select * from VERTIFIKASI_DETAIL");
             foreach ($list->result() as $row) {
                 $val = array();
-                // $val[] = $row->ID_PENGAJUAN;
+                $val[] = $row->VERTIFIKASI_ID;
                 $val[] = $row->DATA;
 				$tgl_buat = $this->Mglobals->getAllQR("select CREATED_AT, CREATED_NAME from VERTIFIKASI_IZIN WHERE VERTIFIKASI_ID = '".$row->VERTIFIKASI_ID."'");
                 $val[] = $tgl_buat->CREATED_AT;
@@ -56,18 +56,36 @@ class Pemilik_data extends CI_Controller {
 					$val[] = '<div style="text-align: center;">'
 						. '<span class="kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--rounded">new</span>'
 						. '</div>';
-				}else if ($row->PROGRES_STATUS == 1){
+				// }else if ($row->PROGRES_STATUS == 1){
+				// 	$val[] = '<div style="text-align: center;">'
+				// 		. '<span class="kt-badge kt-badge--info kt-badge--inline kt-badge--pill kt-badge--rounded">in process</span>'
+				// 		. '</div>';
+				}else if ($row->PROGRES_STATUS == 2) {
 					$val[] = '<div style="text-align: center;">'
-						. '<span class="kt-badge kt-badge--info kt-badge--inline kt-badge--pill kt-badge--rounded">in process</span>'
+						. '<span class="kt-badge kt-badge--info kt-badge--inline kt-badge--pill kt-badge--rounded">proses studi</span>'
 						. '</div>';
 				}else{
 					$val[] = '<div style="text-align: center;">'
 						. '<button onclick="response('."'".$row->VERTIFIKASI_ID."'".');" class="btn kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--rounded">completed</button>'
 						. '</div>';
 				}
-				$val[] = '<div style="text-align: center;">'
-                        . '<a  title="Kirim Data" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="i_data('."'".$row->VERTIFIKASI_ID_DETAIL."'".','."'".$row->DATA."'".')"><i class="flaticon2-paper-plane" style="padding-right: unset;"></i></a>&nbsp;'
-                        . '</div>';
+				
+				if ($row->PROGRES_STATUS == 0) {
+					$val[] = '<div style="text-align: center;">'
+							. '<a  title="Memerlukan Studi" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="i_studi('."'".$row->VERTIFIKASI_ID_DETAIL."'".','."'".$row->DATA."'".')"><i class="fa fa-user-graduate" style="padding-right: unset;"></i></a>&nbsp;'
+							. '<a  title="Kirim Data" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="i_data('."'".$row->VERTIFIKASI_ID_DETAIL."'".','."'".$row->DATA."'".')"><i class="flaticon2-paper-plane" style="padding-right: unset;"></i></a>&nbsp;'
+							. '</div>';
+					}else if ($row->PROGRES_STATUS == 2) {
+						$val[] = '<div style="text-align: center;">'
+							. '<a  title="Kirim Hasil Studi" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="i_data('."'".$row->VERTIFIKASI_ID_DETAIL."'".','."'".$row->DATA."'".')"><i class="flaticon2-paper-plane" style="padding-right: unset;"></i></a>&nbsp;'
+							. '</div>';
+					}else{
+						$val[] = '<div style="text-align: center;">'
+							. '<button onclick="response('."'".$row->VERTIFIKASI_ID."'".');" class="btn kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--rounded">completed</button>'
+							. '</div>';
+				}
+						
+
                 $data[] = $val;
             }
             $output = array("data" => $data);
@@ -128,67 +146,29 @@ class Pemilik_data extends CI_Controller {
 					$this->load->library('upload', $config);
 					if ($this->upload->do_upload('file')) {
 						$datafile = $this->upload->data();
-
-						if ($this->input->post('id_izin') == "") {
-							// Syarat Autokode OCI_8
-							$q_data = $this->Mglobals->getAllQR("select NVL(MAX(substr(ID_PENGAJUAN,'4','7')),0) + 1 as jml from PENGAJUAN_IZIN_PENGEMBANGAN ");
-							// var_dump($nilai);
-							$data_input = array(
-								'ID_PENGAJUAN' => $this->modul->autokode_oci('IPG','4','7',$q_data->JML), //Auto kode OCI
-								'JUDUL_PERIZINAN' => $this->input->post('judul'),
-								'ID_PERIZINAN' => $this->input->post('izin'),
-								'DATA_PERIZINAN' => $datafile['file_name'],
-								'CREATED_AT' => $this->modul->TanggalWaktu(),
-								'CREATED_BY' => get_cookie('username'),
-								'CREATED_NAME' => get_cookie('nama'),
-								'DELETE_STATUS' => 0,
-								'PROGRES_STATUS' => 0
-							);
-							$simpan  = $this->Mglobals->add('PENGAJUAN_IZIN_PENGEMBANGAN', $data_input);
-						}else{
 							// Update data
 							$data_input = array(
-								'JUDUL_PERIZINAN' => $this->input->post('judul'),
-								'ID_PERIZINAN' => $this->input->post('izin'),
-								'DATA_PERIZINAN' => $datafile['file_name'],
-								'UPDATED_AT' => $this->modul->TanggalWaktu(),
-								'UPDATED_BY' => get_cookie('username'),
-								'UPDATED_NAME' => get_cookie('nama')
+								'UPDATE_AT' => $this->modul->TanggalWaktu(),
+								'UPDATE_BY' => get_cookie('username'),
+								'UPDATE_NAME' => get_cookie('nama'),
+								'PROGRES_STATUS' => 1,
+								'FILE_DATA' => $datafile['file_name']
 							);
-							$condition['ID_PENGAJUAN'] = $this->input->post('id_izin');
-							$simpan  = $this->Mglobals->update("PENGAJUAN_IZIN_PENGEMBANGAN", $data_input, $condition);
-						}
+							$condition['VERTIFIKASI_ID_DETAIL'] = $this->input->post('i_id');
+							$simpan  = $this->Mglobals->update("VERTIFIKASI_DETAIL", $data_input, $condition);
 			
 						if ($simpan > 0) {
 							$status['message'] = "Data Tersimpan";
 						}else{
 							$status['message'] = "Data Gagal Tersimpan";
 						}
-	//                    
+	                   
 					} else {
 						$status['message'] = $this->upload->display_errors();
 					}
 				}
 			} else {
-				if ($this->input->post('id_izin') != "") {
-					$data_input = array(
-						'JUDUL_PERIZINAN' => $this->input->post('judul'),
-						'ID_PERIZINAN' => $this->input->post('izin'),
-						'UPDATED_AT' => $this->modul->TanggalWaktu(),
-						'UPDATED_BY' => get_cookie('username'),
-						'UPDATED_NAME' => get_cookie('nama')
-					);
-					$condition['ID_PENGAJUAN'] = $this->input->post('id_izin');
-					$simpan  = $this->Mglobals->update("PENGAJUAN_IZIN_PENGEMBANGAN", $data_input, $condition);
-					if ($simpan > 0) {
-							$status['message'] = "Data Tersimpan";
-						}else{
-							$status['message'] = "Data Gagal Tersimpan";
-						}
-				}else{
-					$status['message'] = "File not exits";
-				}
-				
+				$status['message'] = "File not exits";
 			}	
 
 			$status['token'] = $this->security->get_csrf_hash();
@@ -230,6 +210,28 @@ class Pemilik_data extends CI_Controller {
 				$status['token'] = $this->security->get_csrf_hash();
 				echo json_encode(array("status" => $status));
 				unset($kond, $status, $simpan, $hapus, $data);
+			}else{
+				$this->modul->halaman('login');
+			}
+		}
+
+		public function perlu_studi(){
+			if (get_cookie('status') == "login") {
+				// proses penentuan table
+					// Update data Status
+					$data_input = array(
+						'PROGRES_STATUS' => 2  //2 = Proses Studi
+					);
+					$condition['VERTIFIKASI_ID_DETAIL'] = $this->uri->segment(3);
+					$update  = $this->Mglobals->update( 'VERTIFIKASI_DETAIL', $data_input, $condition);
+					if ($update > 0) {
+						$status['message'] = "Data Tersimpan";
+					}else{
+						$status['message'] = "Data Gagal Tersimpan";
+					}
+				$status['token'] = $this->security->get_csrf_hash();
+				echo json_encode(array("status" => $status));
+				unset($update, $status, $condition, $data_input);
 			}else{
 				$this->modul->halaman('login');
 			}
