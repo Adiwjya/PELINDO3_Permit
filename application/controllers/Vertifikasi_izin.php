@@ -72,7 +72,7 @@ class Vertifikasi_izin extends CI_Controller {
 					$val[] = '<div style="text-align: center;">'
 						. '<span class="kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--rounded">new</span>'
 						. '</div>';
-				}else if ($row->PROGRES_STATUS == 1 || $row->PROGRES_STATUS == 2){
+				}else if ($row->PROGRES_STATUS == 1){
 					$val[] = '<div style="text-align: center;">'
                             . '<button onclick="on_process('."'".$row->VERTIFIKASI_ID."'".');" class="btn kt-badge kt-badge--info kt-badge--inline kt-badge--pill kt-badge--rounded">in process</button>'
                             . '</div>';
@@ -112,14 +112,18 @@ class Vertifikasi_izin extends CI_Controller {
                 $destination_table = "PENGAJUAN_IZIN_PENGEMBANGAN";
             }else if (substr($this->input->post('v_id'),0,3) == "ILK") {
                 $destination_table = "PENGAJUAN_IZIN_LINGKUNGAN";
-            }else if (substr($this->uri->segment(3),0,3) == "IOR") {
+            }else if (substr($this->input->post('v_id'),0,3) == "IOR") {
                 $destination_table = "PENGAJUAN_IZIN_OPERASI";
-            }else if (substr($this->uri->segment(3),0,3) == "IPR") {
+            }else if (substr($this->input->post('v_id'),0,3) == "IPR") {
                 $destination_table = "PENGAJUAN_IZIN_PENGERUKAN";
-            }else if (substr($this->uri->segment(3),0,3) == "IRL") {
+            }else if (substr($this->input->post('v_id'),0,3) == "IRL") {
                 $destination_table = "PENGAJUAN_IZIN_REKLAMASI";
-            }else if (substr($this->uri->segment(3),0,3) == "RAL") {
+            }else if (substr($this->input->post('v_id'),0,3) == "RAL") {
                 $destination_table = "REKOM_ANDALALIN";
+            }else if (substr($this->input->post('v_id'),0,3) == "IRR") {
+                $destination_table = "PENGAJUAN_IZIN_IPR";
+            }else if (substr($this->input->post('v_id'),0,3) == "RIP") {
+                $destination_table = "PENGAJUAN_IZIN_RIP";
             }
             
             $config['upload_path'] = './Data_izin/';
@@ -221,14 +225,18 @@ class Vertifikasi_izin extends CI_Controller {
                 $destination_table = "PENGAJUAN_IZIN_PENGEMBANGAN";
             }else if (substr($this->input->post('v_id'),0,3) == "ILK") {
                 $destination_table = "PENGAJUAN_IZIN_LINGKUNGAN";
-            }else if (substr($this->uri->segment(3),0,3) == "IOR") {
+            }else if (substr($this->input->post('v_id'),0,3) == "IOR") {
                 $destination_table = "PENGAJUAN_IZIN_OPERASI";
-            }else if (substr($this->uri->segment(3),0,3) == "IPR") {
+            }else if (substr($this->input->post('v_id'),0,3) == "IPR") {
                 $destination_table = "PENGAJUAN_IZIN_PENGERUKAN";
-            }else if (substr($this->uri->segment(3),0,3) == "IRL") {
+            }else if (substr($this->input->post('v_id'),0,3) == "IRL") {
                 $destination_table = "PENGAJUAN_IZIN_REKLAMASI";
-            }else if (substr($this->uri->segment(3),0,3) == "RAL") {
+            }else if (substr($this->input->post('v_id'),0,3) == "RAL") {
                 $destination_table = "REKOM_ANDALALIN";
+            }else if (substr($this->input->post('v_id'),0,3) == "IRR") {
+                $destination_table = "PENGAJUAN_IZIN_IPR";
+            }else if (substr($this->input->post('v_id'),0,3) == "RIP") {
+                $destination_table = "PENGAJUAN_IZIN_RIP";
             }
 
              // Syarat Autokode OCI_8
@@ -310,6 +318,10 @@ class Vertifikasi_izin extends CI_Controller {
                  $destination_table = "PENGAJUAN_IZIN_REKLAMASI";
              }else if (substr($this->uri->segment(3),0,3) == "RAL") {
                 $destination_table = "REKOM_ANDALALIN";
+            }else if (substr($this->uri->segment(3),0,3) == "IRR") {
+                $destination_table = "PENGAJUAN_IZIN_IPR";
+            }else if (substr($this->uri->segment(3),0,3) == "RIP") {
+                $destination_table = "PENGAJUAN_IZIN_RIP";
             }
                 // Update data Status
                 $data_input = array(

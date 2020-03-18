@@ -7,7 +7,7 @@
 			aaSorting: [[2, 'desc']]
 		});
 		$("#select_page").html("Izin Pengerukan");
-		$("#menu_location").html("Teknik");
+		$("#menu_location").html("Perencanaan");
 		$("#menu_location_detail").html("Izin Pengerukan");
 	});
 
@@ -49,10 +49,10 @@
 				$('#stat').val(data.status.dataa.STATUS);
 				$('#dokumen').val(data.status.dataa.RESPON_DATA);
 				var stat = data.status.dataa.STATUS;
-				if (stat == 1) {
-					$('#response_file').hide();
-				}else{
+				if (stat == 4) {
 					$('#response_file').show();
+				}else{
+					$('#response_file').hide();
 				}
 				
             },error: function (jqXHR, textStatus, errorThrown){
