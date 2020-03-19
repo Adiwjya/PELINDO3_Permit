@@ -73,11 +73,11 @@ class Pemilik_data extends CI_Controller {
 				if ($row->PROGRES_STATUS == 0) {
 					$val[] = '<div style="text-align: center;">'
 							. '<a  title="Memerlukan Studi" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="i_studi('."'".$row->VERTIFIKASI_ID_DETAIL."'".','."'".$row->DATA."'".')"><i class="fa fa-user-graduate" style="padding-right: unset;"></i></a>&nbsp;'
-							. '<a  title="Kirim Data" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="i_data('."'".$row->VERTIFIKASI_ID_DETAIL."'".','."'".$row->DATA."'".')"><i class="flaticon2-paper-plane" style="padding-right: unset;"></i></a>&nbsp;'
+							. '<a  title="Kirim Data" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="i_data('."'".$row->VERTIFIKASI_ID_DETAIL."'".','."'".$row->DATA."'".','."'".$row->VERTIFIKASI_ID."'".')"><i class="flaticon2-paper-plane" style="padding-right: unset;"></i></a>&nbsp;'
 							. '</div>';
 					}else if ($row->PROGRES_STATUS == 2) {
 						$val[] = '<div style="text-align: center;">'
-							. '<a  title="Kirim Hasil Studi" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="i_data('."'".$row->VERTIFIKASI_ID_DETAIL."'".','."'".$row->DATA."'".')"><i class="flaticon2-paper-plane" style="padding-right: unset;"></i></a>&nbsp;'
+							. '<a  title="Kirim Hasil Studi" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="i_data('."'".$row->VERTIFIKASI_ID_DETAIL."'".','."'".$row->DATA."'".','."'".$row->VERTIFIKASI_ID."'".')"><i class="flaticon2-paper-plane" style="padding-right: unset;"></i></a>&nbsp;'
 							. '</div>';
 					}else{
 						$val[] = '<div style="text-align: center;">'
@@ -156,9 +156,25 @@ class Pemilik_data extends CI_Controller {
 							);
 							$condition['VERTIFIKASI_ID_DETAIL'] = $this->input->post('i_id');
 							$simpan  = $this->Mglobals->update("VERTIFIKASI_DETAIL", $data_input, $condition);
-			
 						if ($simpan > 0) {
-							$status['message'] = "Data Tersimpan";
+							$id_ver = $this->input->post('ver_id');
+							$status_izin_v = $this->Mglobals->getAllQR("select count(VERTIFIKASI_ID) as jml from VERTIFIKASI_DETAIL where VERTIFIKASI_ID = '".$id_ver."'");
+							$status_izin_vakhir = $this->Mglobals->getAllQR("select SUM(PROGRES_STATUS) as jml from VERTIFIKASI_DETAIL where VERTIFIKASI_ID = '".$id_ver."'");
+
+							if ($status_izin_vakhir -> JML == $status_izin_v -> JML) {
+								$data_input2 = array(
+									'PROGRES_STATUS' => 2
+								);
+								$condition2['VERTIFIKASI_ID'] = $this->input->post('ver_id');
+								$simpan2  = $this->Mglobals->update("VERTIFIKASI_IZIN", $data_input2, $condition2);
+								if ($simpan2 > 0) {
+									$status['message'] = "Data Tersimpan";
+								}else{
+									$status['message'] = "Data Gagal Tersimpan";
+								}
+							}else{
+								$status['message'] = "Data Tersimpan";
+							}
 						}else{
 							$status['message'] = "Data Gagal Tersimpan";
 						}
@@ -173,7 +189,7 @@ class Pemilik_data extends CI_Controller {
 
 			$status['token'] = $this->security->get_csrf_hash();
 			echo json_encode(array("status" => $status));
-			unset($config, $status, $simpan, $condition, $data_input, $q_data, $datafile);
+			unset($config, $status, $simpan, $condition, $data_input, $q_data, $datafile, $id_ver, $status_izin_v, $status_izin_vakhir,$data_input2, $q_data2);
 		}
 		
 		public function load_response(){

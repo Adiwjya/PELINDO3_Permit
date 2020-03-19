@@ -67,12 +67,12 @@ class Vertifikasi_izin extends CI_Controller {
                 $val[] = $row->CREATED_AT;
                 $val[] = $row->CREATED_NAME;
                 
-                // $status_izin = $this->Mglobals->getAllQR("select STATUS from VERTIFIKASI_IZIN WHERE VERTIFIKASI_ID = '".$row->VERTIFIKASI_ID."'");  
+                $status_izin_pemilik = $this->Mglobals->getAllQR("select NVL(PROGRES_STATUS,0) as PROGRES_STATUS from VERTIFIKASI_IZIN WHERE VERTIFIKASI_ID = '".$row->VERTIFIKASI_ID."'");  
                 if ($row->PROGRES_STATUS == 0) {
 					$val[] = '<div style="text-align: center;">'
 						. '<span class="kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--rounded">new</span>'
 						. '</div>';
-				}else if ($row->PROGRES_STATUS == 1){
+				}else if ($status_izin_pemilik->PROGRES_STATUS == 1){
 					$val[] = '<div style="text-align: center;">'
                             . '<button onclick="on_process('."'".$row->VERTIFIKASI_ID."'".');" class="btn kt-badge kt-badge--info kt-badge--inline kt-badge--pill kt-badge--rounded">in process</button>'
                             . '</div>';
@@ -97,7 +97,7 @@ class Vertifikasi_izin extends CI_Controller {
             }
             $output = array("data" => $data);
             echo json_encode($output);
-            unset($data, $list, $val, $jenis_izin,$output);
+            unset($data, $list, $val, $jenis_izin,$output,$status_izin_pemilik,$status_izin);
         }else{
             $this->modul->halaman('login');
         }
@@ -152,6 +152,7 @@ class Vertifikasi_izin extends CI_Controller {
                             'DESKRIPSI' => $this->input->post('deskripsi'),
                             'STATUS' => $this->input->post('status'),
                             'RESPON_DATA' => $datafile['file_name'],
+                            'PROGRES_STATUS' => 2
                         );
                         $simpan  = $this->Mglobals->add('VERTIFIKASI_IZIN', $data_input);
                         if ($simpan > 0) {
@@ -185,7 +186,8 @@ class Vertifikasi_izin extends CI_Controller {
                     'CREATED_BY' => get_cookie('username'),
                     'CREATED_NAME' => get_cookie('nama'),
                     'DESKRIPSI' => $this->input->post('deskripsi'),
-                    'STATUS' => $this->input->post('status')
+                    'STATUS' => $this->input->post('status'),
+                    'PROGRES_STATUS' => 2
                     // 'RESPON_DATA' => $datafile['file_name']
                 );
                 $simpan  = $this->Mglobals->add('VERTIFIKASI_IZIN', $data_input);
@@ -250,7 +252,7 @@ class Vertifikasi_izin extends CI_Controller {
                  'CREATED_NAME' => get_cookie('nama'),
                  'DESKRIPSI' => $this->input->post('deskripsi'),
                  'STATUS' => $this->input->post('status'),
-                 'PROGRES_STATUS' => 0
+                 'PROGRES_STATUS' => 1
                  // 'RESPON_DATA' => $datafile['file_name']
              );
              $simpan  = $this->Mglobals->add('VERTIFIKASI_IZIN', $data_input);

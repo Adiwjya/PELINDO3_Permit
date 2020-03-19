@@ -18,10 +18,11 @@
         table.ajax.reload(null,false); //reload datatable ajax
     }
 
-	function i_data(id, data){
+	function i_data(id, data, id_v){
         $('#i_mo').modal('show'); // show bootstrap modal 
 		$('#r_d').text('Kebutuhan Data : '+data);
 		$('#i_id').val(id);
+		$('#ver_id').val(id_v);
     }
 
 	function i_studi(id, data){
@@ -55,12 +56,14 @@
 		var csrfName = $('.txt_csrfname').attr('name'); // Value specified in $config['csrf_token_name']
 		var csrfHash = $('.txt_csrfname').val(); // CSRF hash
 		var i_id = $('#i_id').val(); // CSRF hash
+		var ver_id = $('#ver_id').val(); // CSRF hash
 		// alert("Jalan2");
 
 		var form_data = new FormData();
 		form_data.append(csrfName, csrfHash);
 		form_data.append('file', file_data);
 		form_data.append('i_id', i_id);
+		form_data.append('ver_id', ver_id);
 
 		// alert("Jalan4");
 		var url = "<?php echo base_url(); ?>pemilik_data/do_upload";
@@ -162,7 +165,7 @@
 <!-- begin::Modal Modal Tidak Memerlukan Studi -->
 <div class="modal fade" id="i_mo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-md" role="document">
-	
+		<form id="form">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" ></h5>Kirimkan File</h5>
@@ -174,6 +177,7 @@
 				<input type="hidden" class="txt_csrfname" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
 				<h4 id="r_d"></h4>
 				<label class="col-form-label">Lampirakan File</label>
+				<input type="hidden" id="ver_id" name="ver_id">
 				<input type="hidden" id="i_id" name="i_id">
 				<input type="file" class="dropify" id="data_izin" name="data_izin" data-height="100" />
 			</form>
@@ -183,6 +187,7 @@
 				<button type="button" onclick="send_response();" class="btn btn-primary">Send Response</button>
 			</div>
 		</div>
+		</form>
 	</div>
 </div>
 
