@@ -60,9 +60,17 @@ class Pemilik_data extends CI_Controller {
 				// 	$val[] = '<div style="text-align: center;">'
 				// 		. '<span class="kt-badge kt-badge--info kt-badge--inline kt-badge--pill kt-badge--rounded">in process</span>'
 				// 		. '</div>';
-				}else if ($row->PROGRES_STATUS == 2) {
+				}else if ($row->PROGRES_STATUS == 4) {
 					$val[] = '<div style="text-align: center;">'
 						. '<span class="kt-badge kt-badge--info kt-badge--inline kt-badge--pill kt-badge--rounded">proses studi</span>'
+						. '</div>';
+				}else if ($row->PROGRES_STATUS == 5) {
+					$val[] = '<div style="text-align: center;">'
+						. '<span class="kt-badge kt-badge--info kt-badge--inline kt-badge--pill kt-badge--rounded">Menunggu Data</span>'
+						. '</div>';
+				}else if ($row->PROGRES_STATUS == 6) {
+					$val[] = '<div style="text-align: center;">'
+						. '<span class="kt-badge kt-badge--info kt-badge--inline kt-badge--pill kt-badge--rounded">Data Diterima</span>'
 						. '</div>';
 				}else{
 					$val[] = '<div style="text-align: center;">'
@@ -70,17 +78,25 @@ class Pemilik_data extends CI_Controller {
 						. '</div>';
 				}
 				
-				if ($row->PROGRES_STATUS == 0) {
+				if ($row->PROGRES_STATUS == 0 || $row->PROGRES_STATUS  == 5) {
 					$val[] = '<div style="text-align: center;">'
 							. '<a  title="Memerlukan Studi" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="i_studi('."'".$row->VERTIFIKASI_ID_DETAIL."'".','."'".$row->DATA."'".')"><i class="fa fa-user-graduate" style="padding-right: unset;"></i></a>&nbsp;'
 							. '<a  title="Kirim Data" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="i_data('."'".$row->VERTIFIKASI_ID_DETAIL."'".','."'".$row->DATA."'".','."'".$row->VERTIFIKASI_ID."'".')"><i class="flaticon2-paper-plane" style="padding-right: unset;"></i></a>&nbsp;'
+							. '<a  title="Data Belum Lengkap" class="btn btn-outline-warning waves-effect waves-light" href="javascript:void(0)"  onclick="r_data('."'".$row->VERTIFIKASI_ID_DETAIL."'".','."'".$row->VERTIFIKASI_ID."'".')"><i class="flaticon2-attention" style="padding-right: unset;"></i></a>&nbsp;'
 							. '</div>';
-					}else if ($row->PROGRES_STATUS == 2) {
-						$val[] = '<div style="text-align: center;">'
+				}else if ($row->PROGRES_STATUS == 4) {
+					$val[] = '<div style="text-align: center;">'
 							. '<a  title="Kirim Hasil Studi" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="i_data('."'".$row->VERTIFIKASI_ID_DETAIL."'".','."'".$row->DATA."'".','."'".$row->VERTIFIKASI_ID."'".')"><i class="flaticon2-paper-plane" style="padding-right: unset;"></i></a>&nbsp;'
+							. '<a  title="Data Belum Lengkap" class="btn btn-outline-warning waves-effect waves-light" href="javascript:void(0)"  onclick="r_data('."'".$row->VERTIFIKASI_ID_DETAIL."'".','."'".$row->VERTIFIKASI_ID."'".')"><i class="flaticon2-attention" style="padding-right: unset;"></i></a>&nbsp;'
 							. '</div>';
-					}else{
-						$val[] = '<div style="text-align: center;">'
+				}else if ($row->PROGRES_STATUS == 6) {
+					$val[] = '<div style="text-align: center;">'
+							. '<a  title="View File" class="btn btn-outline-success waves-effect waves-light" href="javascript:void(0)" onclick="view('."'".$row->RESPONSE_REQUEST_DATA."'".')" ><i class="fa fa-file-pdf" style="padding-right: unset;"></i></a>&nbsp;'
+							. '<a  title="Memerlukan Studi" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="i_studi('."'".$row->VERTIFIKASI_ID_DETAIL."'".','."'".$row->DATA."'".')"><i class="fa fa-user-graduate" style="padding-right: unset;"></i></a>&nbsp;'
+							. '<a  title="Kirim Data" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="i_data('."'".$row->VERTIFIKASI_ID_DETAIL."'".','."'".$row->DATA."'".','."'".$row->VERTIFIKASI_ID."'".')"><i class="flaticon2-paper-plane" style="padding-right: unset;"></i></a>&nbsp;'
+							. '</div>';
+				}else{
+					$val[] = '<div style="text-align: center;">'
 							. '<button onclick="response('."'".$row->VERTIFIKASI_ID."'".');" class="btn kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--rounded">completed</button>'
 							. '</div>';
 				}
@@ -236,7 +252,10 @@ class Pemilik_data extends CI_Controller {
 				// proses penentuan table
 					// Update data Status
 					$data_input = array(
-						'PROGRES_STATUS' => 2  //2 = Proses Studi
+						'UPDATE_AT' => $this->modul->TanggalWaktu(),
+						'UPDATE_BY' => get_cookie('username'),
+						'UPDATE_NAME' => get_cookie('nama'),
+						'PROGRES_STATUS' => 4  //4 = Proses Studi
 					);
 					$condition['VERTIFIKASI_ID_DETAIL'] = $this->uri->segment(3);
 					$update  = $this->Mglobals->update( 'VERTIFIKASI_DETAIL', $data_input, $condition);
@@ -253,6 +272,45 @@ class Pemilik_data extends CI_Controller {
 			}
 		}
 
+		public function req(){
+			if (get_cookie('status') == "login") {
+				// proses penentuan table
+					// Update data Status
+					$data_input = array(
+						'UPDATE_AT' => $this->modul->TanggalWaktu(),
+						'UPDATE_BY' => get_cookie('username'),
+						'UPDATE_NAME' => get_cookie('nama'),
+						'PROGRES_STATUS' => 5,
+						'REQUEST_DATA' => $this->input->post('rdata')  
+					);
+					$condition['VERTIFIKASI_ID_DETAIL'] = $this->input->post('i_id2');
+					$update  = $this->Mglobals->update( 'VERTIFIKASI_DETAIL', $data_input, $condition);
+					if ($update > 0) {
+						$status['message'] = "Data Tersimpan";
+					}else{
+						$status['message'] = "Data Gagal Tersimpan";
+					}
+				$status['token'] = $this->security->get_csrf_hash();
+				echo json_encode(array("status" => $status));
+				unset($update, $status, $condition, $data_input);
+			}else{
+				$this->modul->halaman('login');
+			}
+		}
+		
+		public function view_r_data(){
+			if (get_cookie('status') == "login") {
+				$id = $this->uri->segment(3);
+				$data = $this->Mglobals->getAllQR(" SELECT REQUEST_DATA FROM VERTIFIKASI_DETAIL WHERE VERTIFIKASI_ID_DETAIL = '".$id."' ");
+				
+				$status['token'] = $this->security->get_csrf_hash();
+				// echo json_encode($data);
+				echo json_encode(array("status" => $status, "datas" => $data));
+				unset($update, $status, $condition, $data_input);
+			}else{
+				$this->modul->halaman('login');
+			}
+		}
 
 }
 

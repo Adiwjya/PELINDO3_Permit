@@ -68,7 +68,8 @@ class Vertifikasi_izin extends CI_Controller {
                 $val[] = $row->CREATED_NAME;
                 
                 $status_izin_pemilik = $this->Mglobals->getAllQR("select NVL(PROGRES_STATUS,0) as PROGRES_STATUS from VERTIFIKASI_IZIN WHERE VERTIFIKASI_ID = '".$row->VERTIFIKASI_ID."'");  
-                if ($row->PROGRES_STATUS == 0) {
+                // if ($row->PROGRES_STATUS == 0 || $row->PROGRES_STATUS == 1) {
+                if ($row->PROGRES_STATUS == 0 ) {
 					$val[] = '<div style="text-align: center;">'
 						. '<span class="kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--rounded">new</span>'
 						. '</div>';
@@ -78,16 +79,22 @@ class Vertifikasi_izin extends CI_Controller {
                             . '</div>';
 				}else{
 					$val[] = '<div style="text-align: center;">'
-						. '<button onclick="response('."'".$row->VERTIFIKASI_ID."'".');" class="btn kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--rounded">completed</button>'
+						. '<button onclick="on_process('."'".$row->VERTIFIKASI_ID."'".');" class="btn kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--rounded">completed</button>'
 						. '</div>';
 				}
                 
                 $status_izin = $this->Mglobals->getAllQR("select STATUS from VERTIFIKASI_IZIN WHERE VERTIFIKASI_ID = '".$row->VERTIFIKASI_ID."'");
                 if ($row->VERTIFIKASI_ID == "" || $status_izin->STATUS == "1" || $status_izin->STATUS == "2") {
-                    $val[] = '<div style="text-align: center;">'
-                    . '<a  title="View File" class="btn btn-outline-success waves-effect waves-light" href="javascript:void(0)" onclick="view('."'".$row->DATA_PERIZINAN."'".','."'".$row->ID_PENGAJUAN."'".')" ><i class="fa fa-file-pdf" style="padding-right: unset;"></i></a>&nbsp;'
-                    . '<a  title="Perizinan" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)" onclick="v_tidak('."'".$row->ID_PENGAJUAN."'".','."'".$row->JUDUL_PERIZINAN."'".')"><i class="fa fa-file-signature" style="padding-right: unset;"></i></a>'
-                    . '</div>';
+                    if ($row->VERTIFIKASI_ID != "" && $status_izin_pemilik->PROGRES_STATUS == 2) {
+                        $val[] = '<div style="text-align: center;">'
+                        . '<a  title="Terbitkan Izin" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)" onclick="terbit('."'".$row->ID_PENGAJUAN."'".','."'".$row->JUDUL_PERIZINAN."'".')"><i class="flaticon2-rocket-1" style="padding-right: unset;"></i></a>'
+                        . '</div>';
+                   }else{
+                        $val[] = '<div style="text-align: center;">'
+                        . '<a  title="View File" class="btn btn-outline-success waves-effect waves-light" href="javascript:void(0)" onclick="view('."'".$row->DATA_PERIZINAN."'".','."'".$row->ID_PENGAJUAN."'".')" ><i class="fa fa-file-pdf" style="padding-right: unset;"></i></a>&nbsp;'
+                        . '<a  title="Perizinan" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)" onclick="v_tidak('."'".$row->ID_PENGAJUAN."'".','."'".$row->JUDUL_PERIZINAN."'".')"><i class="fa fa-file-signature" style="padding-right: unset;"></i></a>'
+                        . '</div>';
+                   }
                 }else{
                     $val[] = '<div style="text-align: center;">'
                     . '<span class="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--rounded">completed</span>'
@@ -304,46 +311,6 @@ class Vertifikasi_izin extends CI_Controller {
         }
     }
 
-    public function status_ch(){
-        if (get_cookie('status') == "login") {
-             // proses penentuan table
-             $destination_table = "";
-             if (substr($this->uri->segment(3),0,3) == "IPG") {
-                 $destination_table = "PENGAJUAN_IZIN_PENGEMBANGAN";
-             }else if (substr($this->uri->segment(3),0,3) == "ILK") {
-                 $destination_table = "PENGAJUAN_IZIN_LINGKUNGAN";
-             }else if (substr($this->uri->segment(3),0,3) == "IOR") {
-                 $destination_table = "PENGAJUAN_IZIN_OPERASI";
-             }else if (substr($this->uri->segment(3),0,3) == "IPR") {
-                 $destination_table = "PENGAJUAN_IZIN_PENGERUKAN";
-             }else if (substr($this->uri->segment(3),0,3) == "IRL") {
-                 $destination_table = "PENGAJUAN_IZIN_REKLAMASI";
-             }else if (substr($this->uri->segment(3),0,3) == "RAL") {
-                $destination_table = "REKOM_ANDALALIN";
-            }else if (substr($this->uri->segment(3),0,3) == "IRR") {
-                $destination_table = "PENGAJUAN_IZIN_IPR";
-            }else if (substr($this->uri->segment(3),0,3) == "RIP") {
-                $destination_table = "PENGAJUAN_IZIN_RIP";
-            }
-                // Update data Status
-                $data_input = array(
-                    'PROGRES_STATUS' => 1
-                );
-                $condition['ID_PENGAJUAN'] = $this->uri->segment(3);
-                $update  = $this->Mglobals->update( $destination_table, $data_input, $condition);
-                if ($update > 0) {
-                    $status['message'] = "Data Tersimpan";
-                }else{
-                    $status['message'] = "Data Gagal Tersimpan";
-                }
-            $status['token'] = $this->security->get_csrf_hash();
-            echo json_encode(array("status" => $status));
-            unset($update, $status, $condition, $data_input);
-        }else{
-            $this->modul->halaman('login');
-        }
-    }
-
     public function on_proses() {
         if (get_cookie('status') == "login") {
 			$data = array();
@@ -355,16 +322,30 @@ class Vertifikasi_izin extends CI_Controller {
 					$val[] = '<div style="text-align: center;">'
 						. '<span class="kt-badge kt-badge--dark kt-badge--inline kt-badge--pill kt-badge--rounded">pending</span>'
 						. '</div>';
-				}else if ($row->PROGRES_STATUS == 2) {
+				}else if ($row->PROGRES_STATUS == 4) {
 					$val[] = '<div style="text-align: center;">'
 						. '<span class="kt-badge kt-badge--info kt-badge--inline kt-badge--pill kt-badge--rounded">proses studi</span>'
+						. '</div>';
+				}else if ($row->PROGRES_STATUS == 5) {
+					$val[] = '<div style="text-align: center;">'
+						. '<span class="kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--rounded">New Request Data</span>'
+						. '</div>';
+				}else if ($row->PROGRES_STATUS == 6) {
+					$val[] = '<div style="text-align: center;">'
+						. '<span class="kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--rounded">Data Arrived</span>'
 						. '</div>';
 				}else{
 					$val[] = '<div style="text-align: center;">'
 						. '<button onclick="response('."'".$row->VERTIFIKASI_ID."'".');" class="btn kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--rounded">completed</button>'
 						. '</div>';
 				}
-						
+                
+                if ($row->REQUEST_DATA != null) {
+                    $val[] = $row->REQUEST_DATA;
+                }else{
+                    $val[] = "-";
+                }
+                
                 $data[] = $val;
             }
             $output = array("data" => $data);

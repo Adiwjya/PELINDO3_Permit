@@ -28,6 +28,11 @@
 		$('#v_id').val(id); 
     }
 
+	function terbit(id, nama){
+        $('#penerbitan').modal('show'); // show bootstrap modal
+		$('#v_id').val(id); 
+    }
+
 	function on_process(id) {
 		$('#v_progres_status').modal('show'); // show bootstrap modal
 		on_proses_status = $('#on_p').DataTable( {
@@ -63,25 +68,8 @@
     }
 
 	function view(dataz,id){
-		$.ajax({
-            url : "<?php echo base_url(); ?>vertifikasi_izin/status_ch/"+id,
-            type: "POST",
-            dataType: "JSON",
-            data: $('#f_csrf').serialize(),
-            success: function(data){
-                $('.txt_csrfname_2').val(data.status.token);
-                $('.txt_csrfname').val(data.status.token);
-                window.open('<?php echo base_url(); ?>Data_izin/'+dataz, '_blank');
-                // window.location.href = "<?php echo base_url(); ?>Data_izin/"+id;
-            },
-            error: function (jqXHR, textStatus, errorThrown){
-                Swal.fire(
-                'Error json',
-                ''+errorThrown,
-                'question'
-                )
-            }
-        });
+		window.open('<?php echo base_url(); ?>Data_izin/'+dataz, '_blank');
+		// window.location.href = "<?php echo base_url(); ?>Data_izin/"+id;
     }
 
 	function send_response() {
@@ -413,6 +401,66 @@
 <!--end::Modal-->
 
 
+<!--begin::Modal-->
+<div class="modal fade" id="penerbitan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="v_no_tittle">Pembatalan Pengajuan Izin</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				</button>
+			</div>
+			<div class="modal-body">
+				<form id="form" >
+				<input type="hidden" class="txt_csrfname" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
+				<!--begin:: Widgets/Finance Stats-->
+				<input type="hidden" name="v_id" id="v_id">
+				<div class="kt-portlet kt-portlet--fit kt-portlet--head-lg kt-portlet--head-overlay kt-portlet--height-fluid" style="margin-bottom: unset;">
+					<div class="kt-portlet__body" style="margin-top: unset;">
+						<div class="kt-widget28">
+							<div class="kt-widget28__visual" style=" min-height: 150px; background-image: url('<?php echo base_url(); ?>assets/assets/media//misc/bg-2.jpg')"></div>
+							<div class="kt-widget28__wrapper kt-portlet__space-x">
+
+								<!-- begin::Nav pills -->
+								<ul class="nav nav-pills nav-fill kt-portlet__space-x" role="tablist">
+									<li class="nav-item">
+										<a class="nav-link" onclick="" data-toggle="pill" href="#menu1"><span><i class="flaticon2-rocket-1"></i><br></span><span>Terbitkan Izin</span></a>
+									</li>
+								</ul>
+
+								<!-- end::Nav pills -->
+								<!-- begin::Tab Content -->
+								<div class="tab-content">
+									<div id="menu1" class="tab-pane active">
+										<div class="kt-widget28__tab-items">
+											<div class="kt-widget28__tab-item">
+												<span>Description</span>
+												<span id="v_menu2">Proses pengajuan <strong ></strong> dapat diproses dikarenakan belum ada izin yang tersedia.</span>
+											</div>
+										</div>
+									</div>
+									<input type="hidden" name="deskripsi" id="deskripsi">
+									<input type="hidden" name="status" id="status">
+								</div>
+
+								<!-- end::Tab Content -->
+							</div>
+						</div>
+					</div>
+				</div>
+				</form>
+				<!--end:: Widgets/Finance Stats-->
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" onclick="" class="btn btn-primary">Terbitkan</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--end::Modal-->
+
+
 <!-- begin::Modal Modal Tidak Memerlukan Studi -->
 <div class="modal fade" id="v_progres_status" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-md" role="document">
@@ -430,6 +478,7 @@
 							<tr>
 								<th>Data</th>
 								<th>Status</th>
+								<th>Keperluan Data</th>
 							</tr>
 						</thead>
 						<tbody></tbody>
@@ -442,7 +491,6 @@
 		</div>
 	</div>
 </div>
-
 <!--end::Modal-->
 
  <!-- jQuery  -->
@@ -464,8 +512,3 @@ $('.dropify').dropify({
 	}
 });	
 </script>
-
-
-					
-
-		

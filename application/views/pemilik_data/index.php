@@ -25,11 +25,37 @@
 		$('#ver_id').val(id_v);
     }
 
+	function r_data(id, id_v){
+        $('#r_mo').modal('show'); // show bootstrap modal
+		$('#i_id2').val(id);
+		$('#ver_id2').val(id_v);
+
+		$.ajax({
+            url : "<?php echo base_url(); ?>pemilik_data/view_r_data/"+id,
+            type: "POST",
+            dataType: "JSON",
+            data: $('#req').serialize(),
+            success: function(data){
+                $('.txt_csrfname_2').val(data.status.token);
+				$('.txt_csrfname_3').val(data.status.token);
+                $('.txt_csrfname').val(data.status.token);
+				$('#rdata').val(data.datas.REQUEST_DATA);
+				reload();
+            },
+            error: function (jqXHR, textStatus, errorThrown){
+				$('.txt_csrfname_2').val(data.status.token);
+				$('.txt_csrfname_3').val(data.status.token);
+                $('.txt_csrfname').val(data.status.token);
+                Swal.fire(
+                'Error json',
+                ''+errorThrown,
+                'question'
+                )
+            }
+        }); 	
+    }
+
 	function i_studi(id, data){
-        // $('#i_mo_studi').modal('show'); // show bootstrap modal 
-		// $('#r_studi').text(data+' Memerlukan studi lebih lanjut ');
-		// $('#i_id').val(id);
-		
 		$.ajax({
             url : "<?php echo base_url(); ?>pemilik_data/perlu_studi/"+id,
             type: "POST",
@@ -37,7 +63,41 @@
             data: $('#f_csrf').serialize(),
             success: function(data){
                 $('.txt_csrfname_2').val(data.status.token);
+				$('.txt_csrfname_3').val(data.status.token);
                 $('.txt_csrfname').val(data.status.token);
+				reload();
+            },
+            error: function (jqXHR, textStatus, errorThrown){
+				$('.txt_csrfname_2').val(data.status.token);
+				$('.txt_csrfname_3').val(data.status.token);
+                $('.txt_csrfname').val(data.status.token);
+                Swal.fire(
+                'Error json',
+                ''+errorThrown,
+                'question'
+                )
+            }
+        });
+    }
+
+	function send_request(){
+		$.ajax({
+            url : "<?php echo base_url(); ?>pemilik_data/req",
+            type: "POST",
+            dataType: "JSON",
+            data: $('#req').serialize(),
+            success: function(data){
+				$('#req')[0].reset();
+				// alert(data.status.message);
+				$('.txt_csrfname_2').val(data.status.token);
+				$('.txt_csrfname_3').val(data.status.token);
+				$('.txt_csrfname').val(data.status.token);
+				Swal.fire(
+					'Success',
+					'Permintaan Data Terkirim',
+					'success'
+					)
+				$('#r_mo').modal('hide');
 				reload();
             },
             error: function (jqXHR, textStatus, errorThrown){
@@ -49,6 +109,7 @@
             }
         });
     }
+
 
 	function send_response() {
 		// alert("Jalan1");
@@ -81,6 +142,8 @@
 					// alert("Jalan5");
 					// Update CSRF hash
 					$('.txt_csrfname').val(data.status.token);
+					$('.txt_csrfname_2').val(data.status.token);
+                	$('.txt_csrfname_3').val(data.status.token);
 					Swal.fire(
 					'Success',
 					'Vertifikasi Izin Berhasil',
@@ -92,6 +155,8 @@
 					$('#form')[0].reset(); // reset form on modals
 					// Update CSRF hash
 					$('.txt_csrfname').val(data.status.token);
+					$('.txt_csrfname_2').val(data.status.token);
+                	$('.txt_csrfname_3').val(data.status.token);
 					Swal.fire({
 						position: 'top-end',
 						icon: 'error',
@@ -105,9 +170,9 @@
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 			// alert("Username atau password anda salah " + errorThrown);
-					$('#form')[0].reset(); // reset form on modals
-					// Update CSRF hash
-					$('.txt_csrfname').val(data.status.token);
+				$('#form')[0].reset(); // reset form on modals
+				// Update CSRF hash
+				$('.txt_csrfname').val(data.status.token);
 				Swal.fire(
 				'Error json',
 				''+errorThrown,
@@ -116,6 +181,11 @@
 			}
 		});
 	}
+
+	function view(dataz){
+		window.open('<?php echo base_url(); ?>Data_izin/'+dataz, '_blank');
+		// window.location.href = "<?php echo base_url(); ?>Data_izin/"+id;
+    }
 	
 </script>
 <!-- begin:: Content -->
@@ -193,34 +263,30 @@
 
 <!--end::Modal-->
 
-<!-- begin::Modal Modal Memerlukan Studi -->
-<!-- <div class="modal fade" id="i_mo_studi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg" role="document">
-	
+<!-- begin::Modal Modal Tidak Memerlukan Studi -->
+<div class="modal fade" id="r_mo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-md" role="document">
+		<form id="req">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" >Perlu Studi</h5>
+				<h5 class="modal-title" ></h5>Data Belum Lengkap</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				</button>
 			</div>
 			<div class="modal-body">
-			<form id="form" >
-				<input type="hidden" class="txt_csrfname2" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
-				<h4 id="r_studi"></h4>
-				<label class="col-form-label">Lampirakan File</label>
-				<input type="hidden" id="i_id" name="i_id">
-				<input type="file" class="dropify" id="data_izin" name="data_izin" data-height="100" />
-			</form>
+				<input type="hidden" class="txt_csrfname_3" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
+				<label class="col-form-label">Data Yang Diperlukan</label>
+				<input type="hidden" id="i_id2" name="i_id2">
+				<input type="text" id="rdata" name="rdata" class="form-control" placeholder="Data yang diperlukan">
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" onclick="send_response();" class="btn btn-primary">Send Response</button>
+				<button type="button" onclick="send_request();" class="btn btn-primary">Send Response</button>
 			</div>
 		</div>
+		</form>
 	</div>
-</div> -->
-
-<!--end::Modal-->
+</div>
 
 
 
