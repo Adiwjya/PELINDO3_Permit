@@ -58,20 +58,46 @@ class I_pengerukan extends CI_Controller {
 					$val[] = '<div style="text-align: center;">'
 						. '<span class="kt-badge kt-badge--dark kt-badge--inline kt-badge--pill kt-badge--rounded">pending</span>'
 						. '</div>';
-				}else if ($row->PROGRES_STATUS == 1){
+
 					$val[] = '<div style="text-align: center;">'
-						. '<span class="kt-badge kt-badge--info kt-badge--inline kt-badge--pill kt-badge--rounded">in process</span>'
+					. '<a  title="Download File" class="btn btn-outline-success waves-effect waves-light" href="javascript:void(0)" onclick="unduh('."'".$row->DATA_PERIZINAN."'".')" ><i class="flaticon2-download" style="padding-right: unset;"></i></a>&nbsp;'
+					. '<a  title="Edit" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="ganti('."'".$this->modul->enkrip_url($row->ID_PENGAJUAN)."'".')"><i class="flaticon2-edit" style="padding-right: unset;"></i></a>&nbsp;'
+					. '<a  title="Delete" class="btn btn-outline-danger waves-effect waves-light" href="javascript:void(0)" onclick="hapus('."'".$row->ID_PENGAJUAN."'".','."'".$row->JUDUL_PERIZINAN."'".')"><i class="flaticon2-trash" style="padding-right: unset;"></i></a>'
+					. '</div>';
+				}else if ($row->PROGRES_STATUS == 1){
+					$new_request_data = $this->Mglobals->getAllQR("select COUNT(REQUEST_DATA) as REQUEST_DATA, COUNT(RESPONSE_REQUEST_DATA) as RESPONSE_REQUEST_DATA from VERTIFIKASI_DETAIL where VERTIFIKASI_ID = '".$row->VERTIFIKASI_ID."'");
+					if ($new_request_data -> REQUEST_DATA > 0 and $new_request_data -> RESPONSE_REQUEST_DATA < $new_request_data -> REQUEST_DATA) {
+						$val[] = '<div style="text-align: center;">'
+						. '<span class="kt-badge kt-badge--info kt-badge--inline kt-badge--pill kt-badge--rounded">in process</span><br>'
+						. '<span class="kt-badge kt-badge--success kt-badge--inline kt-badge--pill kt-badge--rounded">new request data</span>'
 						. '</div>';
+
+						$val[] = '<div style="text-align: center;">'
+						. '<a  title="Download File" class="btn btn-outline-success waves-effect waves-light" href="javascript:void(0)" onclick="unduh('."'".$row->DATA_PERIZINAN."'".')" ><i class="flaticon2-download" style="padding-right: unset;"></i></a>&nbsp;'
+						. '<a  title="Edit" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="ganti('."'".$this->modul->enkrip_url($row->ID_PENGAJUAN)."'".')"><i class="flaticon2-edit" style="padding-right: unset;"></i></a>&nbsp;'
+						. '<a  title="Upload Request Data" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="on_process('."'".$row->VERTIFIKASI_ID."'".')"><i class="flaticon2-paper-plane" style="padding-right: unset;"></i></a>&nbsp;'
+						. '</div>';
+					}else{
+						$val[] = '<div style="text-align: center;">'
+						. '<span class="kt-badge kt-badge--info kt-badge--inline kt-badge--pill kt-badge--rounded">in process</span><br>'
+						. '</div>';
+						
+						$val[] = '<div style="text-align: center;">'
+						. '<a  title="Download File" class="btn btn-outline-success waves-effect waves-light" href="javascript:void(0)" onclick="unduh('."'".$row->DATA_PERIZINAN."'".')" ><i class="flaticon2-download" style="padding-right: unset;"></i></a>&nbsp;'
+						. '<a  title="Edit" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="ganti('."'".$this->modul->enkrip_url($row->ID_PENGAJUAN)."'".')"><i class="flaticon2-edit" style="padding-right: unset;"></i></a>&nbsp;'
+						. '</div>';
+					}
+					
 				}else{
 					$val[] = '<div style="text-align: center;">'
 						. '<button onclick="response('."'".$row->VERTIFIKASI_ID."'".');" class="btn kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--rounded">completed</button>'
 						. '</div>';
+
+					$val[] = '<div style="text-align: center;">'
+					. '<a  title="Download File" class="btn btn-outline-success waves-effect waves-light" href="javascript:void(0)" onclick="unduh('."'".$row->DATA_PERIZINAN."'".')" ><i class="flaticon2-download" style="padding-right: unset;"></i></a>&nbsp;'
+					. '<a  title="Delete" class="btn btn-outline-danger waves-effect waves-light" href="javascript:void(0)" onclick="hapus('."'".$row->ID_PENGAJUAN."'".','."'".$row->JUDUL_PERIZINAN."'".')"><i class="flaticon2-trash" style="padding-right: unset;"></i></a>'
+					. '</div>';
 				}
-				$val[] = '<div style="text-align: center;">'
-						. '<a  title="Download File" class="btn btn-outline-success waves-effect waves-light" href="javascript:void(0)" onclick="unduh('."'".$row->DATA_PERIZINAN."'".')" ><i class="flaticon2-download" style="padding-right: unset;"></i></a>&nbsp;'
-                        . '<a  title="Edit" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="ganti('."'".$this->modul->enkrip_url($row->ID_PENGAJUAN)."'".')"><i class="flaticon2-edit" style="padding-right: unset;"></i></a>&nbsp;'
-                        . '<a  title="Delete" class="btn btn-outline-danger waves-effect waves-light" href="javascript:void(0)" onclick="hapus('."'".$row->ID_PENGAJUAN."'".','."'".$row->JUDUL_PERIZINAN."'".')"><i class="flaticon2-trash" style="padding-right: unset;"></i></a>'
-                        . '</div>';
                 $data[] = $val;
             }
             $output = array("data" => $data);
@@ -239,6 +265,68 @@ class I_pengerukan extends CI_Controller {
 			}
 		}
 
+		public function on_proses() {
+			if (get_cookie('status') == "login") {
+				$data = array();
+				$list = $this->Mglobals->getAllQ("select * from VERTIFIKASI_DETAIL where VERTIFIKASI_ID = '".$this->uri->segment(3)."' and REQUEST_DATA IS NOT null AND RESPONSE_REQUEST_DATA IS null ");
+				foreach ($list->result() as $row) {
+					$val = array();
+					$val[] = $row->REQUEST_DATA;
+					$val[] = '<div style="text-align: center;">'
+						. '<a  title="Upload Request Data" class="btn btn-outline-primary waves-effect waves-light" href="javascript:void(0)"  onclick="upload_r_data('."'".$row->VERTIFIKASI_ID_DETAIL."'".','."'".$row->REQUEST_DATA."'".','."'".$row->VERTIFIKASI_ID."'".')"><i class="flaticon2-paper-plane" style="padding-right: unset;"></i></a>&nbsp;'
+						. '</div>';
+					
+					$data[] = $val;
+				}
+				$output = array("data" => $data);
+				echo json_encode($output);
+				unset($data, $list, $val, $jenis_izin,$output);
+			}else{
+				$this->modul->halaman('login');
+			}
+		}
+		
+		public function do_upload2()
+        {
+			$config['upload_path'] = './Data_izin/';
+			$config['allowed_types'] = 'pdf';
+			$config['max_filename'] = '255';
+			$config['encrypt_name'] = FALSE;
+			$config['max_size'] = '10000'; //2 MB
+	
+			if (isset($_FILES['file']['name'])) {
+				if (0 < $_FILES['file']['error']) {
+					$status['message'] = "Error during file upload " . $_FILES['file']['error'];
+					// $status['message'] = "Gagal! Ukuran file maksimal 2 MB";
+				} else {
+					$this->load->library('upload', $config);
+					if ($this->upload->do_upload('file')) {
+						$datafile = $this->upload->data();
+							// Update data
+							$data_input = array(
+								'PROGRES_STATUS' => 6,
+								'RESPONSE_REQUEST_DATA' => $datafile['file_name']
+							);
+							$condition['VERTIFIKASI_ID_DETAIL'] = $this->input->post('i_id');
+							$simpan  = $this->Mglobals->update("VERTIFIKASI_DETAIL", $data_input, $condition);
+						if ($simpan > 0) {
+							$status['message'] = "Data Tersimpan";		
+						}else{
+							$status['message'] = "Data Gagal Tersimpan";
+						}
+	                   
+					} else {
+						$status['message'] = $this->upload->display_errors();
+					}
+				}
+			} else {
+				$status['message'] = "File not exits";
+			}	
+
+			$status['token'] = $this->security->get_csrf_hash();
+			echo json_encode(array("status" => $status));
+			unset($config, $status, $simpan, $condition, $data_input, $q_data, $datafile, $id_ver, $status_izin_v, $status_izin_vakhir,$data_input2, $q_data2);
+		}
 
 }
 

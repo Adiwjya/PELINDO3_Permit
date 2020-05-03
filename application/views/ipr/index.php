@@ -1,3 +1,4 @@
+<link href="<?php echo base_url(); ?>assets/upload/plugins/fileuploads/css/dropify.min.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript">
 	// DataTable
 	var table;
@@ -33,6 +34,7 @@
 		window.open('<?php echo base_url(); ?>Data_izin/'+dock, '_blank');
 		// window.location.href = "<?php echo base_url(); ?>Data_izin/"+id;
     }
+	
 
 	function response(id) {
 		$('#v_no').modal('show'); // show bootstrap modal
@@ -86,6 +88,105 @@
                 }
             });
         }
+    }
+
+	function on_process(id) {
+		$('#v_progres_status').modal('show'); // show bootstrap modal
+		on_proses_status = $('#on_p').DataTable( {
+			ajax: "<?php echo base_url(); ?>i_pengembangan/on_proses/"+id,
+			paging: false,
+			retrieve:true,
+			searching: false
+		});
+		on_proses_status.destroy();
+		on_proses_status = $('#on_p').DataTable( {
+			ajax: "<?php echo base_url(); ?>i_pengembangan/on_proses/"+id,
+			paging: false,
+			retrieve:true,
+			searching: false
+		});
+	}
+
+	function reload2(){
+        on_proses_status.ajax.reload(null,false); //reload datatable ajax
+    }
+
+	function send_response() {
+		// alert("Jalan1");
+		var file_data = $('#data_izin').prop('files')[0];
+		var csrfName = $('.txt_csrfname').attr('name'); // Value specified in $config['csrf_token_name']
+		var csrfHash = $('.txt_csrfname').val(); // CSRF hash
+		var i_id = $('#i_id').val(); // CSRF hash
+		var ver_id = $('#ver_id').val(); // CSRF hash
+		// alert("Jalan2");
+
+		var form_data = new FormData();
+		form_data.append(csrfName, csrfHash);
+		form_data.append('file', file_data);
+		form_data.append('i_id', i_id);
+		form_data.append('ver_id', ver_id);
+
+		// alert("Jalan4");
+		var url = "<?php echo base_url(); ?>i_pengembangan/do_upload2";
+		$.ajax({
+			url: url,
+			cache: false,
+			contentType: false,
+			processData: false,
+			type: "POST",
+			data: form_data,
+			dataType: "JSON",
+			success: function(data) {
+				if (data.status.message == "Data Tersimpan") {
+					$('#form')[0].reset(); // reset form on modals
+					// alert("Jalan5");
+					// Update CSRF hash
+					$('.txt_csrfname').val(data.status.token);
+					$('.txt_csrfname_2').val(data.status.token);
+					Swal.fire(
+					'Success',
+					'Vertifikasi Izin Berhasil',
+					'success'
+					)
+					$('#i_mo').modal('hide');
+					reload();
+					reload2();
+				}else{
+					$('#form')[0].reset(); // reset form on modals
+					// Update CSRF hash
+					$('.txt_csrfname').val(data.status.token);
+					$('.txt_csrfname_2').val(data.status.token);
+					Swal.fire({
+						position: 'top-end',
+						icon: 'error',
+						title: data.status.message,
+						backdrop: false,
+						showConfirmButton: false,
+						timer: 5000
+						})
+				}
+				
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+			// alert("Username atau password anda salah " + errorThrown);
+				$('#form')[0].reset(); // reset form on modals
+				// Update CSRF hash
+				$('.txt_csrfname').val(data.status.token);
+				$('.txt_csrfname_2').val(data.status.token);
+				Swal.fire(
+				'Error json',
+				''+errorThrown,
+				'question'
+				)
+			}
+		});
+	}
+
+	function upload_r_data(id, data, id_v){
+        $('#i_mo').modal('show'); // show bootstrap modal 
+		$('#r_d').text('Kebutuhan Data : '+data);
+		$('#i_id').val(id);
+		$('#ver_id').val(id_v);
     }
 
 </script>
@@ -171,6 +272,57 @@
 </div>
 
 <!--end::Modal-->
+
+<!-- begin::Modal Modal Tidak Memerlukan Studi -->
+<div class="modal fade" id="i_mo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-md" role="document">
+		<form id="form">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" ></h5>Kirimkan File</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				</button>
+			</div>
+			<div class="modal-body">
+			<form id="form" >
+				<input type="hidden" class="txt_csrfname" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
+				<h4 id="r_d"></h4>
+				<label class="col-form-label">Lampirakan File</label>
+				<input type="hidden" id="ver_id" name="ver_id">
+				<input type="hidden" id="i_id" name="i_id">
+				<input type="file" class="dropify" id="data_izin" name="data_izin" data-height="100" />
+			</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" onclick="send_response();" class="btn btn-primary">Send Response</button>
+			</div>
+		</div>
+		</form>
+	</div>
+</div>
+
+<!--end::Modal-->
+					
+ <!-- jQuery  -->
+ <script src="<?php echo base_url(); ?>assets/upload/assets/js/jquery.min.js"></script>
+
+<!-- file uploads js -->
+<script src="<?php echo base_url(); ?>assets/upload/plugins/fileuploads/js/dropify.min.js"></script>
+
+<script>
+$('.dropify').dropify({
+	messages: {
+		'default': 'Drag and drop a file here or click',
+		'replace': 'Drag and drop or click to replace',
+		'remove': 'Remove',
+		'error': 'Ooops, something wrong appended.'
+	},
+	error: {
+		'fileSize': 'The file size is too big (1M max).'
+	}
+});	
+</script>
 
 
 					
